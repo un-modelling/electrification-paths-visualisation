@@ -1,89 +1,88 @@
 <!DOCTYPE html>
 
 <html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
 
-<head>
-  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
+    <title>Universal Electrification Access</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
-  <title>Universal Electrification Access</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <!-- Vendor : jQuery -->
+    <script src="./lib/jquery-2.1.4.min.js"></script>
 
-  <!-- Vendor : jQuery -->
-  <script src="./lib/jquery-2.1.4.min.js"></script>
+    <!-- Vendor : rivets -->
+    <script src="./lib/rivets.bundled.min.js"></script>
 
-  <!-- Vendor : rivets -->
-  <script src="./lib/rivets.bundled.min.js"></script>
+    <!-- Vendor : svexican -->
+    <script src="./lib/js-extras.min.js"></script>
+    <script src="./lib/web-extras.min.js"></script>
+    <script src="./javascripts/rivets-config.js"></script>
 
-  <!-- Vendor : svexican -->
-  <script src="./lib/js-extras.min.js"></script>
-  <script src="./lib/web-extras.min.js"></script>
-  <script src="./javascripts/rivets-config.js"></script>
+    <!-- Vendor : SlimScroll -->
+    <script src="./lib/jquery.slimscroll.min.js"></script>
 
-  <!-- Vendor : SlimScroll -->
-  <script src="./lib/jquery.slimscroll.min.js"></script>
+    <!-- Vendor : Queue -->
+    <script src="./lib/queue.v1.min.js"></script>
 
-  <!-- Vendor : Queue -->
-  <script src="./lib/queue.v1.min.js"></script>
+    <!-- Vendor : D3 -->
+    <script src="./lib/d3.v3.min.js"></script>
 
-  <!-- Vendor : D3 -->
-  <script src="./lib/d3.v3.min.js"></script>
+    <!-- Vendor : Font Awesome -->
+    <link rel="stylesheet" href="./lib/font-awesome/css/font-awesome.min.css">
 
-  <!-- Vendor : Font Awesome -->
-  <link rel="stylesheet" href="./lib/font-awesome/css/font-awesome.min.css">
+    <!-- Vendor : Bootstrap -->
+    <link rel="stylesheet" href="./lib/bootstrap/bootstrap.min.css" media="all">
 
-  <!-- Vendor : Bootstrap -->
-  <link rel="stylesheet" href="./lib/bootstrap/bootstrap.min.css" media="all">
+    <!-- Vendor : Flag Icon -->
+    <link rel="stylesheet" href="./lib/country-flag/css/flag-icon.min.css" media="all">
 
-  <!-- Vendor : Flag Icon -->
-  <link rel="stylesheet" href="./lib/country-flag/css/flag-icon.min.css" media="all">
+    <!-- Vendor : Fonts -->
+    <link rel="stylesheet" href="./stylesheets/roboto.css" media="all">
 
-  <!-- Vendor : Fonts -->
-  <link rel="stylesheet" href="./stylesheets/roboto.css" media="all">
+    <!-- App CSS -->
+    <link type="text/css" rel="stylesheet" href="./stylesheets/un.css" media="all">
+    <link type="text/css" rel="stylesheet" href="./stylesheets/index.css" media="all">
+  </head>
 
-  <!-- App CSS -->
-  <link type="text/css" rel="stylesheet" href="./stylesheets/un.css" media="all">
-  <link type="text/css" rel="stylesheet" href="./stylesheets/index.css" media="all">
-</head>
+  <body class="html">
+    <!--[if IE]>
+        <div>
 
-<body class="html">
-  <!--[if IE]>
-    <div>
-
-    <div id="brand-bar" class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container brandbar-header">
-        <div class="row">
-          <div class="col-md-3">
-            <a id="navLanChg" class="navbar-brand" href="http://www.un.org/en/index.html">Welcome to the United Nations</a>
-          </div>
-          <div class="col-md-9">
-            <a class="site-link" href="https://unite.un.org/analytics/desa/modellingtools">Back to DESA Modelling Tools Homepage
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="main-container container">
-      <br><br><br>
-      <div class="row">
-        <div class="col-md-1">
-            <img src="./images/logos/logo.png" alt="Home" class="noprint" style="padding-top:15px"/>
-        </div>
-        <div class="col-md-11">
-            <h1>UNIVERSAL ELECTRIFICATION ACCESS<h1>
-        </div>
-      </div>
-      <div class="row">
-            <div class="col-md-12 sec-center">
-              <h2><strong>Sorry, your browser is not supported</strong></h2>
-              </br>
-              <p style="font-size:20px;">This web application is designed to work on the following web browsers: Google Chrome, Mozilla Firefox and Safari. </br> </p>
-              <p style="font-size:20px;"> Please use or download the latest version here:</p>
+          <div id="brand-bar" class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container brandbar-header">
+              <div class="row">
+                <div class="col-md-3">
+                  <a id="navLanChg" class="navbar-brand" href="http://www.un.org/en/index.html">Welcome to the United Nations</a>
+                </div>
+                <div class="col-md-9">
+                  <a class="site-link" href="https://unite.un.org/analytics/desa/modellingtools">Back to DESA Modelling Tools Homepage
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="row">
+
+          <div class="main-container container">
+            <br><br><br>
+            <div class="row">
+              <div class="col-md-1">
+                <img src="./images/logos/logo.png" alt="Home" class="noprint" style="padding-top:15px"/>
+              </div>
+              <div class="col-md-11">
+                <h1>UNIVERSAL ELECTRIFICATION ACCESS<h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 sec-center">
+                <h2><strong>Sorry, your browser is not supported</strong></h2>
+              </br>
+                <p style="font-size:20px;">This web application is designed to work on the following web browsers: Google Chrome, Mozilla Firefox and Safari. </br> </p>
+                <p style="font-size:20px;"> Please use or download the latest version here:</p>
+              </div>
+            </div>
+            <div class="row">
               <div class="col-md-3 col-md-offset-1">
                 <a href="https://www.google.com/chrome">
                   <img src="./images/browsers/browser_chrome.png" class="browser"></img>
@@ -99,161 +98,160 @@
                   <img src="./images/browsers/browser_firefox.png" class="browser"></img>
                 </a>
               </div>
-      </div>
-    </div>
-
-    </div>
-    <![endif]-->
-    <![if !IE]>
-  <div id="loading-screen" style="height: 100%; width: 100%; position: absolute; top: 0; left:0; background-color: white; z-index: 9999;"></div>
-
-  <!-- BRAND BAR -->
-  <div id="brand-bar" class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container brandbar-header">
-      <div class="row">
-        <div class="col-md-3">
-          <a class="navbar-brand" href="http://www.un.org/en/index.html">Welcome to the United Nations</a>
-        </div>
-        <div class="col-md-9">
-          <a class="site-link" href="https://unite.un.org/analytics/desa/modellingtools">Back to DESA Modelling Tools Homepage
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <header id="header-title" class="container">
-    <div class="row">
-      <div class="navbar-header">
-        <img src="./images/logos/logo.png" alt="Home" class="noprint" />
-        <a id="Title" class="name navbar-brand" href="#" title="Home">Universal Electrification Access</a>
-      </div>
-    </div>
-    <div class="row">
-    </div>
-  </header>
-
-  <div class="main-container container">
-    <div class="row">
-      <div class="col-md-2">
-        <div class="input-group input-group-sm">
-          <input type="text" id="country-selector-input" class="form-control" placeholder="Search country.."></input>
-        </div>
-        <div id="country-selector">
-          <ul id="country-selector-list" class="list-group">
-            <li><a class="list-group-item" id="all-africa"
-              rv-on-click="rv.show_all_africa_context">All Africa</a>
-              <li>
-                <li>
-                  <a class="list-group-item"
-                  rv-each-c="countries"
-                  rv-show="c.matches"
-                  rv-on-click="rv.load_country_context"
-                  rv-on-dblclick="rv.go_to_country">{{ c.name }}</a>
-                </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="col-md-7">
-        <div id="pixel-map"></div>
-      </div>
-
-      <div class="col-md-3">
-        <div id="country-context">
-
-          <div id="country-title-placeholder">
-
-            <div id="country-flag" rv-class="country.flag_tag | format 'flag-icon flag-icon-{0}'">
-            </div>
-            <h1 id="country-title">
-              <span rv-text="country.name"></span>
-            </h1>
-            <div class="button" id="country-selector-button">
-              <a id="explore-link" rv-href="country.iso3 | format './country.html?iso3={0}&tier=3&diesel_price=nps'">
-                <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;EXPLORE COUNTRY
-              </a>
             </div>
           </div>
 
-          <table id="context-table" class="table table-hover">
-            <tr>
-              <td class="col-md-5">
-                Electrified Population
-              </td>
-              <td>
-                <h3>
-                    <div id="er-placeholder" rv-text="country.context.electrification_rate | percentage"></div>
-                    <span class="units">%</span>
-                  </h3>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                Total Population 2012
-              </td>
-              <td><span class="value" rv-text="country.context.population_2012 | in_millions"></span></td>
-            </tr>
-            <tr>
-              <td colspan=2>
-                <h3>Electrification Cost</h3>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Maximum
-              </td>
-              <td><span class="value" rv-text="country | max_cost"></span></td>
-            </tr>
-            <tr>
-              <td>
-                Minimum
-              </td>
-              <td><span class="value" rv-text="country | min_cost"></span></td>
-            </tr>
-          </table>
         </div>
+        <![endif]-->
+    <![if !IE]>
+    <div id="loading-screen" style="height: 100%; width: 100%; position: absolute; top: 0; left:0; background-color: white; z-index: 9999;"></div>
 
-        <div id="all-africa-context" style="position: absolute; top: 0">
-          <h1 style="text-align: center;">
-              AFRICA
-            </h1>
-          <table id="all-africa-table" class="table table-hover">
-            <tr>
-              <td class="col-md-6">
-                Electrified Population
-              </td>
-              <td>
-                <h3>
-                    <div id="er-placeholder" rv-text="africa.electrified_percentage | percentage"></div>
-                    <span class="units">%</span>
-                  </h3>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Total Population 2012
-              </td>
-              <td><span class="value" rv-text="africa.population_2012 | in_millions"></span></td>
-            </tr>
-            <tr>
-              <td>
-                Total Population 2030
-              </td>
-              <td><span class="value" rv-text="africa.population_2030 | in_millions"></span></td>
-            </tr>
-          </table>
+    <!-- BRAND BAR -->
+    <div id="brand-bar" class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container brandbar-header">
+        <div class="row">
+          <div class="col-md-3">
+            <a class="navbar-brand" href="http://www.un.org/en/index.html">Welcome to the United Nations</a>
+          </div>
+          <div class="col-md-9">
+            <a class="site-link" href="https://unite.un.org/analytics/desa/modellingtools">Back to DESA Modelling Tools Homepage
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- App Script -->
-  <script src="./javascripts/global.js"></script>
-  <script src="./data/country/flagnames.json"></script>
-  <script src="./javascripts/utils.js"></script>
-  <script src="./javascripts/index.js"></script>
-</body>
+    <header id="header-title" class="container">
+      <div class="row">
+        <div class="navbar-header">
+          <img src="./images/logos/logo.png" alt="Home" class="noprint" />
+          <a id="Title" class="name navbar-brand" href="#" title="Home">Universal Electrification Access</a>
+        </div>
+      </div>
+      <div class="row">
+      </div>
+    </header>
 
+    <div class="main-container container">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="input-group input-group-sm">
+            <input type="text" id="country-selector-input" class="form-control" placeholder="Search country.."></input>
+          </div>
+          <div id="country-selector">
+            <ul id="country-selector-list" class="list-group">
+              <li><a class="list-group-item" id="all-africa"
+                     rv-on-click="rv.show_all_africa_context">All Africa</a>
+              <li>
+              <li>
+                <a class="list-group-item"
+                   rv-each-c="countries"
+                   rv-show="c.matches"
+                   rv-on-click="rv.load_country_context"
+                   rv-on-dblclick="rv.go_to_country">{{ c.name }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-7">
+          <div id="pixel-map"></div>
+        </div>
+
+        <div class="col-md-3">
+          <div id="country-context">
+
+            <div id="country-title-placeholder">
+
+              <div id="country-flag" rv-class="country.flag_tag | format 'flag-icon flag-icon-{0}'">
+              </div>
+              <h1 id="country-title">
+                <span rv-text="country.name"></span>
+              </h1>
+              <div class="button" id="country-selector-button">
+                <a id="explore-link" rv-href="country.iso3 | format './country.html?iso3={0}&tier=3&diesel_price=nps'">
+                  <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;EXPLORE COUNTRY
+                </a>
+              </div>
+            </div>
+
+            <table id="context-table" class="table table-hover">
+              <tr>
+                <td class="col-md-5">
+                  Electrified Population
+                </td>
+                <td>
+                  <h3>
+                    <div id="er-placeholder" rv-text="country.context.electrification_rate | percentage"></div>
+                    <span class="units">%</span>
+                  </h3>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  Total Population 2012
+                </td>
+                <td><span class="value" rv-text="country.context.population_2012 | in_millions"></span></td>
+              </tr>
+              <tr>
+                <td colspan=2>
+                  <h3>Electrification Cost</h3>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Maximum
+                </td>
+                <td><span class="value" rv-text="country | max_cost"></span></td>
+              </tr>
+              <tr>
+                <td>
+                  Minimum
+                </td>
+                <td><span class="value" rv-text="country | min_cost"></span></td>
+              </tr>
+            </table>
+          </div>
+
+          <div id="all-africa-context" style="position: absolute; top: 0">
+            <h1 style="text-align: center;">
+              AFRICA
+            </h1>
+            <table id="all-africa-table" class="table table-hover">
+              <tr>
+                <td class="col-md-6">
+                  Electrified Population
+                </td>
+                <td>
+                  <h3>
+                    <div id="er-placeholder" rv-text="africa.electrified_percentage | percentage"></div>
+                    <span class="units">%</span>
+                  </h3>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Total Population 2012
+                </td>
+                <td><span class="value" rv-text="africa.population_2012 | in_millions"></span></td>
+              </tr>
+              <tr>
+                <td>
+                  Total Population 2030
+                </td>
+                <td><span class="value" rv-text="africa.population_2030 | in_millions"></span></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- App Script -->
+    <script src="./javascripts/global.js"></script>
+    <script src="./data/country/flagnames.json"></script>
+    <script src="./javascripts/utils.js"></script>
+    <script src="./javascripts/index.js"></script>
+  </body>
 </html>
