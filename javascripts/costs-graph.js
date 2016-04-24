@@ -1,5 +1,5 @@
 function draw_doughnut_icon(container, tier) {
-  var icon_file = "images/" + _g.tier_icons[tier] + "-icon.svg";
+  var icon_file = "images/icons/" + _g.tier_icons[tier] + "-icon.svg";
 
   d3.xml(icon_file, function(error, documentFragment) {
     if (error) {
