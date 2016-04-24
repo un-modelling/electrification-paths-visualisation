@@ -1,0 +1,71 @@
+/* CONTEXT */
+
+#country-title-placeholder {}
+#country-flag {
+  height: 50px;
+  width: 100%;
+  vertical-align: middle;
+  z-index: -1;
+}
+#country-title {
+  text-transform: uppercase;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+#country-title > span {
+  color: #4d4d4d;
+}
+#country-context {
+  text-align: left;
+}
+#er-placeholder, #urban-placeholder {
+  display: inline-block;
+  font-size: 50px;
+  font-weight: 300;
+}
+.units {
+  font-size: 35px;
+  font-weight: 400;
+}
+.explore {
+  float: right;
+  border-radius: 0;
+  background-color: #00adef;
+}
+.table {
+  vertical-align: middle;
+}
+.value {
+  font-size: 16px;
+  color: #4d4d4d;
+}
+.list-group {
+  border: none;
+}
+.list-group-item {
+  border-color: #ffffff;
+  border-radius: 0 !important;
+  padding: 2px 3px;
+}
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+  z-index: 2;
+  color: #fff;
+  background-color: #00adef;
+  border-color: #00adef;
+}
+#country-selector-button {
+  margin-top: 0px;
+  padding-top: 0px;
+  border-radius: 0;
+  background-color: #00adef;
+  font-size: 18px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+#explore-link {
+  color: #ffffff;
+}
+#explore-link:hover {
+  text-decoration: none;
+}

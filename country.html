@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
+
+  <title>Universal Electrification Access</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+  <!-- Vendor : jQuery -->
+  <script src="lib/jquery-2.1.4.min.js"></script>
+  <script src="lib/jquery.csv.min.js"></script>
+
+  <script src="lib/rivets.bundled.min.js"></script>
+
+  <!-- Vendor : svexican -->
+  <script src="lib/js-extras.min.js"></script>
+  <script src="js/rivets-config.js"></script>
+
+  <!-- Vendor : D3 -->
+  <script src="lib/d3.v3.min.js"></script>
+  <script src="lib/topojson.v1.min.js"></script>
+
+  <!-- Vendor : Queue -->
+  <script src="lib/queue.v1.min.js"></script>
+
+  <!-- Vendor : Bootstrap -->
+  <script src="lib/bootstrap.min.js"></script>
+  <script src="lib/bootstrap-toggle.min.js"></script>
+
+  <!-- Vendor : Pace -->
+  <link rel="stylesheet" href="lib/pace-radar.css">
+  <script src="./lib/pace.min.js"></script>
+
+  <!-- Vendor : Font Awesome -->
+  <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
+
+  <!-- Vendor : Bootstrap -->
+  <link rel="stylesheet" href="lib/bootstrap.min.css" media="all">
+  <link rel="stylesheet" href="lib/bootstrap-toggle.min.css" media="all">
+
+  <!-- Vendor : Icon -->
+  <link rel="stylesheet" href="lib/country-flag/css/flag-icon.min.css" media="all">
+  <link rel="stylesheet" type="text/css" href="lib/icons/flaticon.css">
+
+  <!-- Vendor : Fonts -->
+  <link rel="stylesheet" href="style/roboto.css" media="all">
+
+  <!-- App CSS -->
+  <link type="text/css" rel="stylesheet" href="style/un.css" media="all">
+  <link type="text/css" rel="stylesheet" href="style/country.css" media="all">
+</head>
+
+<body class="html">
+  <!--[if IE]>
+    <div>
+
+    <div id="brand-bar" class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container brandbar-header">
+        <div class="row">
+          <div class="col-md-3">
+            <a id="navLanChg" class="navbar-brand" href="http://www.un.org/en/index.html">Welcome to the United Nations</a>
+          </div>
+          <div class="col-md-9">
+            <a class="site-link" href="https://unite.un.org/analytics/desa/modellingtools">Back to DESA Modelling Tools Homepage
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-container container">
+      <br><br><br>
+      <div class="row">
+        <div class="col-md-1">
+            <img src="./img/logos/logo.png" alt="Home" class="noprint" style="padding-top:15px"/>
+        </div>
+        <div class="col-md-11">
+            <h1>UNIVERSAL ELECTRIFICATION ACCESS<h1>
+        </div>
+      </div>
+      <div class="row">
+            <div class="col-md-12 sec-center">
+              <h2><strong>Sorry, your browser is not supported</strong></h2>
+              </br>
+              <p style="font-size:20px;">This web application is designed to work on the following web browsers: Google Chrome, Mozilla Firefox and Safari. </br> </p>
+              <p style="font-size:20px;"> Please use or download the latest version here:</p>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-md-3 col-md-offset-1">
+                <a href="https://www.google.com/chrome">
+                  <img src="./img/browsers/browser_chrome.png" class="browser"></img>
+                </a>
+              </div>
+              <div class="col-md-3 col-md-offset-1">
+                <a href="http://www.apple.com/safari/">
+                  <img src="./img/browsers/browser_safari.png" class="browser"></img>
+                </a>
+              </div>
+              <div class="col-md-4">
+                <a href="https://www.mozilla.org/en-US/firefox/new/">
+                  <img src="./img/browsers/browser_firefox.png" class="browser"></img>
+                </a>
+              </div>
+      </div>
+    </div>
+
+    </div>
+    <![endif]-->
+  <![if !IE]>
+  <div id="loading-screen" style="height: 100%; width: 100%; position: absolute; top: 0; left:0; background-color: white; z-index: 9999;"></div>
+
+  <div id="brand-bar" class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container brandbar-header">
+      <div class="row">
+        <div class="col-md-3">
+          <a class="navbar-brand" href="http://www.un.org/en/index.html">Welcome to the United Nations</a>
+        </div>
+        <div class="col-md-9">
+          <a class="site-link" href="https://unite.un.org/analytics/desa/modellingtools">Back to DESA Modelling Tools Homepage
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header id="header-title" class="container">
+    <div class="row">
+      <div class="navbar-header">
+        <div class="button" id="country-selector-button" style="float: right; width: 200px !important;">
+          <a id="country-selector-link" href="./index.html"><i class="fa fa-exchange"></i>&nbsp;&nbsp;CHANGE COUNTRY</a>
+        </div>
+
+        <div id="flag-header" rv-class="country.flag_tag | format 'flag-icon flag-icon-{0}'"></div>
+        <span id="Title" class="name navbar-brand" rv-text="country.name"></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-container container">
+    <hr />
+    <div class="row">
+      <div class="col-lg-2 col-md-2">
+        <div class="col-md-12 sec-center" id="scenario-selector">
+          <h5 style="margin-bottom:10px">Diesel Price</h5>
+          <input type="checkbox" id="diesel-price-selector" checked data-toggle="toggle" data-style="diesel" data-on="High" data-off="Low" data-onstyle="danger" data-offstyle="success">
+          <br>
+          <span rv-text="scenario.diesel_price" style="font-weight:'bold'"></span> US$/liter
+          <br />
+          <br/>
+
+          <h5>Energy Consumption</h5> kWh/household/year
+          <br> Tier <span rv-text="scenario.tier" style="font-style:'bold'"></span>
+
+          <div class="row" style="margin-top:5px">
+
+            <li class="tier-changer" data-tier="1">
+              <object type="image/svg+xml" data="./img/lightbulb-icon.svg" class="tier-icon"></object>
+              <div class="watermark">22</div>
+            </li>
+          </div>
+          <div class="row">
+            <li class="tier-changer" data-tier="2">
+              <object type="image/svg+xml" data="./img/tele-icon.svg" class="tier-icon"></object>
+              <div class="watermark">224</div>
+            </li>
+          </div>
+          <div class="row">
+            <li class="tier-changer active" data-tier="3">
+              <object type="image/svg+xml" data="./img/washing-machine-icon.svg" class="tier-icon"></object>
+              <div class="watermark">696</div>
+            </li>
+          </div>
+          <div class="row">
+            <li class="tier-changer" data-tier="4">
+              <object type="image/svg+xml" data="./img/microwave-icon.svg" class="tier-icon"></object>
+              <div class="watermark">1,800</div>
+            </li>
+          </div>
+          <div class="row">
+            <li class="tier-changer" data-tier="5">
+              <object type="image/svg+xml" data="./img/ac-icon.svg" class="tier-icon"></object>
+              <div class="watermark">2,195</div>
+            </li>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-md-6">
+        <div id="map-area">
+          <div class="cover"></div>
+        </div>
+        <div id="grid-description" rv-show="grid.technology">
+          <div class="col-md-4 grid-col" data-toggle="tooltip" data-placement="bottom" title="Technology Used">
+            <i class="fa fa-bolt"></i> <span class="grid-val" rv-text="grid.technology"></span>
+          </div>
+          <div class="col-md-4 grid-col" data-toggle="tooltip" data-placement="bottom" title="Population per 10kmx10km">
+            <i class="fa fa-male"></i>
+            <span class="grid-val" rv-text="grid.population_2030 | grid_pop"></span>
+          </div>
+          <div class="col-md-4 grid-col" data-toggle="tooltip" data-placement="bottom" title="Levelized Cost">
+            <i class="fa fa-dollar"></i> <span class="grid-val" rv-text="grid.lcoe | lcoe"></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <h5>Population / 100 km<sup>2</sup></h5>
+            <div id="map-legend"></div>
+          </div>
+          <div class="col-md-4">
+            <h5>Transmission Lines</h5>
+            <div id="map-legend-lines"></div>
+            <a data-toggle="modal" data-target="#disclaimerModal" class="disclaimer-link"><i class="fa fa-info"></i>&nbsp;&nbsp;About this Map</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-4" id="country-stats" rv-show="country">
+        <div class="row">
+          <p>
+            <h5>Population Distribution by Scenario </h5> People to receive electricity (2012-2030) :
+            <span rv-text="country.context.population_2030 | in_millions_people"></span>
+          </p>
+        </div>
+        <div class="row">
+          <svg id="population"></svg>
+          <br>
+          <h5>Total Cost of Electrification by Scenario</h5> Total cost by scenario (2012-2030) :
+          <span rv-text="country.current_cost"></span> Billion US$
+          <svg id="costs"></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="disclaimerModal" tabindex="-1" role="dialog" aria-labelledby="disclaimerModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></div>
+          <h4 class="modal-title" id="myModalLabel">Disclaimer</h4>
+        </div>
+        <div class="modal-body">
+          The designations employed and the presentation of material on this map do not imply the expression of any opinion whatsoever on the part of the Secretariat of the United Nations concerning the legal status of any country, territory, city or area or of
+          its authorities, or concerning the delimitation of its frontiers or boundaries.
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Script -->
+  <script src="./js/global.js"></script>
+  <script src="./data/country/flagnames.json"></script>
+  <script src="./js/utils.js"></script>
+  <script src="./js/bars.js"></script>
+  <script src="./js/population-graph.js"></script>
+  <script src="./js/costs-graph.js"></script>
+  <script src="./js/worldmap.js"></script>
+  <script src="./js/country.js"></script>
+</body>
+
+</html>
