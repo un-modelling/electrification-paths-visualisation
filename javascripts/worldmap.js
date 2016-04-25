@@ -96,24 +96,24 @@ function update_map(country) {
     load_country_grids(null, _g.grids, split, compressed_split);
 }
 
-function loadWorld(worldTopo, countriesList) {
-  var countryBoundaries = topojson.feature(worldTopo, worldTopo.objects.countries).features;
+function load_world(world_topo, countries_list) {
+  var country_boundaries = topojson.feature(world_topo, world_topo.objects.countries).features;
 
-  var landBoundaries = topojson.feature(worldTopo, worldTopo.objects.land);
+  var land_boundaries = topojson.feature(world_topo, world_topo.objects.land);
 
-  var state = countryBoundaries.filter(function(d) {
-    return d.id === countryByISO3(getQueryParam('iso3')).code;
+  var state = country_boundaries.filter(function(d) {
+    return d.id === country_by_iso3(get_query_param('iso3')).code;
   })[0];
 
   countries.insert("path")
-    .datum(landBoundaries)
+    .datum(land_boundaries)
     .attr("class", "land")
     .attr("d", path)
     .classed("outline", true)
     .style("fill", "none");
 
   countries.selectAll(".country")
-    .data(countryBoundaries)
+    .data(country_boundaries)
     .enter().append("path")
     .attr({
       class: function(d) {
@@ -123,7 +123,7 @@ function loadWorld(worldTopo, countriesList) {
     })
     .style({
       fill: function(d) {
-        if (d.id == countryByISO3(getQueryParam('iso3')).code) {
+        if (d.id == country_by_iso3(get_query_param('iso3')).code) {
           return "#ffffff";
         } else {
           if (d.id == 24) {
@@ -136,8 +136,8 @@ function loadWorld(worldTopo, countriesList) {
       }
     })
 
-  countryLabels = countries.selectAll("text")
-    .data(countryBoundaries)
+  var country_labels = countries.selectAll("text")
+    .data(country_boundaries)
     .enter().append("text")
     .attr({
       class: 'country-label',
@@ -147,7 +147,7 @@ function loadWorld(worldTopo, countriesList) {
     })
     .append('tspan')
     .text(function(d) {
-      return findCountryName(d);
+      return find_country_name(d);
     })
     .on({
       mouseover: function(d) {
@@ -160,10 +160,10 @@ function loadWorld(worldTopo, countriesList) {
         d3.select(this).style("fill", "#4d4d4d")
       },
       dblclick: function(d) {
-        var ccode = findCountryISO(d);
-        var country = countryByISO3(ccode)
+        var ccode = find_country_iso(d);
+        var country = country_by_iso3(ccode)
         if ((country.region == _g.region) && ($.inArray(country.subregion, _g.ignored_subregions))) {
-          window.location = "./country.html?iso3=" + findCountryISO(d) + "&tier=3&diesel_price=nps";
+          window.location = "./country.html?iso3=" + find_country_iso(d) + "&tier=3&diesel_price=nps";
         } else {
           alert("Electrification model not available. Choose another country.")
         }
@@ -284,7 +284,7 @@ function loadWorld(worldTopo, countriesList) {
   var height_lines_legend = 80;
   var padding_lines_legend = 35;
 
-  var lineData = [{
+  var line_data = [{
     "x": 15,
     "y": 7
   }, {
@@ -292,7 +292,7 @@ function loadWorld(worldTopo, countriesList) {
     "y": 7
   }];
 
-  var lineFunction = d3.svg.line()
+  var line_function = d3.svg.line()
     .x(function(d) {
       return d.x;
     })
@@ -319,7 +319,7 @@ function loadWorld(worldTopo, countriesList) {
     });
 
   legend_lines.append('path')
-    .attr("d", lineFunction(lineData))
+    .attr("d", line_function(line_data))
     .attr("stroke-width", 2)
     .style({
       'stroke': function(d, i) {

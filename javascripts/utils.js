@@ -1,6 +1,6 @@
 // General
 
-function getQueryParam(name) {
+function get_query_param(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
   var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
     results = regex.exec(location.search);
@@ -37,19 +37,19 @@ function setup_project_countries(data, callback) {
 
   var filtered_countries = data.filter(function(d) {
     if (_g.exception_countries.indexOf(d['iso3']) > -1) {
-      parseCountryData(d);
+      parse_country_data(d);
 
       return true;
     }
 
     if (_g.ignored_countries.indexOf(d['iso3']) > -1 ||
-      _g.ignored_subregions.indexOf(d['subregion']) > -1)
+        _g.ignored_subregions.indexOf(d['subregion']) > -1)
       return false;
 
     if (d.region === 'AFRICA' || _g.exception_countries.indexOf(d['iso3']) > -1) {
-      parseCountryData(d);
-
+      parse_country_data(d);
       return true;
+
     } else
       return false;
   });
@@ -77,9 +77,9 @@ function pentagon_position(direction, container_size) {
 
 // Country utils
 
-function countryByISO3(iso3) {
+function country_by_iso3(iso3) {
   var c = _g.all_countries.filter(function(d) {
-    return d['iso3'] === iso3
+    return d['iso3'] === iso3;
   })[0];
 
   if (typeof c === 'undefined')
@@ -88,9 +88,9 @@ function countryByISO3(iso3) {
   return c;
 }
 
-function findCountryName(c) {
+function find_country_name(c) {
   var r = _g.all_countries.filter(function(e) {
-    return e['code'] === c['id']
+    return e['code'] === c['id'];
   })[0];
 
   // For debugging purposes:
@@ -100,9 +100,9 @@ function findCountryName(c) {
   return (r ? r['name'] : "");
 }
 
-function findCountryISO(c) {
+function find_country_iso(c) {
   var r = _g.all_countries.filter(function(e) {
-    return e['code'] === c['id']
+    return e['code'] === c['id'];
   })[0];
 
   // For debugging purposes:
@@ -114,11 +114,11 @@ function findCountryISO(c) {
 
 function country_get_gdp_per_capita(iso3) {
   return parseFloat(_g.countries_gdp_per_capita.filter(function(c) {
-    return iso3 === c['country_code']
+    return iso3 === c['country_code'];
   })[0]['2012']);
 }
 
-function parseCountryData(d) {
+function parse_country_data(d) {
   // d['context']['gdp_per_capita_2012'] = country_get_gdp_per_capita(d['iso3']);
   d['context']['electrified_2012_ratio'] = d['context']['electrified_2012'] / d['context']['population_2012'];
 

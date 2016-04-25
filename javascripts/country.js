@@ -25,7 +25,7 @@ function change_tier(tier) {
     .attr({
       x: "-1em",
       y: "-1.5em",
-    })
+    });
 
   d3.selectAll("#costs-graph")
     .transition()
@@ -67,7 +67,7 @@ function change_tier(tier) {
     .attr({
       x: "-0.5em",
       y: "-0.5em"
-    })
+    });
 
   d3.selectAll(".bar").style({
     'fill-opacity': 0.2
@@ -92,25 +92,24 @@ function change_tier(tier) {
   _g.scenario['tier'] = _g.current_tier;
 }
 
-function load_everything(err, all_countries, world_topo, transmission_lines, other_transmission_lines) {
+function load_everything(err, all_countries, world_topo, transmission_lines, planned_transmission_lines) {
   if (err) console.warn('error', err);
 
   var tier, diesel_price;
 
-  var transmission_lines_features = topojson.feature(transmission_lines, transmission_lines.objects["existing-transmission-lines"]).features;
-  var other_transmission_lines_features = topojson.feature(other_transmission_lines, other_transmission_lines.objects["planned-transmission-lines"]).features;
-
+  var existing_transmission_lines_features = topojson.feature(transmission_lines, transmission_lines.objects["existing-transmission-lines"]).features;
+  var planned_transmission_lines_features = topojson.feature(planned_transmission_lines, planned_transmission_lines.objects["planned-transmission-lines"]).features;
 
   setup_project_countries(all_countries, function() {
 
-    loadWorld(world_topo, all_countries);
+    load_world(world_topo, all_countries);
 
     // Make sure everything is OK
     //
     try {
-      _g.country = countryByISO3(getQueryParam('iso3'));
-      tier = parseInt(getQueryParam('tier'));
-      diesel_price = getQueryParam('diesel_price');
+      _g.country = country_by_iso3(get_query_param('iso3'));
+      tier = parseInt(get_query_param('tier'));
+      diesel_price = get_query_param('diesel_price');
 
     } catch (e) {
       alert("Wrong ISO3 code! Bailing out... :(");
@@ -129,10 +128,9 @@ function load_everything(err, all_countries, world_topo, transmission_lines, oth
 
     // TODO: clean this globals up...
     //
-
     _g.current_tier = tier;
     _g.current_diesel = diesel_price;
-    _g.scenario['diesel_price'] = _g.diesel_price[_g.current_diesel]
+    _g.scenario['diesel_price'] = _g.diesel_price[_g.current_diesel];
 
     var population_svg = d3.select('svg#population')
       .attr({
@@ -164,15 +162,16 @@ function load_everything(err, all_countries, world_topo, transmission_lines, oth
 
     $("#diesel-price-selector").change(function() {
       if (_g.current_diesel === "nps")
-        _g.current_diesel = "low"
+        _g.current_diesel = "low";
       else
-        _g.current_diesel = "nps"
+        _g.current_diesel = "nps";
 
       _g.scenario['diesel_price'] = _g.diesel_price[_g.current_diesel]
 
       update_map(_g.country);
 
-      // TODO: maybe animations instead of this redraw
+      // TODO: animations instead of this redraw which is buggy (rotations)
+      // TODO: this is causing unnecessary requests (svg icons)
       //
       $('#population').empty();
       $('#costs').empty();
@@ -200,8 +199,8 @@ function load_everything(err, all_countries, world_topo, transmission_lines, oth
       change_tier(tier);
     });
 
-    draw_transmission_lines(transmission_lines_features, "existing");
-    draw_transmission_lines(other_transmission_lines_features, "planned");
+    draw_transmission_lines(existing_transmission_lines_features, "existing");
+    draw_transmission_lines(planned_transmission_lines_features, "planned");
 
     set_project_cost(_g.current_tier);
 
