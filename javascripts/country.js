@@ -168,8 +168,6 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
 
       _g.scenario['diesel_price'] = _g.diesel_price[_g.current_diesel]
 
-      update_map(_g.country);
-
       // TODO: animations instead of this redraw which is buggy (rotations)
       // TODO: this is causing unnecessary requests (svg icons)
       //
