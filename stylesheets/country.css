@@ -72,6 +72,9 @@
 bar-graph.active rect {
   border: 5px solid red !important;
 }
+rect.bar {
+  cursor: pointer;
+}
 
 /* bubble graph styles */
 
@@ -103,6 +106,9 @@ bar-graph.active rect {
   font-size: 11px;
   font-style: italic;
   font-weight: lighter;
+}
+path.arc, text.doughnut-text {
+  cursor: pointer;
 }
 
 /* web component styles*/
