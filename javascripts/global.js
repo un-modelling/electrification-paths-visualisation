@@ -44,6 +44,7 @@ window._g = {
       show: 'Stand Alone'
     }
   },
+
   technology_colors: {
     grid: "#73B2FF",
     micro_grid: "#AAFF00",
@@ -72,6 +73,10 @@ window._g = {
   },
 
   all_countries: [],
+
+  first_load: true,
+
+  grids: [],
 
   bar_graph_padding: 20,
 

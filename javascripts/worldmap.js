@@ -82,12 +82,18 @@ function update_map(country) {
 
   var compressed_split = [diesel, _g.current_tier];
 
+  if (_g.first_load) {
     queue()
       .defer(d3.json, './data/grids/' + country['iso3'] + '_grids.json')
     // .defer(d3.json, 'http://localhost:3000/countries/' + country['iso3'] + '/full')
       .await(function(err, grids_json) {
         load_country_grids(err, grids_json, split, compressed_split);
+        _g.grids = grids_json;
+        _g.first_load = false;
       });
+
+  } else
+    load_country_grids(null, _g.grids, split, compressed_split);
 }
 
 function loadWorld(worldTopo, countriesList) {
