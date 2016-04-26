@@ -17,11 +17,7 @@ html {
   -ms-user-select: none;
   user-select: none;
 }
--webkit-box-sizing: border-box;
--moz-box-sizing: border-box;
-box-sizing: border-box;
 
-}
 *:before, *:after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -202,7 +198,7 @@ body .main-container ul li {
   list-style-image: none;
   list-style-type: none;
 }
-body.main-container h4 {
+body .main-container h4 {
   padding-left: 1px;
   color: #4d4d4d;
 }
