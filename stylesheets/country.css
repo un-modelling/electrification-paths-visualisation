@@ -135,53 +135,6 @@ path.arc, text.doughnut-text {
   margin-left: -15px;
 }
 
-/* icons */
-
-.ac-icon {
-  background: url("../lib/icons/ac-icon.svg");
-  display: block;
-  text-indent: -9999px;
-  width: 100px;
-  height: 82px;
-  background-size: 100px 82px;
-  fill: #4d4d4d;
-}
-.washing-machine-icon {
-  background: url("../lib/icons/washing-machine-icon.svg");
-  display: block;
-  text-indent: -9999px;
-  width: 100px;
-  height: 82px;
-  background-size: 100px 82px;
-  fill: #4d4d4d;
-}
-.lightbulb-icon {
-  background: url("../lib/icons/lightbulb-icon.svg");
-  display: block;
-  text-indent: -9999px;
-  width: 100px;
-  height: 82px;
-  background-size: 100px 82px;
-  fill: #4d4d4d;
-}
-.microwave-icon {
-  background: url("../lib/icons/microwave-icon.svg");
-  display: block;
-  text-indent: -9999px;
-  width: 100px;
-  height: 82px;
-  background-size: 100px 82px;
-  fill: #4d4d4d;
-}
-.tele-icon {
-  background: url("../lib/icons/tele-icon.svg");
-  display: block;
-  text-indent: -9999px;
-  width: 100px;
-  height: 82px;
-  background-size: 100px 82px;
-  fill: #4d4d4d;
-}
 
 /* header */
 
@@ -226,6 +179,10 @@ header .navbar-header {
   float: left;
   width: 40px;
   padding-top: 12px;
+}
+svg.tier-icon path {
+  stroke: white !important;
+  fill: white;
 }
 .modal-content {
   margin-top: 50%;
