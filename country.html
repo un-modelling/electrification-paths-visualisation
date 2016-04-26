@@ -36,14 +36,12 @@
 
     <!-- Vendor : Bootstrap -->
     <script src="./lib/bootstrap/bootstrap.min.js"></script>
-    <script src="./lib/bootstrap-toggle/bootstrap-toggle.min.js"></script>
 
     <!-- Vendor : Font Awesome -->
     <link rel="stylesheet" href="./lib/font-awesome/css/font-awesome.min.css">
 
     <!-- Vendor : Bootstrap -->
     <link rel="stylesheet" href="./lib/bootstrap/bootstrap.min.css" media="all">
-    <link rel="stylesheet" href="./lib/bootstrap-toggle/bootstrap-toggle.min.css" media="all">
 
     <!-- Vendor : Icon -->
     <link rel="stylesheet" href="./lib/country-flag/css/flag-icon.min.css" media="all">
@@ -150,11 +148,18 @@
         <div class="col-lg-2 col-md-2">
           <div class="col-md-12 sec-center" id="scenario-selector">
             <h5 style="margin-bottom:10px">Diesel Price</h5>
-            <input type="checkbox" id="diesel-price-selector" checked data-toggle="toggle" data-style="diesel" data-on="High" data-off="Low" data-onstyle="danger" data-offstyle="success">
-            <br />
 
             <span rv-text="scenario.diesel_price" style="font-weight:'bold'"></span> US$/liter
             <br />
+            <div id="diesel-price-selector" class="btn-group" data-toggle="buttons">
+              <label class="btn btn-primary">
+                <input type="radio" name="options" autocomplete="off"> <strong>0.32</strong>
+              </label>
+
+              <label class="btn btn-primary active">
+                <input type="radio" name="options" autocomplete="off" checked> <strong>0.70</strong>
+              </label>
+            </div>
 
             <h5>Energy Consumption</h5> kWh/household/year
             <br />
