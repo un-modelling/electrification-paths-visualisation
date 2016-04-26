@@ -125,16 +125,6 @@ path.arc, text.doughnut-text {
 .toggle.diesel .toggle-handle {
   border-radius: 0px;
 }
-[class^="flaticon-"]:before, [class*=" flaticon-"]:before, [class^="flaticon-"]:after, [class*=" flaticon-"]:after {
-  font-size: 25px !important;
-  color: #000000;
-  border: 2px;
-  float: left;
-}
-.flaticon-gasoline6 {
-  margin-left: -15px;
-}
-
 
 /* header */
 

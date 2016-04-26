@@ -40,14 +40,6 @@ var zoom = d3.behavior.zoom()
   .scaleExtent([0.5, 200])
   .on("zoom", zoomed);
 
-Pace.on("done", function() {
-  $(".cover").fadeOut(500);
-});
-
-Pace.on("start", function() {
-  $(".cover").fadeIn(1);
-})
-
 function zoomed() {
   countries.attr({
     transform: "translate(" + zoom.translate() + ")" + "scale(" + zoom.scale() + ")"
@@ -73,8 +65,6 @@ function interpolate_zoom(translate, scale) {
 svgMap.call(zoom)
 
 function update_map(country) {
-  Pace.restart();
-
   var split = _g.current_diesel + _g.current_tier.toString();
 
   var diesel = _g.current_diesel === "nps" ? "n" : "o";

@@ -153,9 +153,4 @@ window._g = {
     'diesel_price': 'low',
     'tier': 1,
   }
-
-}
-
-window.paceOptions = {
-  target: '.cover'
 }
