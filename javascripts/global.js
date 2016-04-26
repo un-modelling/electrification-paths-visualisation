@@ -31,13 +31,21 @@ window._g = {
   technologies: [{
     name: "National Grid",
     color: '#73B2FF',
+    min_opacity: 0.2
   }, {
     name:  'Micro Grid',
     color: '#AAFF00',
+    min_opacity: 0.5
   }, {
     name: 'Stand Alone',
-    color: '#FBB117'
+    color: '#FBB117',
+    min_opacity: 0.1
   }],
+
+  // the value at which we consider an area as "very dense"
+  // and set the opacity to 1.
+  //
+  hd: 100000,
 
   all_countries: [],
 

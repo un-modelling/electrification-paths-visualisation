@@ -190,41 +190,45 @@ function load_world(world_topo, countries_list) {
     .enter().append('defs')
     .append("svg:linearGradient")
     .attr({
-      "id": function(d, i) {
+      id: function(d, i) {
         return 'gradient' + i;
       },
-      "x1": "100%",
-      "y1": "100%",
-      "x2": "0%",
-      "y2": "100%",
-      "spreadMethod": "pad",
-      "y": function(d, i) {
+      x1: function(d,i) {
+        return (_g.technologies[i]['min_opacity'] * 100) + "%";
+      },
+      x2: "100%",
+      y1: "0%",
+      y2: "0%",
+
+      y: function(d, i) {
         return i * 15;
       }
     });
 
   legend_grad.append("stop")
     .attr({
-      "offset": "0%",
-      "stop-color": function(d, i) {
+      offset: "0%"
+    })
+    .style({
+      "stop-color": function(d,i) {
         return grid_colors[i];
       },
-      "stop-opacity": 1
+
+      "stop-opacity": function(d,i) {
+        return _g.technologies[i]['min_opacity'];
+      },
     });
 
   legend_grad.append("stop")
     .attr({
       "offset": "100%",
+    })
+    .style({
       "stop-color": function(d, i) {
         return grid_colors[i];
       },
-      "stop-opacity": function(d) {
-        if (d == 'Stand Alone') {
-          return 0.2
-        } else {
-          return 0.3
-        }
-      }
+
+      "stop-opacity": 1
     });
 
   var legend = legend_svg.selectAll('.legend-group')
