@@ -147,10 +147,9 @@
       <div class="row">
         <div class="col-lg-2 col-md-2">
           <div class="col-md-12 sec-center" id="scenario-selector">
-            <h5 style="margin-bottom:10px">Diesel Price</h5>
+            <h5>Diesel Price</h5>
+            US$/liter
 
-            <span rv-text="scenario.diesel_price" style="font-weight:'bold'"></span> US$/liter
-            <br />
             <div id="diesel-price-selector" class="btn-group" data-toggle="buttons">
               <label class="btn btn-primary">
                 <input type="radio" name="options" autocomplete="off"> <strong>0.32</strong>
@@ -161,28 +160,30 @@
               </label>
             </div>
 
-            <h5>Energy Consumption</h5> kWh/household/year
             <br />
-            Tier <span rv-text="scenario.tier" style="font-style:'bold'"></span>
+            <br />
+
+            <h5>Energy Consumption</h5>
+            kWh/household/year
 
             <ul>
-              <li class="tier-changer button" data-tier="1">
+              <li class="tier-changer btn btn-primary" data-tier="1">
                 <img type="image/svg+xml" src="./images/icons/lightbulb-icon.svg" class="tier-icon" /> 22
               </li>
 
-              <li class="tier-changer button" data-tier="2">
+              <li class="tier-changer btn btn-primary" data-tier="2">
                 <img type="image/svg+xml" src="./images/icons/tele-icon.svg" class="tier-icon" /> 224
               </li>
 
-              <li class="tier-changer button active" data-tier="3">
+              <li class="tier-changer btn btn-primary active" data-tier="3">
                 <img type="image/svg+xml" src="./images/icons/washing-machine-icon.svg" class="tier-icon" /> 696
               </li>
 
-              <li class="tier-changer button" data-tier="4">
+              <li class="tier-changer btn btn-primary" data-tier="4">
                 <img type="image/svg+xml" src="./images/icons/microwave-icon.svg" class="tier-icon" /> 1,800
               </li>
 
-              <li class="tier-changer button" data-tier="5">
+              <li class="tier-changer btn btn-primary" data-tier="5">
                 <img type="image/svg+xml" src="./images/icons/ac-icon.svg" class="tier-icon" /> 2,195
               </li>
             </ul>

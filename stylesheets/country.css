@@ -143,25 +143,27 @@ header .navbar-header {
 }
 .tier-changer {
   width: 100%;
-  display: inline-block;
-  cursor: pointer;
   position: relative;
   font-size: 22px;
-  background-color: #00adef;
   margin-top: 10px;
-
+  padding-top: 15px;
   padding-left: 10px !important;
-  padding-right: 18px !important;
-  border-radius: 0;
   text-align: right;
 }
-.tier-changer.active {
-  background-color: #004964;
+
+.btn.btn-primary {
+  background-color: #00ADEF;
+  border-radius: 1px;
+  border: 0;
+}
+
+.btn.btn-primary.active {
+  background-color: #1E3D57;
 }
 .tier-icon {
   float: left;
   width: 40px;
-  padding-top: 12px;
+  margin-top: -9px;
 }
 svg.tier-icon path {
   stroke: white !important;
