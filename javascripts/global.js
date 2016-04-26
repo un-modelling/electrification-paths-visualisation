@@ -23,7 +23,7 @@ window._g = {
     "REU", // Réunion
     "SHN", // Saint Helena
     "STP", // São Tomé and Príncipe
-    "SYC" // Seychelles
+    "SYC"  // Seychelles
   ],
 
   // TODO: unify technology dictionaries
@@ -51,26 +51,6 @@ window._g = {
     stand_alone: "#FBB117"
   },
 
-  legends: {
-    "Grid": {
-      min_op: 1,
-      max_op: 0,
-      min_val: 99999,
-      max_val: 0
-    },
-    "Mini Grid": {
-      min_op: 1,
-      max_op: 0,
-      min_val: 99999,
-      max_val: 0
-    },
-    "Stand Alone": {
-      min_op: 1,
-      max_op: 0,
-      min_val: 99999,
-      max_val: 0
-    }
-  },
 
   all_countries: [],
 
@@ -92,19 +72,6 @@ window._g = {
     }
   },
 
-  bubble_graph: {
-    size: {
-      width: 350,
-      height: 300,
-      padding: 35
-    },
-
-    position: {
-      x: 0,
-      y: 200
-    }
-  },
-
   costs_graph: {
     size: {
       width: 350,
@@ -116,10 +83,6 @@ window._g = {
       y: 150
     }
   },
-
-  bubble_radius: 10,
-
-  countries_gdp_per_capita: null,
 
   country: null,
 

@@ -171,8 +171,4 @@ function graph_bar_draw(opts, sources, tier) {
     });
 
   draw_bar_icon(container, height, tier);
-
-  // if (tier == _g.current_tier) {
-  //   draw_bar_text(bars_group,text_format);
-  // }
 }
