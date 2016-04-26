@@ -4,8 +4,6 @@ function set_project_cost(tier) {
 
 function change_tier(tier) {
   _g.current_tier = tier;
-
-  update_map(_g.country);
   _g.scenario['tier'] = tier;
 
   // Buttons
@@ -13,84 +11,15 @@ function change_tier(tier) {
   $('.tier-changer').removeClass('active');
   $('[data-tier=' + tier + ']').closest('.tier-changer').addClass('active');
 
-  d3.selectAll(".doughnut-text")
-    .attr({
-      dy: "1.5em",
-      dx: "-2.5em",
-      'font-weight': 'normal'
-    })
-    .style({
-      'font-size': "1em"
-    });
+  // Graphs
+  //
+  costs_graph_rearrange(tier);
 
-  d3.selectAll(".doughnut-text > svg")
-    .attr({
-      x: "-1em",
-      y: "-1.5em",
-    });
+  population_graph_rearrange(tier);
 
-  d3.selectAll("#costs-graph")
-    .transition()
-    .duration(1000)
-    .attrTween("transform", function() {
-      return d3.interpolateString(
-        d3.select(this).attr('transform'),
-        "translate(" + _g.costs_graph.position.x + "," + _g.costs_graph.position.y + ")" + "rotate(" + 72 * tier + ")"
-      );
-    });
-
-  d3.selectAll("#costs-graph .doughnut-text")
-    .attr({
-      'opacity': 1
-    });
-
-  d3.selectAll("#costs-graph" + tier + " .doughnut-text")
-    .attr({
-      dx: "2em",
-      dy: "-1em",
-      'font-weight': 'bold',
-      'opacity': 1
-    })
-    .style({
-      'font-size': "2em"
-    });
-
-  d3.selectAll('.doughnut-text')
-    .transition()
-    .duration(1000)
-    .attrTween("transform", function() {
-      return d3.interpolateString(
-        d3.select(this).attr('transform'),
-        "translate(" + 0 + "," + 0 + ")" + "rotate(" + 72 * tier * (-1) + ")"
-      );
-    });
-
-  d3.selectAll("#costs-graph" + tier + " .doughnut-text > svg")
-    .attr({
-      x: "-0.5em",
-      y: "-0.5em"
-    });
-
-  d3.selectAll(".bar").style({
-    'fill-opacity': 0.2
-  });
-
-  d3.selectAll(".bar" + tier).style({
-    'fill-opacity': 1
-  });
-
-  d3.selectAll(".arc").style({
-    'fill-opacity': 0.2,
-    'transform': "scale(1)"
-  });
-
-  d3.selectAll(".arc" + tier).style({
-    'fill-opacity': 1,
-    'transform': "scale(1.2)"
-  });
-
-  set_project_cost(tier);
-
+  // Map
+  //
+  update_map(_g.country);
 }
 
 function load_everything(err, all_countries, world_topo, transmission_lines, planned_transmission_lines) {
@@ -162,14 +91,11 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
     $('#loading-screen').fadeOut(600, function() { change_tier(_g.current_tier); });
 
     $("#diesel-price-selector").change(function() {
-      if (_g.current_diesel === "nps")
-        _g.current_diesel = "low";
-      else
-        _g.current_diesel = "nps";
+      _g.current_diesel = (_g.current_diesel === "nps" ? "low" : "nps");
 
       _g.scenario['diesel_price'] = _g.diesel_price[_g.current_diesel]
 
-      // TODO: animations instead of this redraw which is buggy (rotations)
+      // TODO: animations instead of this redraw
       // TODO: this is causing unnecessary requests (svg icons)
       //
       $('#population').empty();
@@ -188,8 +114,6 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
         svg: costs_svg
 
       }, _g.country, _g.current_diesel);
-
-      change_tier(_g.current_tier);
     });
 
     $('.tier-changer').click(function(e) {

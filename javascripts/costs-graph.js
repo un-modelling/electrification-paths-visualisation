@@ -162,4 +162,74 @@ function doughnut_draw(opts, data, tier) {
     });
 
   draw_doughnut_icon(graph, tier);
+
+  costs_graph_rearrange(tier);
+}
+
+function costs_graph_rearrange(tier) {
+  d3.selectAll(".doughnut-text")
+    .attr({
+      dy: "1.5em",
+      dx: "-2.5em",
+      'font-weight': 'normal'
+    })
+    .style({
+      'font-size': "1em"
+    })
+    .select("svg") // dig deeper for the icons...
+    .attr({
+      x: "-1em",
+      y: "-1.5em",
+    });
+
+  d3.selectAll("#costs-graph .doughnut-text")
+    .attr({
+      'opacity': 1
+    });
+
+  d3.select("#costs-graph")
+    .transition()
+    .duration(1000)
+    .attrTween("transform", function() {
+      return d3.interpolateString(
+        d3.select(this).attr('transform'),
+        "translate(" + _g.costs_graph.position.x + "," + _g.costs_graph.position.y + ")" + "rotate(" + 72 * tier + ")"
+      );
+    });
+
+  d3.select("#costs-graph" + tier + " .doughnut-text")
+    .attr({
+      dx: "2em",
+      dy: "-1em",
+      'font-weight': 'bold',
+      'opacity': 1
+    })
+    .style({
+      'font-size': "2em"
+    })
+    .select("svg") // dig deeper for the icons...
+    .attr({
+      x: "-0.5em",
+      y: "-0.5em"
+    });
+
+  d3.selectAll('.doughnut-text, .doughnut-icon')
+    .transition()
+    .duration(1000)
+    .attrTween("transform", function() {
+      return d3.interpolateString(
+        d3.select(this).attr('transform'),
+        "translate(" + 0 + "," + 0 + ")" + "rotate(" + 72 * tier * (-1) + ")"
+      );
+    });
+
+  d3.selectAll(".arc").style({
+    'fill-opacity': 0.2,
+    'transform': "scale(1)"
+  });
+
+  d3.selectAll(".arc" + tier).style({
+    'fill-opacity': 1,
+    'transform': "scale(1.2)"
+  });
 }

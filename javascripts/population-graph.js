@@ -82,3 +82,13 @@ function draw_population_graphs(opts, country, diesel_price) {
     i += 1;
   }
 }
+
+function population_graph_rearrange(tier) {
+  d3.selectAll(".bar").style({
+    'fill-opacity': 0.2
+  });
+
+  d3.selectAll(".bar" + tier).style({
+    'fill-opacity': 1
+  });
+}
