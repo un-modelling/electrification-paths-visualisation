@@ -6,9 +6,11 @@ function change_tier(tier) {
   _g.current_tier = tier;
 
   update_map(_g.country);
+  _g.scenario['tier'] = tier;
 
+  // Buttons
+  //
   $('.tier-changer').removeClass('active');
-
   $('[data-tier=' + tier + ']').closest('.tier-changer').addClass('active');
 
   d3.selectAll(".doughnut-text")
@@ -89,7 +91,6 @@ function change_tier(tier) {
 
   set_project_cost(tier);
 
-  _g.scenario['tier'] = _g.current_tier;
 }
 
 function load_everything(err, all_countries, world_topo, transmission_lines, planned_transmission_lines) {
@@ -218,7 +219,6 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
       scenario: _g.scenario
     });
 
-    //Initialize tooltip
     $('[data-toggle="tooltip"]').tooltip();
   });
 

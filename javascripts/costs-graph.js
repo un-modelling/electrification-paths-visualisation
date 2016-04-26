@@ -7,26 +7,22 @@ function draw_doughnut_icon(container, tier) {
       return;
     }
 
-    var svgNode = documentFragment
-        .getElementsByTagName("svg")[0];
+    var svgNode = documentFragment.getElementsByTagName("svg")[0];
 
-    var containerIcon = container.append('g')
+    var icon_container = container.append('g')
         .attr({
-          class: 'doughnut-text'
+          class: 'doughnut-icon'
         })
 
-    containerIcon.node().appendChild(svgNode);
+    icon_container.node().appendChild(svgNode);
 
-    var innerSVG = containerIcon.select("svg");
-
-    innerSVG.attr({
-      class: 'doughnut-icon',
-      x: "-1em",
-      y: "-1.5em",
-      width: 25,
-      height: 25
-    });
-
+    icon_container.select("svg")
+      .attr({
+        x: "-1em",
+        y: "-1.5em",
+        width: 25,
+        height: 25
+      });
   });
 }
 
@@ -36,10 +32,6 @@ function draw_costs_graphs(opts, country, diesel_price) {
   var position = opts.position;
   var width = opts.size.width;
   var height = opts.size.height;
-
-  d3.selectAll("#costs-graph").remove()
-
-  // bars
 
   var graph = opts.svg.append('g')
       .attr({
@@ -169,5 +161,5 @@ function doughnut_draw(opts, data, tier) {
       return rivets.formatters.in_b(cost) + " US$";
     });
 
-  draw_doughnut_icon(graph, tier)
+  draw_doughnut_icon(graph, tier);
 }
