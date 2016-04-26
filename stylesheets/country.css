@@ -141,13 +141,6 @@ header .navbar-header {
   stroke: steelblue;
   stroke-width: 1.5px;
 }
-.cover {
-  position: absolute;
-  width: 20%;
-  height: 58%;
-  z-index: 1999;
-  background: #ffffff;
-}
 .tier-changer {
   width: 100%;
   display: inline-block;
