@@ -1,8 +1,8 @@
 //// D3 VERSION
 
-var widthMap = d3.select('#map-area').node().clientWidth,
-  heightMap = window.screen.availHeight * 0.5,
-  centered;
+var widthMap = d3.select('#map-area').node().clientWidth;
+var heightMap = window.screen.availHeight * 0.5;
+var centered;
 
 d3.select('.cover')
   .style("width", widthMap + "px")
@@ -21,10 +21,9 @@ var technologies = ['National Grid', 'Mini Grid', 'Stand Alone'];
 var grid_colors = d3.scale.ordinal()
     .range(['#73B2FF', '#AAFF00', '#FBB117'])
     .domain([0,1,2]);
-    // .domain(['National Grid', 'Mini Grid', 'Stand Alone']);
 
 var linesColors = d3.scale.ordinal()
-  .range(['#4d4d4d', '#4d4d4d']) //
+  .range(['#4d4d4d', '#4d4d4d'])
   .domain(['Existing Trans. Line', 'Planned Trans. Line']);
 
 var svgMap = d3.select('#map-area').append('svg')
@@ -170,7 +169,6 @@ function load_world(world_topo, countries_list) {
       }
     })
 
-
   countries.append("path")
     .datum(state)
     .attr("class", "outline")
@@ -189,7 +187,7 @@ function load_world(world_topo, countries_list) {
     });
 
   var legend_grad = legend_svg.selectAll('.legend-group')
-    .data(['National Grid', 'Mini Grid', 'Stand Alone'])
+    .data(technologies)
     .enter().append('defs')
     .append("svg:linearGradient")
     .attr({
@@ -231,7 +229,7 @@ function load_world(world_topo, countries_list) {
     });
 
   var legend = legend_svg.selectAll('.legend-group')
-    .data(['National Grid', 'Mini Grid', 'Stand Alone'])
+    .data(technologies)
     .enter().append('g')
     .attr({
       class: 'legend-group',
@@ -452,7 +450,7 @@ function load_country_grids(err, country_grids, split, comp_split) {
   var center = [widthMap / 2, heightMap / 2];
   var k = country_bounds(countryPath.datum())['scale'];
 
-  //outline for hovered grid
+  // outline for hovered grid
   countries.append("rect")
     .attr({
       id: 'grid-marker',
@@ -460,13 +458,13 @@ function load_country_grids(err, country_grids, split, comp_split) {
       height: 0.4
     })
 
-  .style({
-    'fill': 'none',
-    'stroke': '#00adef',
-    'stroke-width': 0.1,
-    'border-radius': 2,
-    'z-index': 999999
-  });
+    .style({
+      'fill': 'none',
+      'stroke': '#00adef',
+      'stroke-width': 0.1,
+      'border-radius': 2,
+      'z-index': 999999
+    });
 
   interpolate_zoom([center[0] - (centroid[0] * k), center[1] - (centroid[1] * k)], k);
 }
