@@ -4,6 +4,9 @@ var widthMap = d3.select('#map-area').node().clientWidth;
 var heightMap = window.screen.availHeight * 0.5;
 var centered;
 
+$('#map-area-curtain').width(widthMap);
+$('#map-area-curtain').height(heightMap);
+
 d3.select('.cover')
   .style("width", widthMap + "px")
   .style("height", heightMap + "px");
@@ -81,8 +84,13 @@ function update_map(country) {
         _g.first_load = false;
       });
 
-  } else
-    load_country_grids(null, _g.grids, split, compressed_split);
+  } else {
+    $('#map-area-curtain').fadeIn(1000, function() {
+      load_country_grids(null, _g.grids, split, compressed_split);
+    });
+  }
+
+  $('#map-area-curtain').fadeOut(10);
 }
 
 function load_world(world_topo, countries_list) {

@@ -191,8 +191,23 @@
         </div>
 
         <div class="col-lg-6 col-md-6">
-          <div id="map-area">
+          <div class="row">
+            <div class="col-md-8">
+              <h5>Population / 100 km<sup>2</sup></h5>
+              <div id="map-legend"></div>
+            </div>
+
+            <div class="col-md-4">
+              <h5>Transmission Lines</h5>
+              <div id="map-legend-lines"></div>
+            </div>
           </div>
+
+          <div id="map-container" style="position: relative;">
+            <h3 id="map-area-curtain">Loading...</h3>
+            <div id="map-area"></div>
+          </div>
+
           <div id="grid-description" rv-show="grid.technology">
             <div class="col-md-4 grid-col" data-toggle="tooltip" data-placement="bottom" title="Technology Used">
               <i class="fa fa-bolt"></i> <span class="grid-val" rv-text="grid.technology"></span>
@@ -208,18 +223,7 @@
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-md-8">
-              <h5>Population / 100 km<sup>2</sup></h5>
-              <div id="map-legend"></div>
-            </div>
-
-            <div class="col-md-4">
-              <h5>Transmission Lines</h5>
-              <div id="map-legend-lines"></div>
-              <a data-toggle="modal" data-target="#disclaimerModal" class="disclaimer-link"><i class="fa fa-info"></i>&nbsp;&nbsp;About this Map</a>
-            </div>
-          </div>
+          <a data-toggle="modal" data-target="#disclaimerModal" class="disclaimer-link"><i class="fa fa-info"></i>&nbsp;&nbsp;About this Map</a>
         </div>
 
         <div class="col-lg-4 col-md-4" id="country-stats" rv-show="country">

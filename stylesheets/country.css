@@ -1,12 +1,27 @@
 /* MAP STYLE */
 
 #map-area {
-  background: #ffffff;
+  position: relative;
   top: 0;
   bottom: 0;
+
+  background: #ffffff;
   width: 100%;
-  position: relative;
 }
+#map-area-curtain {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+
+  width: 100%;
+  background: #ffffff;
+
+  text-align: center;
+  padding-top: 100px;
+
+  z-index: 9999;
+}
+
 .land {
   fill: #4d4d4d;
 }
@@ -158,7 +173,7 @@ header .navbar-header {
 }
 
 .btn.btn-primary.active {
-  background-color: #1E3D57;
+  background-color: #0079A7;
 }
 .tier-icon {
   float: left;
