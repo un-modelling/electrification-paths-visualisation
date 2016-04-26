@@ -376,9 +376,16 @@ function grid_opacity(grid, split) {
 function load_country_grids(err, country_grids, split, comp_split) {
   if (err) console.warn('error', err);
 
-  d3.selectAll('rect.point-group').remove()
+  // Doing this is suicide: d3.selectAll('rect.point-group').remove();
+  // Instead, wrap all grids in a single group and remove it:
+  //
+  var meta_container = document.getElementById('points-container');
+  if (meta_container) meta_container.remove();
 
-  var points = countries.selectAll('.point-group')
+  var points_container = countries.append('g')
+      .attr({ id: 'points-container' })
+
+  var points = points_container.selectAll('.point-group')
     .data(country_grids)
     .enter().append('rect')
     .attr({
