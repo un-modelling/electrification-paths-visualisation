@@ -134,8 +134,6 @@ window._g = {
 
   country_arrangement: null,
 
-  current_cost: 0,
-
   tier_icons: {
     1: 'lightbulb',
     2: 'tele',

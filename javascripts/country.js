@@ -1,7 +1,3 @@
-function set_project_cost(tier) {
-  _g.country['current_cost'] = d3.select("#costs-graph" + tier + ' > text').text().split(" ")[0];
-}
-
 function change_tier(tier) {
   _g.current_tier = tier;
   _g.scenario['tier'] = tier;
@@ -124,8 +120,6 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
 
     draw_transmission_lines(existing_transmission_lines_features, "existing");
     draw_transmission_lines(planned_transmission_lines_features, "planned");
-
-    set_project_cost(_g.current_tier);
 
     rivets.bind($('header'), {
       country: _g.country

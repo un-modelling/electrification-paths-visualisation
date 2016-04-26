@@ -8,24 +8,6 @@ function get_query_param(name) {
   return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-function tier_cost_per_capita(country, diesel_price, tier, tech) {
-  var t = (function() {
-    if (tech === "grid") return "grid";
-    else if (tech === "micro_grid") return "mg";
-    else if (tech === "stand_alone") return "sa";
-  })();
-
-  var c = country['context'];
-
-  var project_cost = country["summary_" + diesel_price + tier]["cost_" + t];
-
-  // HOW many will be born un-electrified? This is the lame version:
-  //
-  var newly_electrified = c['population_2030'] - (c['population_2012'] - c['electrified_2012']);
-
-  return project_cost / newly_electrified;
-}
-
 function average(list, property_function) {
   return list.map(property_function).reduce(function(a, b) {
     return a + b
@@ -112,14 +94,7 @@ function find_country_iso(c) {
   return (r ? r['iso3'] : "");
 }
 
-function country_get_gdp_per_capita(iso3) {
-  return parseFloat(_g.countries_gdp_per_capita.filter(function(c) {
-    return iso3 === c['country_code'];
-  })[0]['2012']);
-}
-
 function parse_country_data(d) {
-  // d['context']['gdp_per_capita_2012'] = country_get_gdp_per_capita(d['iso3']);
   d['context']['electrified_2012_ratio'] = d['context']['electrified_2012'] / d['context']['population_2012'];
 
   d['flag_tag'] = _g.flagnames.filter_firstp('iso3', d['iso3'])['flag_tag'];
