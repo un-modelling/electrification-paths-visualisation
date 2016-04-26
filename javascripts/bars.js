@@ -159,7 +159,7 @@ function graph_bar_draw(opts, sources, tier) {
       },
 
       fill: function(d) {
-        return _g.technology_colors[d['param']];
+        return _g.technologies.filter(function(e) { return e['name'] === d['param'] })[0]['color'];
       },
 
       'fill-opacity': function(d) {

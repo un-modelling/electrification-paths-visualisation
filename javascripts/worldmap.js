@@ -19,15 +19,16 @@ var projection = d3.geo.equirectangular()
 var path = d3.geo.path()
   .projection(projection);
 
-var technologies = ['National Grid', 'Mini Grid', 'Stand Alone'];
+var transmission_lines = ['Existing Line', 'Planned Line'];
 
-var grid_colors = d3.scale.ordinal()
-    .range(['#73B2FF', '#AAFF00', '#FBB117'])
-    .domain([0,1,2]);
+var font_color = "#4d4d4d";
+
+var technologies = _g.technologies.map(function(e) { return e['name'] });
+var grid_colors  = _g.technologies.map(function(e) { return e['color'] });
 
 var linesColors = d3.scale.ordinal()
-  .range(['#4d4d4d', '#4d4d4d'])
-  .domain(['Existing Trans. Line', 'Planned Trans. Line']);
+  .range([font_color, font_color])
+  .domain(transmission_lines);
 
 var svgMap = d3.select('#map-area').append('svg')
   .attr({
@@ -85,12 +86,12 @@ function update_map(country) {
       });
 
   } else {
-    $('#map-area-curtain').fadeIn(1000, function() {
+    $('#map-area-curtain').fadeIn(600, function() {
       load_country_grids(null, _g.grids, split, compressed_split);
     });
   }
 
-  $('#map-area-curtain').fadeOut(10);
+  $('#map-area-curtain').fadeOut(300);
 }
 
 function load_world(world_topo, countries_list) {
@@ -154,7 +155,7 @@ function load_world(world_topo, countries_list) {
         })
       },
       mouseout: function(d) {
-        d3.select(this).style("fill", "#4d4d4d")
+        d3.select(this).style("fill", font_color)
       },
       dblclick: function(d) {
         var ccode = find_country_iso(d);
@@ -206,7 +207,7 @@ function load_world(world_topo, countries_list) {
     .attr({
       "offset": "0%",
       "stop-color": function(d, i) {
-        return grid_colors.range()[i];
+        return grid_colors[i];
       },
       "stop-opacity": 1
     });
@@ -215,7 +216,7 @@ function load_world(world_topo, countries_list) {
     .attr({
       "offset": "100%",
       "stop-color": function(d, i) {
-        return grid_colors.range()[i];
+        return grid_colors[i];
       },
       "stop-opacity": function(d) {
         if (d == 'Stand Alone') {
@@ -238,9 +239,9 @@ function load_world(world_topo, countries_list) {
 
   legend.append("rect")
     .attr({
-      "width": 100,
-      "height": 12,
-      "x": 100,
+      "width": 150,
+      "height": 20,
+      "x": 25,
       "y": 2
     })
     .style("fill", function(d, i) {
@@ -249,28 +250,31 @@ function load_world(world_topo, countries_list) {
 
   legend.append('text')
     .attr({
-      y: 12
+      y: 17,
+      x: 50
     })
     .text(function(d) {
       return d;
     })
-    .style('fill', '#4d4d4d');
+    .style('fill', font_color);
 
-  legend.append("text")
-    .attr("x", 100 - 2)
-    .attr("y", 12)
+  legend_svg.append("text")
+    .attr("x", 15)
+    .attr("y", 48)
     .style({
+      "font-size": 18,
       "text-anchor": "end",
-      "fill": "#4d4d4d"
+      "fill": font_color
     })
-    .text(0);
+    .text("0");
 
-  legend.append("text")
-    .attr("x", 100 + 102)
-    .attr("y", 12)
+  legend_svg.append("text")
+    .attr("x", 150 + 40)
+    .attr("y", 48)
     .style({
+      "font-size": 18,
       "text-anchor": "start",
-      "fill": "#4d4d4d"
+      "fill": font_color
     })
     .text("100,000+");
 
@@ -305,7 +309,7 @@ function load_world(world_topo, countries_list) {
     });
 
   var legend_lines = legend_lines_svg.selectAll('.legend-group')
-    .data(['Existing Trans. Line', 'Planned Trans. Line'])
+    .data(transmission_lines)
     .enter().append('g')
     .attr({
       class: 'legend-group',
@@ -322,17 +326,15 @@ function load_world(world_topo, countries_list) {
         return linesColors.range()[i];
       },
       'stroke-dasharray': function(d) {
-        if (d == 'Planned Trans. Line') {
+        if (d === 'Planned Line') {
           return 0.4;
         }
       },
       'stroke-dashoffset': function(d) {
-        if (d == 'Planned Trans. Line') {
+        if (d === 'Existing Line') {
           return 0.4;
         }
-      },
-
-
+      }
     });
 
   legend_lines.append('text')
@@ -343,7 +345,7 @@ function load_world(world_topo, countries_list) {
     .text(function(d) {
       return d;
     })
-    .style('fill', '#4d4d4d');
+    .style('fill', font_color);
 }
 
 function grid_opacity(grid, split) {
@@ -403,7 +405,7 @@ function load_country_grids(err, country_grids, split, comp_split) {
         return "translate(" + (p[0] - 0.2) + "," + (p[1] - 0.2) + ")"
       },
       fill: function(d) {
-        return grid_colors(d[comp_split[0]][comp_split[1] - 1]);
+        return grid_colors[d[comp_split[0]][comp_split[1] - 1]];
       },
       width: 0.4,
       height: 0.4,

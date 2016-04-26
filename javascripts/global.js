@@ -26,31 +26,18 @@ window._g = {
     "SYC"  // Seychelles
   ],
 
-  // TODO: unify technology dictionaries
+  // CAREFUL with these. ORDER MATTERS
   //
-  technologies_dictionary: {
-    grid: {
-      cost: "cost_grid",
-      show: 'Grid'
-    },
-
-    micro_grid: {
-      cost: "cost_mg",
-      show: 'Mini Grid'
-    },
-
-    stand_alone: {
-      cost: "cost_sa",
-      show: 'Stand Alone'
-    }
-  },
-
-  technology_colors: {
-    grid: "#73B2FF",
-    micro_grid: "#AAFF00",
-    stand_alone: "#FBB117"
-  },
-
+  technologies: [{
+    name: "National Grid",
+    color: '#73B2FF',
+  }, {
+    name:  'Micro Grid',
+    color: '#AAFF00',
+  }, {
+    name: 'Stand Alone',
+    color: '#FBB117'
+  }],
 
   all_countries: [],
 

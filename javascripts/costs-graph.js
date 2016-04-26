@@ -55,16 +55,18 @@ function draw_costs_graphs(opts, country, diesel_price) {
 
     var total_cost = g + mg + sa;
 
+    var tech_names = _g.technologies.map(function(e) { return e['name']; })
+
     var sources = [{
-      param: 'grid',
+      param: tech_names[0],
       value: g / total_cost,
       o_value: g
     }, {
-      param: 'micro_grid',
+      param: tech_names[1],
       value: mg / total_cost,
       o_value: mg
     }, {
-      param: 'stand_alone',
+      param: tech_names[2],
       value: sa / total_cost,
       o_value: sa
     }]

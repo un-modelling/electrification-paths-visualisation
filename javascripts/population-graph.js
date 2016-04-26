@@ -20,20 +20,22 @@ function draw_population_graphs(opts, country, diesel_price) {
   while (i <= 5) {
     var summary = country["summary_" + diesel_price + i];
 
-    var g = summary['grid'];
+    var g  = summary['grid'];
     var mg = summary['micro_grid'];
     var sa = summary['stand_alone'];
 
     var total_population = g + mg + sa;
 
+    var tech_names = _g.technologies.map(function(e) { return e['name']; })
+
     var sources = [{
-      param: 'grid',
+      param: tech_names[0],
       value: g / total_population
     }, {
-      param: 'micro_grid',
+      param: tech_names[1],
       value: mg / total_population
     }, {
-      param: 'stand_alone',
+      param: tech_names[2],
       value: sa / total_population
     }]
 
@@ -42,22 +44,17 @@ function draw_population_graphs(opts, country, diesel_price) {
     var x_shift = graph_bar_find_tier_shift(i, bar_width);
 
     graph_bar_draw({
-        id: "population-graph" + i,
-        svg: graph,
-        size: subgraph_size,
-        position: {
-          x: x_shift,
-          y: 0
-        },
-        x_vars: ["grid", "micro_grid", "stand_alone"],
-        param: "param",
-        text_format: "population"
+      id: "population-graph" + i,
+      svg: graph,
+      size: subgraph_size,
+      position: {
+        x: x_shift,
+        y: 0
       },
-
-      sources,
-
-      i
-    );
+      x_vars: tech_names,
+      param: "param",
+      text_format: "population"
+    }, sources, i );
 
     // if (i === _g.current_tier) {
     //   graph.append('rect')
