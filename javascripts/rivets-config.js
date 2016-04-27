@@ -1,6 +1,8 @@
 var shout,
   slice = [].slice;
 
+String.prototype.format = function(){var t,e,n,r;for(t=1<=arguments.length?slice.call(arguments,0):[],r=this,e=t.length;e;)e-=1,n=new RegExp("\\{"+e+"\\}","gm"),r=r.replace(n,t[e]);return r};
+
 rivets.configure({
   templateDelimiters: ["{{", "}}"]
 });
