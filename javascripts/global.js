@@ -42,6 +42,8 @@ window._g = {
     min_opacity: 0.2
   }],
 
+  transmission_lines: ['Existing Line', 'Planned Line'],
+
   // the value at which we consider an area as "very dense"
   // and set the opacity to 1.
   //

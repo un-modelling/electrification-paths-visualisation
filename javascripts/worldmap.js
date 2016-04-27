@@ -1,60 +1,51 @@
 //// D3 VERSION
 
-var widthMap = d3.select('#map-area').node().clientWidth;
-var heightMap = window.screen.availHeight * 0.5;
-var centered;
+var worldmap = {
+  width:      d3.select('#map-area').node().clientWidth,
+  height:     window.screen.availHeight * 0.5,
+  projection: d3.geo.equirectangular(),
+  countries:  [],
+  zoom:       null,
+  path:       null,
+  technologies:  [],
+  grid_colors:   [],
+  min_opacities: [],
+};
 
-$('#map-area-curtain').width(widthMap);
-$('#map-area-curtain').height(heightMap);
-
-d3.select('.cover')
-  .style("width", widthMap + "px")
-  .style("height", heightMap + "px");
-
-var projection = d3.geo.equirectangular();
-
-var path = d3.geo.path().projection(
-  projection
-    .scale(350)
-    .center([18, 0])
-    .translate([widthMap / 2, heightMap / 2])
-);
-
-var transmission_lines = ['Existing Line', 'Planned Line'];
-
-var font_color = "#4d4d4d";
-
-var technologies  = [];
-var grid_colors   = [];
-var min_opacities = [];
-
-_g.technologies.map(function(e) {
-  technologies.push(e['name']);
-  grid_colors.push(e['color']);
-  min_opacities.push(e['min_opacity']);
-});
-
-var linesColors = d3.scale.ordinal()
-  .range([font_color, font_color])
-  .domain(transmission_lines);
-
-var svgMap = d3.select('#map-area').append('svg')
+var map_svg = d3.select('#map-area').append('svg')
   .attr({
     id: 'map',
-    width: widthMap,
-    height: heightMap
+    width: worldmap.width,
+    height: worldmap.height
   });
 
-var countries = svgMap.append("g")
-  .attr("class", "countries");
+function worldmap_init() {
+  // Helpers
+  //
+  _g.technologies.map(function(e) {
+    worldmap.technologies.push(e['name']);
+    worldmap.grid_colors.push(e['color']);
+    worldmap.min_opacities.push(e['min_opacity']);
+  });
 
-var zoom = d3.behavior.zoom()
+  worldmap.countries = map_svg.append("g").attr("class", "countries");
+
+  worldmap.path = d3.geo.path().projection(
+    worldmap.projection
+      .scale(350)
+      .center([18, 0])
+      .translate([worldmap.width / 2, worldmap.height / 2])
+  );
+
+  worldmap.zoom = d3.behavior.zoom()
     .scaleExtent([0.5, 200])
     .on("zoom", zoomed);
 
-svgMap.call(zoom);
+  map_svg.call(worldmap.zoom);
 
-var somevar = null;
+  $('#map-area-curtain').width(worldmap.width);
+  $('#map-area-curtain').height(worldmap.height);
+}
 
 function map_curtain(callback) {
   var it = document.getElementById('map-area-curtain');
@@ -69,21 +60,21 @@ function map_curtain(callback) {
 }
 
 function zoomed() {
-  countries.attr({
-    transform: "translate(" + zoom.translate() + ")" + "scale(" + zoom.scale() + ")"
+  worldmap.countries.attr({
+    transform: "translate(" + worldmap.zoom.translate() + ")" + "scale(" + worldmap.zoom.scale() + ")"
   });
 
-  d3.selectAll('.country-label').style('font-size', 0.8 / zoom.scale() + 'em');
+  d3.selectAll('.country-label').style('font-size', 0.8 / worldmap.zoom.scale() + 'em');
 }
 
 function interpolate_zoom(translate, scale) {
   return d3.transition().duration(750).tween("zoom", function() {
-    var t = d3.interpolate(zoom.translate(), translate),
-      s = d3.interpolate(zoom.scale(), scale);
+    var t = d3.interpolate(worldmap.zoom.translate(), translate),
+      s = d3.interpolate(worldmap.zoom.scale(), scale);
 
     return function(d) {
-      zoom.translate(t(d));
-      zoom.scale(s(d));
+      worldmap.zoom.translate(t(d));
+      worldmap.zoom.scale(s(d));
 
       zoomed();
     };
@@ -124,21 +115,21 @@ function load_world(world_topo, countries_list) {
     return d.id === country_by_iso3(get_query_param('iso3')).code;
   })[0];
 
-  countries.insert("path")
+  worldmap.countries.insert("path")
     .datum(land_boundaries)
     .attr("class", "land")
-    .attr("d", path)
+    .attr("d", worldmap.path)
     .classed("outline", true)
     .style("fill", "none");
 
-  countries.selectAll(".country")
+  worldmap.countries.selectAll(".country")
     .data(country_boundaries)
     .enter().append("path")
     .attr({
       class: function(d) {
         return "country country" + d.id;
       },
-      d: path
+      d: worldmap.path
     })
     .style({
       fill: function(d) {
@@ -155,13 +146,13 @@ function load_world(world_topo, countries_list) {
       }
     })
 
-  var country_labels = countries.selectAll("text")
+  var country_labels = worldmap.countries.selectAll("text")
     .data(country_boundaries)
     .enter().append("text")
     .attr({
       class: 'country-label',
       transform: function(d) {
-        return "translate(" + path.centroid(d) + ")";
+        return "translate(" + worldmap.path.centroid(d) + ")";
       },
     })
     .append('tspan')
@@ -189,10 +180,10 @@ function load_world(world_topo, countries_list) {
       }
     })
 
-  countries.append("path")
+  worldmap.countries.append("path")
     .datum(state)
     .attr("class", "outline")
-    .attr("d", path);
+    .attr("d", worldmap.path);
 
   var width_legend = d3.select('#map-legend').node().clientWidth;
   var height_legend = 80;
@@ -206,7 +197,7 @@ function load_world(world_topo, countries_list) {
     });
 
   var legend_grad = legend_svg.selectAll('.legend-group')
-    .data(technologies)
+    .data(worldmap.technologies)
     .enter().append('defs')
     .append("svg:linearGradient")
     .attr({
@@ -214,7 +205,7 @@ function load_world(world_topo, countries_list) {
         return 'gradient' + i;
       },
       x1: function(d,i) {
-        return (min_opacities[i] * 100) + "%";
+        return (worldmap.min_opacities[i] * 100) + "%";
       },
       x2: "100%",
       y1: "0%",
@@ -231,11 +222,11 @@ function load_world(world_topo, countries_list) {
     })
     .style({
       "stop-color": function(d,i) {
-        return grid_colors[i];
+        return worldmap.grid_colors[i];
       },
 
       "stop-opacity": function(d,i) {
-        return _g.technologies[i]['min_opacity'];
+        return worldmap.min_opacities[i];
       },
     });
 
@@ -245,14 +236,14 @@ function load_world(world_topo, countries_list) {
     })
     .style({
       "stop-color": function(d, i) {
-        return grid_colors[i];
+        return worldmap.grid_colors[i];
       },
 
       "stop-opacity": 1
     });
 
   var legend = legend_svg.selectAll('.legend-group')
-    .data(technologies)
+    .data(worldmap.technologies)
     .enter().append('g')
     .attr({
       class: 'legend-group',
@@ -300,9 +291,7 @@ function load_world(world_topo, countries_list) {
       "text-anchor": "start",
       "fill": _g.font_color
     })
-    .text("100,000+");
-
-  //legend for lines
+    .text(_g.hd.toLocaleString() + "+");
 
   var width_lines_legend = d3.select('#map-legend-lines').node().clientWidth;
   var height_lines_legend = 80;
@@ -333,7 +322,7 @@ function load_world(world_topo, countries_list) {
     });
 
   var legend_lines = legend_lines_svg.selectAll('.legend-group')
-    .data(transmission_lines)
+    .data(_g.transmission_lines)
     .enter().append('g')
     .attr({
       class: 'legend-group',
@@ -376,7 +365,7 @@ function grid_opacity(grid, i) {
 
   // select the minimum opacity based on population and the setting in _g.technologies:
   //
-  var min = min_opacities[i];
+  var min = worldmap.min_opacities[i];
 
   // scale linearly between (min..1)
   //
@@ -392,7 +381,7 @@ function load_country_grids(err, country_grids, split, comp_split) {
   var meta_container = document.getElementById('points-container');
   if (meta_container) meta_container.remove();
 
-  var points_container = countries.append('g')
+  var points_container = worldmap.countries.append('g')
       .attr({ id: 'points-container' })
 
   var points = points_container.selectAll('.point-group')
@@ -405,12 +394,12 @@ function load_country_grids(err, country_grids, split, comp_split) {
       height: 0.4,
 
       transform: function(d) {
-        var p = projection([d.x, d.y]);
+        var p = worldmap.projection([d.x, d.y]);
         return "translate(" + (p[0] - 0.2) + "," + (p[1] - 0.2) + ")"
       },
 
       fill: function(d) {
-        return grid_colors[d[comp_split[0]][comp_split[1] - 1]];
+        return worldmap.grid_colors[d[comp_split[0]][comp_split[1] - 1]];
       },
 
       opacity: function(d,i) {
@@ -421,7 +410,7 @@ function load_country_grids(err, country_grids, split, comp_split) {
       mouseover: function(d) {
         d3.select('#grid-marker').attr({
           transform: function() {
-            var p = projection([d.x, d.y]);
+            var p = worldmap.projection([d.x, d.y]);
             return "translate(" + (p[0] - 0.2) + "," + (p[1] - 0.2) + ")"
           }
         });
@@ -429,37 +418,38 @@ function load_country_grids(err, country_grids, split, comp_split) {
         var t = d[comp_split[0]][comp_split[1] - 1];
         var l = d['l' + comp_split[0]][comp_split[1] - 1];
 
-        _g.current_grid['technology'] = technologies[t];
+        _g.current_grid['technology'] = worldmap.technologies[t];
         _g.current_grid['lcoe'] = l;
         _g.current_grid['population_2030'] = d['p2'];
       }
     });
 
   document.getElementById('map-area-curtain').style.display = "none";
-  // map_curtain("hide", null);
 
   if (!_g.first_load) return;
+
+  var centered;
 
   var country_path = d3.select('.country' + _g.country.code);
 
   var x, y, k;
 
   if (country_path && centered !== country_path) {
-    var centroid = path.centroid(country_path.datum());
+    var centroid = worldmap.path.centroid(country_path.datum());
     x = centroid[0];
     y = centroid[1];
     centered = country_path;
   }
 
-  countries.selectAll("path")
+  worldmap.countries.selectAll("path")
     .classed("active", centered && function(d) {
       return d === centered;
     });
 
-  var center = [widthMap / 2, heightMap / 2];
+  var center = [worldmap.width / 2, worldmap.height / 2];
   var k = country_bounds(country_path.datum())['scale'];
 
-  countries.append("rect")
+  worldmap.countries.append("rect")
     .attr({
       id: 'grid-marker',
       width: 0.4,
@@ -477,14 +467,14 @@ function load_country_grids(err, country_grids, split, comp_split) {
 }
 
 function country_bounds(d) {
-  var bounds = path.bounds(d),
+  var bounds = worldmap.path.bounds(d),
     dx = bounds[1][0] - bounds[0][0],
     dy = bounds[1][1] - bounds[0][1],
     x = (bounds[0][0] + bounds[1][0]) / 2,
     y = (bounds[0][1] + bounds[1][1]) / 2
 
-  scale = .9 / Math.max(dx / widthMap, dy / heightMap),
-    translate = [widthMap / 2 - scale * x, heightMap / 2 - scale * y];
+  scale = .9 / Math.max(dx / worldmap.width, dy / worldmap.height),
+    translate = [worldmap.width / 2 - scale * x, worldmap.height / 2 - scale * y];
 
   return {
     scale: scale,
@@ -493,13 +483,13 @@ function country_bounds(d) {
 }
 
 function draw_transmission_lines(features, cls) {
-  countries.selectAll(".transmission-line-" + cls)
+  worldmap.countries.selectAll(".transmission-line-" + cls)
     .data(features)
     .enter().append('path')
 
   .attr({
     class: "transmission-line-" + cls,
-    d: d3.geo.path().projection(projection),
+    d: d3.geo.path().projection(worldmap.projection),
     'stroke-width': 0.2,
     fill: "none"
   });

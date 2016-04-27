@@ -21,6 +21,8 @@ function change_tier(tier) {
 function load_everything(err, all_countries, world_topo, transmission_lines, planned_transmission_lines) {
   if (err) console.warn('error', err);
 
+  worldmap_init();
+
   var tier, diesel_price;
 
   var existing_transmission_lines_features = topojson.feature(transmission_lines, transmission_lines.objects["existing-transmission-lines"]).features;
