@@ -19,6 +19,8 @@
   text-align: center;
   padding-top: 100px;
 
+  display: none;
+
   z-index: 9999;
 }
 
