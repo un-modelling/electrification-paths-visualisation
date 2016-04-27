@@ -111,7 +111,7 @@ rect.bar {
 }
 .axis path, .axis line {
   fill: none;
-  stroke: black;
+  stroke: #4d4d4d;
   shape-rendering: crispEdges;
 }
 .axis text {

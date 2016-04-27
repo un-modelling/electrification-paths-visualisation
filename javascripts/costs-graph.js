@@ -12,17 +12,20 @@ function draw_doughnut_icon(container, tier) {
     var icon_container = container.append('g')
         .attr({
           class: 'doughnut-icon'
-        })
+        });
 
     icon_container.node().appendChild(svgNode);
 
-    icon_container.select("svg")
+    var icon = icon_container.select("svg")
       .attr({
         x: "-1em",
         y: "-1.5em",
         width: 25,
         height: 25
       });
+
+    icon.selectAll('path')
+      .style({ stroke: _g.font_color });
   });
 }
 
@@ -159,6 +162,7 @@ function doughnut_draw(opts, data, tier) {
       dx: "-2.5em",
       dy: "1.5em"
     })
+    .style({ fill: _g.font_color })
     .text(function(d) {
       return rivets.formatters.in_b(cost) + " US$";
     });

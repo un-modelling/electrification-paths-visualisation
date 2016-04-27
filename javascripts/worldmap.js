@@ -176,7 +176,7 @@ function load_world(world_topo, countries_list) {
         })
       },
       mouseout: function(d) {
-        d3.select(this).style("fill", font_color)
+        d3.select(this).style("fill", _g.font_color)
       },
       dblclick: function(d) {
         var ccode = find_country_iso(d);
@@ -280,7 +280,7 @@ function load_world(world_topo, countries_list) {
     .text(function(d) {
       return d;
     })
-    .style('fill', font_color);
+    .style('fill', _g.font_color);
 
   legend_svg.append("text")
     .attr("x", 15)
@@ -288,7 +288,7 @@ function load_world(world_topo, countries_list) {
     .style({
       "font-size": 18,
       "text-anchor": "end",
-      "fill": font_color
+      "fill": _g.font_color
     })
     .text("0");
 
@@ -298,7 +298,7 @@ function load_world(world_topo, countries_list) {
     .style({
       "font-size": 18,
       "text-anchor": "start",
-      "fill": font_color
+      "fill": _g.font_color
     })
     .text("100,000+");
 
@@ -346,9 +346,7 @@ function load_world(world_topo, countries_list) {
     .attr("d", line_function(line_data))
     .attr("stroke-width", 2)
     .style({
-      'stroke': function(d, i) {
-        return linesColors.range()[i];
-      },
+      'stroke': _g.font_color,
       'stroke-dasharray': function(d) {
         if (d === 'Planned Line') {
           return 0.4;
@@ -369,7 +367,7 @@ function load_world(world_topo, countries_list) {
     .text(function(d) {
       return d;
     })
-    .style('fill', font_color);
+    .style('fill', _g.font_color);
 }
 
 function grid_opacity(grid, i) {

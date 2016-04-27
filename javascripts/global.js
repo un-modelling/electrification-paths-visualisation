@@ -39,13 +39,15 @@ window._g = {
   }, {
     name: 'Stand Alone',
     color: '#FBB117',
-    min_opacity: 0.1
+    min_opacity: 0.2
   }],
 
   // the value at which we consider an area as "very dense"
   // and set the opacity to 1.
   //
   hd: 100000,
+
+  font_color: "#4d4d4d",
 
   all_countries: [],
 

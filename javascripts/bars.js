@@ -24,9 +24,9 @@ function draw_bar_icon(container, height, tier) {
 
     container.node().appendChild(svgNode);
 
-    var innerSVG = container.select("svg");
+    var icon = container.select("svg");
 
-    innerSVG.attr({
+    icon.attr({
       dy: '.75em',
       y: height + 10,
       x: 13,
@@ -34,6 +34,8 @@ function draw_bar_icon(container, height, tier) {
       height: 25
     });
 
+    icon.selectAll('path')
+      .style({ stroke: _g.font_color });
   });
 }
 
@@ -122,9 +124,9 @@ function graph_bar_draw(opts, sources, tier) {
     .attr({
       class: 'x axis',
       transform: "translate(" + (0) + "," + height + ")",
-      fill: 'black'
+      fill: _g.font_color
     })
-    .call(xAxis)
+    .call(xAxis);
 
 
   // only draw y axis for 1st tier
@@ -134,9 +136,9 @@ function graph_bar_draw(opts, sources, tier) {
       .attr({
         class: 'y axis',
         transform: "translate(" + 0 + "," + 0 + ")",
-        fill: 'black'
+        fill: _g.font_color
       })
-      .call(yAxis)
+      .call(yAxis);
   }
 
   var bars_group = container.selectAll('.bar')
