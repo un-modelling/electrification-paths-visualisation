@@ -13,11 +13,11 @@ var worldmap = {
 };
 
 var map_svg = d3.select('#map-area').append('svg')
-  .attr({
-    id: 'map',
-    width: worldmap.width,
-    height: worldmap.height
-  });
+    .attr({
+      id: 'map',
+      width: worldmap.width,
+      height: worldmap.height
+    });
 
 function worldmap_init() {
   // Helpers
@@ -109,19 +109,6 @@ function update_map(country) {
 function load_world(world_topo, countries_list) {
   var country_boundaries = topojson.feature(world_topo, world_topo.objects.countries).features;
 
-  var land_boundaries = topojson.feature(world_topo, world_topo.objects.land);
-
-  var state = country_boundaries.filter(function(d) {
-    return d.id === country_by_iso3(get_query_param('iso3')).code;
-  })[0];
-
-  worldmap.countries.insert("path")
-    .datum(land_boundaries)
-    .attr("class", "land")
-    .attr("d", worldmap.path)
-    .classed("outline", true)
-    .style("fill", "none");
-
   worldmap.countries.selectAll(".country")
     .data(country_boundaries)
     .enter().append("path")
@@ -179,11 +166,6 @@ function load_world(world_topo, countries_list) {
         }
       }
     })
-
-  worldmap.countries.append("path")
-    .datum(state)
-    .attr("class", "outline")
-    .attr("d", worldmap.path);
 
   var width_legend = d3.select('#map-legend').node().clientWidth;
   var height_legend = 80;

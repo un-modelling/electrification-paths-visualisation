@@ -100,9 +100,6 @@ function doughnut_draw(opts, data, tier) {
   var svg = opts.svg;
   var id = opts.id
 
-  var color = d3.scale.ordinal()
-      .range(['#73B2FF', '#AAFF00', '#FBB117']);
-
   var arc = d3.svg.arc()
       .outerRadius(radius - 10)
       .innerRadius(radius - 20);
@@ -132,7 +129,7 @@ function doughnut_draw(opts, data, tier) {
 
     .style({
       fill: function(d) {
-        return color(d.data.param);
+        return _g.technologies.filter(function(e) { return e['name'] === d['data']['param'] })[0]['color'];
       },
       'fill-opacity': function(d) {
         if (tier === _g.current_tier)

@@ -24,9 +24,6 @@
   z-index: 9999;
 }
 
-.land {
-  fill: #4d4d4d;
-}
 .countries {}
 .country {
   stroke: #4d4d4d;
@@ -67,11 +64,7 @@
 
 /* TRANSMISSION LINES */
 
-.transmission-line-existing {
-  stroke: #4d4d4d;
-}
 .transmission-line-planned {
-  stroke: #4d4d4d;
   stroke-dasharray: 0.4;
   stroke-dashoffset: 0.4;
 }
