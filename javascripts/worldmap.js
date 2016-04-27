@@ -28,6 +28,16 @@ function worldmap_init() {
     worldmap.min_opacities.push(e['min_opacity']);
   });
 
+  map_svg.append('rect')
+    .attr({
+      id: 'sea',
+      width: worldmap.width,
+      height: worldmap.height
+    })
+    .style({
+      fill: '#E2ECFF'
+    });
+
   worldmap.countries = map_svg.append("g").attr("class", "countries");
 
   worldmap.path = d3.geo.path().projection(
@@ -119,18 +129,17 @@ function load_world(world_topo, countries_list) {
       d: worldmap.path
     })
     .style({
-      fill: function(d) {
-        if (d.id == country_by_iso3(get_query_param('iso3')).code) {
-          return "#ffffff";
-        } else {
-          if (d.id == 24) {
-            return "red";
-          } else {
-            return "#eeeeee";
-          }
+      stroke: _g.font_color,
+      fill: "#CDE6CD"
+    });
 
-        }
-      }
+  var c = country_by_iso3(get_query_param('iso3')).code
+
+  worldmap.countries.selectAll(".country.country" + c)
+    .style({
+      fill: 'white',
+      stroke: 'red',
+      'stroke-width': 0.2
     })
 
   var country_labels = worldmap.countries.selectAll("text")
@@ -465,14 +474,17 @@ function country_bounds(d) {
 }
 
 function draw_transmission_lines(features, cls) {
+  var transmission_lines_color = _g.technologies.filter(function(e) { return e['name'] === "National Grid" })[0]['color'];
+
   worldmap.countries.selectAll(".transmission-line-" + cls)
     .data(features)
     .enter().append('path')
 
-  .attr({
-    class: "transmission-line-" + cls,
-    d: d3.geo.path().projection(worldmap.projection),
-    'stroke-width': 0.2,
-    fill: "none"
-  });
+    .attr({
+      class: "transmission-line-" + cls,
+      d: d3.geo.path().projection(worldmap.projection),
+      'stroke-width': 0.2,
+      stroke: transmission_lines_color,
+      fill: "none"
+    });
 }
