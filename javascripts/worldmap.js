@@ -140,7 +140,7 @@ function load_world(world_topo, countries_list) {
       fill: 'white',
       stroke: 'red',
       'stroke-width': 0.2
-    })
+    });
 
   var country_labels = worldmap.countries.selectAll("text")
     .data(country_boundaries)
@@ -174,7 +174,7 @@ function load_world(world_topo, countries_list) {
           alert("Electrification model not available. Choose another country.")
         }
       }
-    })
+    });
 
   var width_legend = d3.select('#map-legend').node().clientWidth;
   var height_legend = 80;
@@ -284,10 +284,6 @@ function load_world(world_topo, countries_list) {
     })
     .text(_g.hd.toLocaleString() + "+");
 
-  var width_lines_legend = d3.select('#map-legend-lines').node().clientWidth;
-  var height_lines_legend = 80;
-  var padding_lines_legend = 35;
-
   var line_data = [{
     "x": 15,
     "y": 7
@@ -308,8 +304,7 @@ function load_world(world_topo, countries_list) {
   var legend_lines_svg = d3.select("#map-legend-lines")
     .append("svg")
     .attr({
-      "width": width_lines_legend,
-      "height": height_lines_legend
+      height: 80
     });
 
   var legend_lines = legend_lines_svg.selectAll('.legend-group')
@@ -324,19 +319,10 @@ function load_world(world_topo, countries_list) {
 
   legend_lines.append('path')
     .attr("d", line_function(line_data))
-    .attr("stroke-width", 2)
+    .attr("stroke-width", 3)
     .style({
-      'stroke': _g.font_color,
-      'stroke-dasharray': function(d) {
-        if (d === 'Planned Line') {
-          return 0.4;
-        }
-      },
-      'stroke-dashoffset': function(d) {
-        if (d === 'Existing Line') {
-          return 0.4;
-        }
-      }
+      'stroke': _g.technologies.filter(function(e) { return (e['name'] === 'National Grid') })[0]['color'],
+      'stroke-dasharray': function(d) { if (d === 'Planned Line') { return 0.4; } }
     });
 
   legend_lines.append('text')

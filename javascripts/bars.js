@@ -59,7 +59,6 @@ function draw_bar_text(bars_group, text_format) {
   } else if (text_format === "costs") {
     bar_texts.text(cost_electrification);
   }
-
 }
 
 function graph_bar_draw(opts, sources, tier) {
