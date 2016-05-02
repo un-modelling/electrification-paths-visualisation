@@ -52,27 +52,24 @@ function draw_costs_graphs(opts, country, diesel_price) {
   while (i <= 5) {
     var summary = country["summary_" + diesel_price + i];
 
-    var g = summary['cost_grid'];
-    var mg = summary['cost_mg'];
-    var sa = summary['cost_sa'];
+    // TODO: data will be reformatted and then we can clean this
+    // up. It's mostly ready.
+    //
+    var total_cost = summary['cost_grid'] + summary['cost_mg'] + summary['cost_sa'];
+    var technologies_groups = ['grid', 'mg', 'sa'];
 
-    var total_cost = g + mg + sa;
+    var sources = technologies_groups.map(function(e) {
+      var tech = _g.technologies.filter(function(t) {
+        return ((t['short_name'] === 'grid'        && e === 'grid') ||
+                (t['short_name'] === 'micro_grid'  && e === 'mg')   ||
+                (t['short_name'] === 'stand_alone' && e === 'sa'))
+      })[0];
 
-    var tech_names = _g.technologies.map(function(e) { return e['name']; })
-
-    var sources = [{
-      param: tech_names[0],
-      value: g / total_cost,
-      o_value: g
-    }, {
-      param: tech_names[1],
-      value: mg / total_cost,
-      o_value: mg
-    }, {
-      param: tech_names[2],
-      value: sa / total_cost,
-      o_value: sa
-    }]
+      return {
+        color: tech['color'],
+        value: summary['cost_' + e]
+      };
+    });
 
     var pp = pentagon_position(i, width / 4);
 
@@ -95,8 +92,6 @@ function draw_costs_graphs(opts, country, diesel_price) {
 function doughnut_draw(opts, data, tier) {
   var radius = opts.radius;
   var position = opts.position;
-  var x_vars = opts.x_vars;
-  var param = opts.param;
   var svg = opts.svg;
   var id = opts.id
 
@@ -107,7 +102,7 @@ function doughnut_draw(opts, data, tier) {
   var pie = d3.layout.pie()
       .sort(null)
       .value(function(d) {
-        return d.o_value;
+        return d['value'];
       });
 
   var graph = opts.svg.append('g')
@@ -129,7 +124,7 @@ function doughnut_draw(opts, data, tier) {
 
     .style({
       fill: function(d) {
-        return _g.technologies.filter(function(e) { return e['name'] === d['data']['param'] })[0]['color'];
+        return d['data']['color'];
       },
       'fill-opacity': function(d) {
         if (tier === _g.current_tier)
@@ -147,7 +142,7 @@ function doughnut_draw(opts, data, tier) {
 
   var cost = data
       .map(function(e) {
-        return e['o_value']
+        return e['value']
       })
       .reduce(function(a, b) {
         return a + b;
