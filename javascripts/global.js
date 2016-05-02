@@ -30,16 +30,50 @@ window._g = {
   //
   technologies: [{
     name: "National Grid",
+    short_name: "grid",
     color: '#73B2FF',
     min_opacity: 0.2
   }, {
-    name:  'Micro Grid',
+    name:  "Micro Grid",
+    short_name: "micro_grid",
     color: '#AAFF00',
     min_opacity: 0.5
   }, {
-    name: 'Stand Alone',
+    name: "Stand Alone",
+    short_name: "stand_alone",
     color: '#FBB117',
     min_opacity: 0.2
+  // }, {
+  //   name: "MG Diesel",
+  //   short_name: 'mg_diesel',
+  //   color: 'grey',
+  //   min_opacity: 1
+  // }, {
+  //   name: "MG Hydro",
+  //   short_name: 'mg_hydro',
+  //   color: 'cyan',
+  //   min_opacity: 1
+  // }, {
+  //   name: "MG Wind",
+  //   short_name: 'mg_wind',
+  //   color: 'yellow',
+  //   min_opacity: 1
+
+  // }, {
+  //   name: "MG Photo Voltaic",
+  //   short_name: 'mg_pv',
+  //   color: '#0000ff',
+  //   min_opacity: 1
+  // }, {
+  //   name: 'SA Diesel',
+  //   short_name: "sa_diesel",
+  //   color: 'brown',
+  //   min_opacity: 1
+  // }, {
+  //   name: 'SA Photo Voltaic',
+  //   short_name: "sa_pv",
+  //   color: '#ff00ff',
+  //   min_opacity: 1
   }],
 
   transmission_lines: ['Existing Line', 'Planned Line'],

@@ -39,11 +39,7 @@ function draw_bar_icon(container, height, tier) {
   });
 }
 
-// TODO: graph_bar_draw should NOT be agnostic about:
-//    _g, countries, summary...
-
 function draw_bar_text(bars_group, text_format) {
-
   d3.selectAll('.bar-graph text').remove()
 
   var bar_texts = bars_group.append('text')
@@ -74,7 +70,7 @@ function graph_bar_draw(opts, sources, tier) {
 
   var m = 100;
 
-  var bar_width = width / 3;
+  var bar_width = width / _g.technologies.length;
 
   var container = svg.append('g')
     .attr({

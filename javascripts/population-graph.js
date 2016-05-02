@@ -16,28 +16,17 @@ function draw_population_graphs(opts, country, diesel_price) {
   };
 
   var i = 1;
-
   while (i <= 5) {
     var summary = country["summary_" + diesel_price + i];
 
-    var g  = summary['grid'];
-    var mg = summary['micro_grid'];
-    var sa = summary['stand_alone'];
+    var total_population = summary['grid'] + summary['micro_grid'] + summary['stand_alone'];
 
-    var total_population = g + mg + sa;
-
-    var tech_names = _g.technologies.map(function(e) { return e['name']; })
-
-    var sources = [{
-      param: tech_names[0],
-      value: g / total_population
-    }, {
-      param: tech_names[1],
-      value: mg / total_population
-    }, {
-      param: tech_names[2],
-      value: sa / total_population
-    }]
+    var sources = _g.technologies.map(function(e) {
+      return {
+        param: e['name'],
+        value: summary[e['short_name']] / total_population
+      };
+    });
 
     var bar_width = subgraph_size.width / 3;
 
@@ -51,7 +40,7 @@ function draw_population_graphs(opts, country, diesel_price) {
         x: x_shift,
         y: 0
       },
-      x_vars: tech_names,
+      x_vars: _g.technologies.map(function(e) { return e['name']; }),
       param: "param",
       text_format: "population"
     }, sources, i );

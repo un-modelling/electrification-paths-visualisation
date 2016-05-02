@@ -177,8 +177,7 @@ function load_world(world_topo, countries_list) {
     });
 
   var width_legend = d3.select('#map-legend').node().clientWidth;
-  var height_legend = 80;
-  var padding_legend = 35;
+  var height_legend = (_g.technologies.length * 20) + 20;
 
   var legend_svg = d3.select("#map-legend")
     .append("svg")
