@@ -54,16 +54,16 @@ function show_all_africa_context() {
   d3.select("#all-africa-context").style("visibility", "visible");
 }
 
-function load_country_context(ccode) {
-
-  var country_arr = _g.country_arrangement.filter_firstp('countryCode', ccode);
+function index_country_context(iso3) {
+  var country_square = _g.country_arrangement.filter_firstp('iso3', iso3);
 
   d3.select('#flag-marker').attr({
     x: (country_square.x - 1) * square.width,
     y: (country_square.y - 1) * square.height
   });
 
-  var country = _g.target_countries.filter_firstp('iso3', ccode);
+  var country = _g.target_countries.filter_firstp('iso3', iso3);
+
 
   if (country) {
     d3.select("#all-africa-context").style("visibility", "hidden");
@@ -106,19 +106,11 @@ function squaremap_draw() {
       class: "country-flag",
 
       width: function(d) {
-        if (d.countryCode == "0") { //blank
-          return 0;
-        } else {
-          return pixelWidth;
-        }
+        return (d.iso3 == "0" ? 0 : square.width);
       },
 
       height: function(d) {
-        if (d.countrycode == "0") {
-          return 0;
-        } else {
-          return pixelHeight;
-        }
+        return (d.iso3 == "0" ? 0 : square.height);
       },
 
       x: function(d) {
@@ -129,38 +121,35 @@ function squaremap_draw() {
         return (d.y - 1) * square.height;
       }
     })
-
-  .on({
-    click: function(d) {
-      if (d.countryCode != 0 && d.countryCode != 'X') {
-        load_country_context(d['countryCode']);
+    .on({
+      click: function(d) {
+        if (d.iso3 !== '0' && d.iso3 != 'X') {
+          index_country_context(d['iso3']);
+        }
+      },
+      dblclick: function(d) {
+        if (d.iso3 !== '0' && d.iso3 !== 'X') {
+          country_go(d['iso3']);
+        }
       }
-    },
-    dblclick: function(d) {
-      if (d.countryCode != 0 && d.countryCode != 'X') {
-        go_to_country(d['countryCode']);
+    })
+    .style({
+      fill: function(d) {
+        return (d.iso3 === 'X' ? '#f2f2f2' : '#00ADEC');
+      },
+      stroke: '#FFFFFF',
+      opacity: function(d) {
+        // TODO: this should be merged into _g.target_countries BEFORE
+        //       and iso3 dropped
+
+        if (d.iso3 !== '0' && d.iso3 !== 'X')
+          return _g.target_countries.filter_firstp('iso3', d.iso3)['context']['electrification_rate'];
+        else if (d.iso3 === 'X')
+          return 1;
+        else
+          return 0;
       }
-    }
-
-  })
-
-  .style({
-    fill: function(d) {
-      if (d.countryCode == 'X') { //northern africa country
-        return '#f2f2f2';
-      } else {
-        return '#00ADEC';
-      }
-    },
-    stroke: '#FFFFFF',
-    opacity: function(d) {
-      // TODO: this should be merged into _g.target_countries BEFORE
-      //   and countryCode dropped
-
-      if (d.countryCode != 0 && d.countryCode != 'X')
-        return _g.target_countries.filter_firstp('iso3', d.countryCode)['context']['electrification_rate'];
-    }
-  });
+    });
 
   pixelMapContainer.append("rect")
     .attr({
