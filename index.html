@@ -116,8 +116,19 @@
         </div>
 
         <div class="col-md-3">
-          <div id="country-context">
+          <div id="ignored-country-context">
+            <div id="country-title-placeholder">
+              <div id="country-flag" rv-class="country.flag_tag | format 'flag-icon flag-icon-{0}'"></div>
 
+              <h1 id="country-title">
+                <span rv-text="country.name"></span>
+              </h1>
+            </div>
+
+            Country not considered in the model
+          </div>
+
+          <div id="country-context">
             <div id="country-title-placeholder">
 
               <div id="country-flag" rv-class="country.flag_tag | format 'flag-icon flag-icon-{0}'">
@@ -172,7 +183,7 @@
             </table>
           </div>
 
-          <div id="general-context" style="position: absolute; top: 0">
+          <div id="general-context">
             <h1 style="text-align: center;">
               <span rv-text="general.region | upcase"></span>
             </h1>

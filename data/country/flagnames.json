@@ -48,12 +48,24 @@ _g.flagnames = [
     iso3: "DJI"
   },
   {
+    flag_tag: "dz",
+    iso3: "DZA"
+  },
+  {
     flag_tag: "gq",
     iso3: "GNQ"
   },
   {
+    flag_tag: "eg",
+    iso3: "EGY"
+  },
+  {
     flag_tag: "er",
     iso3: "ERI"
+  },
+  {
+    flag_tag: "eh",
+    iso3: "ESH"
   },
   {
     flag_tag: "et",
@@ -84,12 +96,20 @@ _g.flagnames = [
     iso3: "KEN"
   },
   {
+    flag_tag: "ly",
+    iso3: "LBY"
+  },
+  {
     flag_tag: "ls",
     iso3: "LSO"
   },
   {
     flag_tag: "lr",
     iso3: "LBR"
+  },
+  {
+    flag_tag: "ma",
+    iso3: "MAR"
   },
   {
     flag_tag: "mg",

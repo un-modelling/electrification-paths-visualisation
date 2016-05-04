@@ -19,6 +19,15 @@
 #country-context {
   text-align: left;
 }
+#ignored-country-context {
+  text-align: center;
+}
+#general-context, #country-context, #ignored-country-context {
+  visibility: hidden;
+  position: absolute;
+  width: 100%;
+  top: 0;
+}
 #er-placeholder, #urban-placeholder {
   display: inline-block;
   font-size: 50px;

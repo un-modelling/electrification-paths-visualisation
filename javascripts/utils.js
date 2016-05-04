@@ -18,25 +18,18 @@ function setup_project_countries(data, callback) {
   _g.all_countries = data;
 
   var tmp_countries = data.filter(function(d) {
-    if (_g.exception_countries.indexOf(d['iso3']) > -1) {
-      parse_country_data(d);
+    parse_country_data(d);
 
-      return true;
-    }
-
-    if (_g.ignored_countries.indexOf(d['iso3']) > -1 ||
-        _g.ignored_subregions.indexOf(d['subregion']) > -1)
+    if (country_is_ignored(d.iso3))
       return false;
 
-    if (d.region === _g.region || _g.exception_countries.indexOf(d['iso3']) > -1) {
-      parse_country_data(d);
+    if (d.region === _g.region) {
       return true;
-
     } else
       return false;
   });
 
-  _g.target_countries = tmp_countries.sort(function(a, b) {
+  _g.target_countries = tmp_countries.sort(function(a,b) {
     return a['name'].localeCompare(b['name']);
   });
 
@@ -58,6 +51,14 @@ function pentagon_position(direction, container_size) {
 }
 
 // Country utils
+
+function country_is_ignored(iso3) {
+  if (_g.exception_countries.indexOf(iso3) > -1)
+    return false
+
+  return (_g.ignored_countries.indexOf(iso3) > -1 ||
+          _g.ignored_subregions.indexOf(country_by_iso3(iso3)['subregion']) > -1);
+}
 
 function country_by_iso3(iso3) {
   var c = _g.all_countries.filter_firstp('iso3', iso3);

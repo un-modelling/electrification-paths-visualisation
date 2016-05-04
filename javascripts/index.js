@@ -67,27 +67,50 @@ function index_country_context(iso3) {
     y: (country_square.y - 1) * square.height
   });
 
-  var country = _g.target_countries.filter_firstp('iso3', iso3);
+  var country = _g.all_countries.filter_firstp('iso3', iso3);
 
-  country.context['population_start'] = country.context['population_' + _g.year_start];
-  country.context['electrified_start'] = country.context['electrified_' + _g.year_start];
-
-  if (country) {
-    d3.select("#general-context").style("visibility", "hidden");
-    d3.select("#country-context").style("visibility", "visible");
-  } else {
+  if (!country) {
     d3.select("#country-context").style("visibility", "hidden");
+    d3.select("#ignored-country-context").style("visibility", "hidden");
     return;
   }
 
   if (index_country_bind)
     index_country_bind.unbind()
 
+  if (country_is_ignored(iso3)) {
+    index_ignored_context(country);
+    return;
+  }
+
+  country.context['population_start'] = country.context['population_' + _g.year_start];
+  country.context['electrified_start'] = country.context['electrified_' + _g.year_start];
+
   index_country_bind = rivets.bind($('#country-context'), {
     country: country,
     year_start: _g.year_start,
     year_end: _g.year_end
   });
+
+  d3.select("#country-context").style("visibility", "visible");
+  d3.select("#general-context").style("visibility", "hidden");
+  d3.select("#ignored-country-context").style("visibility", "hidden");
+}
+
+function index_ignored_context(country) {
+  country.context = {
+    population_start: "N/A",
+    electrified_start: "N/A",
+    electrification_rate: "N/A"
+  }
+
+  index_country_bind = rivets.bind($('#ignored-country-context'), {
+    country: country
+  });
+
+  d3.select("#ignored-country-context").style("visibility", "visible");
+  d3.select("#country-context").style("visibility", "hidden");
+  d3.select("#general-context").style("visibility", "hidden");
 }
 
 function squaremap_init(rows,cols) {
@@ -137,31 +160,29 @@ function squaremap_draw() {
     })
     .on({
       click: function(d) {
-        if (d.iso3 !== '0' && d.iso3 != 'X') {
-          index_country_context(d['iso3']);
-        }
+        return ((d.iso3 !== '0') ? index_country_context(d['iso3']) : false);
       },
       dblclick: function(d) {
-        if (d.iso3 !== '0' && d.iso3 !== 'X') {
-          country_go(d['iso3']);
-        }
+        return ((d.iso3 !== '0') ? country_href(d['iso3']) : false);
       }
     })
     .style({
       fill: function(d) {
-        return (d.iso3 === 'X' ? '#f2f2f2' : '#00ADEC');
+        if (d.iso3 === '0') return 'none';
+        else if (country_is_ignored(d.iso3)) return '#f2f2f2';
+        else return '#00ADEC';
       },
       stroke: '#FFFFFF',
       opacity: function(d) {
         // TODO: this should be merged into _g.target_countries BEFORE
         //       and iso3 dropped
 
-        if (d.iso3 !== '0' && d.iso3 !== 'X')
-          return _g.target_countries.filter_firstp('iso3', d.iso3)['context']['electrification_rate'];
-        else if (d.iso3 === 'X')
-          return 1;
+        if (d.iso3 === '0') return;
+
+        if (!country_is_ignored(d.iso3))
+          return _g.all_countries.filter_firstp('iso3', d.iso3)['context']['electrification_rate'];
         else
-          return 0;
+          return 1;
       }
     });
 
@@ -260,8 +281,6 @@ function index_country_href(iso3) {
 
 function index_load_everything(err, arrangement, all_countries) {
   if (err) console.warn('error', err);
-
-  d3.select("#country-context").style("visibility", "hidden");
 
   var rows = 0;
   var cols = 0;
