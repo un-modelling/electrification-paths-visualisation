@@ -9,6 +9,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
+    <script>
+      function anyIE() {
+        var ua = window.navigator.userAgent;
+
+        var msie = ua.indexOf('MSIE ');
+        if (msie > 0)
+          return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+
+        var trident = ua.indexOf('Trident/');
+        if (trident > 0) {
+          var rv = ua.indexOf('rv:');
+          return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+        }
+
+        var edge = ua.indexOf('Edge/');
+        if (edge > 0)
+          return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+
+        return false;
+      }
+
+      if (anyIE()) window.location = './not-supported.html'
+    </script>
+
     <!-- Vendor : jQuery -->
     <script src="./lib/jquery-2.1.4.min.js"></script>
 
@@ -23,90 +47,21 @@
     <!-- Vendor : SlimScroll -->
     <script src="./lib/jquery.slimscroll.min.js"></script>
 
-    <!-- Vendor : Queue -->
+    <!-- Vendor : D3/Queue -->
     <script src="./lib/queue.v1.min.js"></script>
-
-    <!-- Vendor : D3 -->
     <script src="./lib/d3.v3.min.js"></script>
 
-    <!-- Vendor : Font Awesome -->
     <link rel="stylesheet" href="./lib/font-awesome/css/font-awesome.min.css">
-
-    <!-- Vendor : Bootstrap -->
-    <link rel="stylesheet" href="./lib/bootstrap/bootstrap.min.css" media="all">
-
-    <!-- Vendor : Flag Icon -->
-    <link rel="stylesheet" href="./lib/country-flag/css/flag-icon.min.css" media="all">
-
-    <!-- Vendor : Fonts -->
-    <link rel="stylesheet" href="./stylesheets/roboto.css" media="all">
-
-    <!-- App CSS -->
-    <link type="text/css" rel="stylesheet" href="./stylesheets/un.css" media="all">
-    <link type="text/css" rel="stylesheet" href="./stylesheets/index.css" media="all">
+    <link rel="stylesheet" href="./lib/bootstrap/bootstrap.min.css" >
+    <link rel="stylesheet" href="./lib/country-flag/css/flag-icon.min.css">
+    <link rel="stylesheet" href="./stylesheets/roboto.css">
+    <link rel="stylesheet" href="./stylesheets/un.css">
+    <link rel="stylesheet" href="./stylesheets/index.css">
   </head>
 
   <body class="html">
-    <!--[if IE]>
-        <div>
-
-          <div id="brand-bar" class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="container brandbar-header">
-              <div class="row">
-                <div class="col-md-3">
-                  <a id="navLanChg" class="navbar-brand" href="http://www.un.org/en/index.html">Welcome to the United Nations</a>
-                </div>
-                <div class="col-md-9">
-                  <a class="site-link" href="https://unite.un.org/analytics/desa/modellingtools">Back to DESA Modelling Tools Homepage
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="main-container container">
-            <br><br><br>
-            <div class="row">
-              <div class="col-md-1">
-                <img src="./images/logos/logo.png" alt="Home" class="noprint" style="padding-top:15px"/>
-              </div>
-              <div class="col-md-11">
-                <h1>UNIVERSAL ELECTRIFICATION ACCESS<h1>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12 sec-center">
-                <h2><strong>Sorry, your browser is not supported</strong></h2>
-              </br>
-                <p style="font-size:20px;">This web application is designed to work on the following web browsers: Google Chrome, Mozilla Firefox and Safari. </br> </p>
-                <p style="font-size:20px;"> Please use or download the latest version here:</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-3 col-md-offset-1">
-                <a href="https://www.google.com/chrome">
-                  <img src="./images/browsers/browser_chrome.png" class="browser"></img>
-                </a>
-              </div>
-              <div class="col-md-3 col-md-offset-1">
-                <a href="http://www.apple.com/safari/">
-                  <img src="./images/browsers/browser_safari.png" class="browser"></img>
-                </a>
-              </div>
-              <div class="col-md-4">
-                <a href="https://www.mozilla.org/en-US/firefox/new/">
-                  <img src="./images/browsers/browser_firefox.png" class="browser"></img>
-                </a>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <![endif]-->
-    <![if !IE]>
     <div id="loading-screen" style="height: 100%; width: 100%; position: absolute; top: 0; left:0; background-color: white; z-index: 9999;"></div>
 
-    <!-- BRAND BAR -->
     <div id="brand-bar" class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container brandbar-header">
         <div class="row">
