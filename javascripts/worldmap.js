@@ -109,7 +109,7 @@ function worldmap_load(world_topo, countries_list) {
       fill: "#CDE6CD"
     });
 
-  var c = country_by_iso3(get_query_param('iso3')).code
+  var c = country_by_iso3(get_query_param('iso3')).code;
 
   worldmap.countries.selectAll(".country.country" + c)
     .style({
@@ -227,7 +227,7 @@ function worldmap_load(world_topo, countries_list) {
     })
     .style("fill", function(d, i) {
       return "url(#gradient" + i + ")";
-    })
+    });
 
   legend.append('text')
     .attr({
@@ -334,7 +334,7 @@ function worldmap_grids(err, country_grids, split, comp_split) {
   if (meta_container) meta_container.remove();
 
   var points_container = worldmap.countries.append('g')
-      .attr({ id: 'points-container' })
+      .attr({ id: 'points-container' });
 
   var points = points_container.selectAll('.point-group')
     .data(country_grids)
@@ -347,7 +347,7 @@ function worldmap_grids(err, country_grids, split, comp_split) {
 
       transform: function(d) {
         var p = worldmap.projection([d.x, d.y]);
-        return "translate(" + (p[0] - 0.2) + "," + (p[1] - 0.2) + ")"
+        return "translate(" + (p[0] - 0.2) + "," + (p[1] - 0.2) + ")";
       },
 
       fill: function(d) {
@@ -449,7 +449,6 @@ function worldmap_transmission_lines(features, cls) {
   worldmap.countries.selectAll(".transmission-line-" + cls)
     .data(features)
     .enter().append('path')
-
     .attr({
       class: "transmission-line-" + cls,
       d: d3.geo.path().projection(worldmap.projection),

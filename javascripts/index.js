@@ -195,9 +195,9 @@ function drawMap(country_arrangement) {
 
   var legendContainer = pixelMapContainer.append("svg")
     .attr({
-      "width": w,
-      "height": h,
       "y": pixelMapHeight - (2 * h)
+      width:  w,
+      height: h,
     });
 
   var legend = legendContainer.append("defs")
@@ -289,6 +289,6 @@ function loadEverything(err, country_arrangement, all_countries) {
 }
 
 queue()
-  .defer(d3.csv, './data/country/arrangement.csv')
+  .defer(d3.csv,  './data/country/arrangement.csv')
   .defer(d3.json, './data/country/summaries.json')
   .await(loadEverything);

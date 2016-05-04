@@ -97,7 +97,12 @@ function find_country_iso(c) {
 function parse_country_data(d) {
   d['context']['electrified_2012_ratio'] = d['context']['electrified_2012'] / d['context']['population_2012'];
 
-  d['flag_tag'] = _g.flagnames.filter(function(e) { return e['iso3'] == d['iso3'] })[0]['flag_tag'];
+  var flag = _g.flagnames.filter_firstp('iso3', d['iso3']);
+
+  if (flag)
+    d['flag_tag'] = flag['flag_tag'];
+  else
+    d['flag_tag'] = "";
 
   // this is for the $.fn.subs_matcher
   //

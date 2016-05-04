@@ -1,8 +1,6 @@
 window._g = {
   region: "AFRICA",
 
-  target_countries: [],
-
   ignored_subregions: [
     "Northern Africa"
   ],
@@ -26,8 +24,6 @@ window._g = {
     "SYC"  // Seychelles
   ],
 
-  // CAREFUL with these. ORDER MATTERS
-  //
   technologies: [{
     name: "National Grid",
     short_name: "grid",
@@ -78,31 +74,19 @@ window._g = {
 
   transmission_lines: ['Existing Line', 'Planned Line'],
 
-  // the value at which we consider an area as "very dense"
-  // and set the opacity to 1.
+  // the value at which we consider an area as "very dense"  and set the opacity to 1.
   //
+  current_tier: 3,
+  current_diesel: 'nps',
+
   hd: 100000,
 
   font_color: "#4d4d4d",
 
-  all_countries: [],
-
-  first_load: true,
-
-  grids: [],
-
-  country: null,
-
-  current_tier: 3,
-  current_diesel: 'nps',
-
-  current_grid: {
-    technology: null,
-    population_2030: null,
-    lcoe: null
+  diesel_price: {
+    'nps': 0.70,
+    'low': 0.32
   },
-
-  country_arrangement: null,
 
   tier_icons: {
     1: 'lightbulb',
@@ -112,13 +96,28 @@ window._g = {
     5: 'ac'
   },
 
-  diesel_price: {
-    'nps': 0.70,
-    'low': 0.32
+  // The following ae NOT configurable
+  //
+  all_countries: [],
+
+  target_countries: [],
+
+  grids: [],
+
+  first_load: true,
+
+  country: null,
+
+  current_grid: {
+    technology: null,
+    population_2030: null,
+    lcoe: null
   },
 
+  country_arrangement: null,
+
   scenario: {
-    'diesel_price': 'low',
-    'tier': 1,
+    diesel_price: null,
+    tier: 0,
   }
 }
