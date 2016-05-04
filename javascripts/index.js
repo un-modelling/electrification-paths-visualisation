@@ -87,6 +87,9 @@ function index_country_context(iso3) {
   });
 }
 
+function squaremap_init(rows,cols) {
+  squaremap.width = $("#pixel-map").width();
+  square.width    = (squaremap.width - (cols + 1)) / cols;
 
   squaremap.height = $(window).height() - 160;
   square.height    = (squaremap.height - (rows + 1)) / rows;
@@ -256,7 +259,19 @@ function index_load_everything(err, arrangement, all_countries) {
 
   d3.select("#country-context").style("visibility", "hidden");
 
-  _g.country_arrangement = country_arrangement;
+  var rows = 0;
+  var cols = 0;
+
+  _g.country_arrangement = arrangement.map(function(e) {
+    rows = +(+e['y'] > rows ? e['y'] : rows);
+    cols = +(+e['x'] > cols ? e['x'] : cols);
+
+    return {
+      x: +e['x'],
+      y: +e['y'],
+      iso3: e['iso3']
+    }
+  });
 
   setup_project_countries(all_countries, function() {
     squaremap_init(rows,cols);
