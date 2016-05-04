@@ -53,6 +53,12 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
     //
     try {
       _g.country = country_by_iso3(get_query_param('iso3'));
+
+      if (_g.ignored_countries.indexOf(_g.country['iso3']) > -1) {
+        alert("Country not considered in the model...");
+        return false;
+      }
+
       tier = parseInt(get_query_param('tier'));
       diesel_price = get_query_param('diesel_price');
 

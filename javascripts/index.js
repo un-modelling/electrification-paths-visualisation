@@ -28,12 +28,12 @@ var rv = {
 function general_context_load() {
   var general = {
     population_start: _g.target_countries.map(function(c) {
-      return c['context']['population_start']
+      return c['context']['population_' + _g.year_start]
     }).reduce(function(a, b) {
       return a + b
     }),
     population_end:   _g.target_countries.map(function(c) {
-      return c['context']['population_end']
+      return c['context']['population_' + _g.year_end]
     }).reduce(function(a, b) {
       return a + b
     }),

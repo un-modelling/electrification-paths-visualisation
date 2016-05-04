@@ -28,7 +28,7 @@ function setup_project_countries(data, callback) {
         _g.ignored_subregions.indexOf(d['subregion']) > -1)
       return false;
 
-    if (d.region === 'AFRICA' || _g.exception_countries.indexOf(d['iso3']) > -1) {
+    if (d.region === _g.region || _g.exception_countries.indexOf(d['iso3']) > -1) {
       parse_country_data(d);
       return true;
 
@@ -95,8 +95,6 @@ function find_country_iso(c) {
 }
 
 function parse_country_data(d) {
-  d['context']['electrified_start_ratio'] = d['context']['electrified_start'] / d['context']['population_start'];
-
   var flag = _g.flagnames.filter_firstp('iso3', d['iso3']);
 
   if (flag)
