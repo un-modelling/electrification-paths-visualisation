@@ -91,7 +91,9 @@ function index_country_context(iso3) {
 }
 
 function squaremap_init(rows,cols) {
-  squaremap.width = $("#pixel-map").width();
+  squaremap.container = d3.select("#squaremap").append("svg");
+
+  squaremap.width = $("#squaremap").width();
   square.width    = (squaremap.width - (cols + 1)) / cols;
 
   squaremap.height = $(window).height() - 160;
@@ -99,17 +101,17 @@ function squaremap_init(rows,cols) {
 }
 
 function squaremap_draw() {
-  var pixelMapContainer = d3.select("#pixel-map").append("svg")
-      .attr({
-        width:  squaremap.width,
-        height: squaremap.height
-      });
+  squaremap.container
+    .attr({
+      width:  squaremap.width,
+      height: squaremap.height
+    });
 
-  var pixelMap = pixelMapContainer.selectAll("g")
+  squaremap.container.selectAll("g")
     .data(_g.country_arrangement)
-    .enter().append("g");
+    .enter().append("g")
 
-  pixelMap.append("rect")
+    .append("rect")
     .attr({
       id: function(d) {
         return d['iso3'];
@@ -163,7 +165,7 @@ function squaremap_draw() {
       }
     });
 
-  pixelMapContainer.append("rect")
+  squaremap.container.append("rect")
     .attr({
       id: 'flag-marker',
       x: -200,
@@ -171,7 +173,6 @@ function squaremap_draw() {
       width:  square.width,
       height: square.height
     })
-
     .style({
       'fill': 'none',
       'stroke': '#EC8080',
@@ -185,14 +186,14 @@ function squaremap_draw() {
     return d.context["electrification_rate"]
   });
 
-  var legendContainer = pixelMapContainer.append("svg")
+  var legend_container = squaremap.container.append("svg")
     .attr({
       width:  w,
       height: h,
       y: squaremap.height - (2 * h)
     });
 
-  var legend = legendContainer.append("defs")
+  var legend = legend_container.append("defs")
     .append("svg:linearGradient")
     .attr({
       "id": "gradient",
@@ -217,7 +218,7 @@ function squaremap_draw() {
       "stop-opacity": d3.min(er)
     });
 
-  legendContainer.append("rect")
+  legend_container.append("rect")
     .attr({
       "width": w,
       "height": (h * 0.3),
@@ -225,7 +226,7 @@ function squaremap_draw() {
     })
     .style("fill", "url(#gradient)");
 
-  legendContainer.append("text")
+  legend_container.append("text")
     .attr("y", 10)
     .text("Electrified Population / Country")
     .style({
@@ -235,7 +236,7 @@ function squaremap_draw() {
       "fill": "#4d4d4d"
     });
 
-  legendContainer.append("text")
+  legend_container.append("text")
     .attr("y", h - 13)
     .style({
       "text-anchor": "start",
@@ -243,7 +244,7 @@ function squaremap_draw() {
     })
     .text(d3.format("%")(d3.min(er)));
 
-  legendContainer.append("text")
+  legend_container.append("text")
     .attr("x", w)
     .attr("y", h - 13)
     .style({
