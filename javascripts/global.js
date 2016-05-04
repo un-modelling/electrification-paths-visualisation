@@ -91,32 +91,6 @@ window._g = {
 
   grids: [],
 
-  bar_graph_padding: 20,
-
-  population_graph: {
-    size: {
-      width: 340,
-      height: 150,
-    },
-
-    position: {
-      x: 0,
-      y: 0
-    }
-  },
-
-  costs_graph: {
-    size: {
-      width: 350,
-      height: 300
-    },
-
-    position: {
-      x: 150,
-      y: 150
-    }
-  },
-
   country: null,
 
   current_tier: 3,

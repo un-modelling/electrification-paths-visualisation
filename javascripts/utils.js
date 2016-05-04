@@ -117,3 +117,48 @@ function population_electrified_by(d) {
 
   return fx + " M";
 }
+
+function tier_icon(container, tier, cls, attrs) {
+  var icon_file = "images/icons/" + _g.tier_icons[tier] + "-icon.svg";
+
+  d3.xml(icon_file, function(error, documentFragment) {
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    var icon_container = container.append('g')
+        .attr({
+          class: cls
+        });
+
+    icon_container.node().appendChild(documentFragment.getElementsByTagName("svg")[0]);
+
+    icon_container.select("svg")
+      .attr(attrs)
+      .selectAll('path')
+      .style({ stroke: _g.font_color });
+  });
+}
+
+function interpolate_zoom(zoom, translate, scale, zoomed_callback) {
+  return d3.transition().duration(750).tween("zoom", function() {
+    var t = d3.interpolate(zoom.translate(), translate),
+      s = d3.interpolate(zoom.scale(), scale);
+
+    return function(d) {
+      zoom.translate(t(d));
+      zoom.scale(s(d));
+
+      if (typeof zoomed_callback === 'function'); zoomed_callback();
+    };
+  });
+}
+
+function zoomed(collection, zoom, callback) {
+  collection.attr({
+    transform: "translate(" + zoom.translate() + ")" + "scale(" + zoom.scale() + ")"
+  });
+
+  if (typeof callback === 'function'); callback();
+}

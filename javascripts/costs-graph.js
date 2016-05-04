@@ -1,99 +1,10 @@
-function draw_doughnut_icon(container, tier) {
-  var icon_file = "images/icons/" + _g.tier_icons[tier] + "-icon.svg";
+var costs_graph_center;
 
-  d3.xml(icon_file, function(error, documentFragment) {
-    if (error) {
-      console.log(error);
-      return;
-    }
-
-    var svgNode = documentFragment.getElementsByTagName("svg")[0];
-
-    var icon_container = container.append('g')
-        .attr({
-          class: 'doughnut-icon'
-        });
-
-    icon_container.node().appendChild(svgNode);
-
-    var icon = icon_container.select("svg")
-      .attr({
-        x: "-1em",
-        y: "-1.5em",
-        width: 25,
-        height: 25
-      });
-
-    icon.selectAll('path')
-      .style({ stroke: _g.font_color });
-  });
-}
-
-function draw_costs_graphs(opts, country, diesel_price) {
-  _g.country = country;
-
-  var position = opts.position;
-  var width = opts.size.width;
-  var height = opts.size.height;
-
-  var graph = opts.svg.append('g')
-      .attr({
-        id: 'costs-graph',
-        transform: "translate(" + position.x + "," + position.y + ")"
-      });
-
-  var subgraph_size = {
-    width: (width / 5) - _g.bar_graph_padding,
-    height: height
-  };
-
-  var i = 1;
-
-  while (i <= 5) {
-    var summary = country["summary_" + diesel_price + i];
-
-    // TODO: data will be reformatted and then we can clean this
-    // up. It's mostly ready.
-    //
-    var total_cost = summary['cost_grid'] + summary['cost_mg'] + summary['cost_sa'];
-    var technologies_groups = ['grid', 'mg', 'sa'];
-
-    var sources = technologies_groups.map(function(e) {
-      var tech = _g.technologies.filter(function(t) {
-        return ((t['short_name'] === 'grid'        && e === 'grid') ||
-                (t['short_name'] === 'micro_grid'  && e === 'mg')   ||
-                (t['short_name'] === 'stand_alone' && e === 'sa'))
-      })[0];
-
-      return {
-        color: tech['color'],
-        value: summary['cost_' + e]
-      };
-    });
-
-    var pp = pentagon_position(i, width / 4);
-
-    doughnut_draw({
-      id: "costs-graph" + i,
-      svg: graph,
-      position: {
-        x: pp['x'],
-        y: pp['y'],
-      },
-
-      radius: Math.min(width, height) / 6
-
-    }, sources, i)
-
-    i += 1;
-  }
-}
-
-function doughnut_draw(opts, data, tier) {
+function doughnut_graph_draw(opts, data, tier) {
   var radius = opts.radius;
   var position = opts.position;
   var svg = opts.svg;
-  var id = opts.id
+  var id = opts.id;
 
   var arc = d3.svg.arc()
       .outerRadius(radius - 10)
@@ -114,7 +25,7 @@ function doughnut_draw(opts, data, tier) {
 
   var g = graph.selectAll(".arc")
       .data(pie(data))
-      .enter().append("g")
+      .enter().append("g");
 
   g.append("path")
     .attr({
@@ -127,10 +38,7 @@ function doughnut_draw(opts, data, tier) {
         return d['data']['color'];
       },
       'fill-opacity': function(d) {
-        if (tier === _g.current_tier)
-          return 1;
-        else
-          return 0.2;
+        return (tier === _g.current_tier ? 1 : 0.2)
       },
     });
 
@@ -159,12 +67,72 @@ function doughnut_draw(opts, data, tier) {
       return rivets.formatters.in_b(cost) + " US$";
     });
 
-  draw_doughnut_icon(graph, tier);
+  tier_icon(graph, tier, 'doughnut-icon', {
+    x: "-1em",
+    y: "-1.5em",
+    width: 25,
+    height: 25
+  });
 
   costs_graph_rearrange(tier);
 }
 
-function costs_graph_rearrange(tier) {
+function costs_graph_draw(opts) {
+  var position = opts.position;
+  var width = opts.size.width;
+  var height = opts.size.height;
+
+  var graph = opts.svg.append('g')
+      .attr({
+        id: 'costs-graph',
+        transform: "translate(" + position.x + "," + position.y + ")"
+      });
+
+  var i = 1;
+
+  while (i <= 5) {
+    var summary = _g.country["summary_" + _g.current_diesel + i];
+
+    // TODO: data will be reformatted and then we can clean this
+    // up. It's mostly ready.
+    //
+    var total_cost = summary['cost_grid'] + summary['cost_mg'] + summary['cost_sa'];
+    var technologies_groups = ['grid', 'mg', 'sa'];
+
+    var sources = technologies_groups.map(function(e) {
+      var tech = _g.technologies.filter(function(t) {
+        return ((t['short_name'] === 'grid'        && e === 'grid') ||
+                (t['short_name'] === 'micro_grid'  && e === 'mg')   ||
+                (t['short_name'] === 'stand_alone' && e === 'sa'))
+      })[0];
+
+      return {
+        color: tech['color'],
+        value: summary['cost_' + e]
+      };
+    });
+
+    var pp = pentagon_position(i, width / 4);
+
+    doughnut_graph_draw({
+      id: "costs-graph" + i,
+      svg: graph,
+      position: {
+        x: pp['x'],
+        y: pp['y'],
+      },
+
+      radius: Math.min(width, height) / 6
+
+    }, sources, i)
+
+    i += 1;
+  }
+}
+
+function costs_graph_rearrange(tier, animation_time) {
+  if (!animation_time) animation_time = 1000;
+
   d3.selectAll(".doughnut-text")
     .attr({
       dy: "1.5em",
@@ -187,11 +155,11 @@ function costs_graph_rearrange(tier) {
 
   d3.select("#costs-graph")
     .transition()
-    .duration(1000)
+    .duration(animation_time)
     .attrTween("transform", function() {
       return d3.interpolateString(
         d3.select(this).attr('transform'),
-        "translate(" + _g.costs_graph.position.x + "," + _g.costs_graph.position.y + ")" + "rotate(" + 72 * tier + ")"
+        "translate(" + costs_graph_center.x + "," + costs_graph_center.y + ")" + "rotate(" + 72 * tier + ")"
       );
     });
 
@@ -213,7 +181,7 @@ function costs_graph_rearrange(tier) {
 
   d3.selectAll('.doughnut-text, .doughnut-icon')
     .transition()
-    .duration(1000)
+    .duration(animation_time)
     .attrTween("transform", function() {
       return d3.interpolateString(
         d3.select(this).attr('transform'),

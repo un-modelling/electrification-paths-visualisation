@@ -1,3 +1,21 @@
+function graphs_population_and_costs() {
+  var svg_popl  = d3.select('svg#population');
+  var svg_costs = d3.select('svg#costs');
+
+  costs_graph_center = { x: 150, y: 150 }; // This is defined in costs-graph.js
+
+  population_graph_draw({
+    size: function() { var s = $('svg#population'); return [s.width(), s.height()]; }(),
+    svg: svg_popl
+  });
+
+  costs_graph_draw({
+    size:     { width: 350, height: 300 },
+    position: costs_graph_center,
+    svg: svg_costs
+  });
+}
+
 function change_tier(tier) {
   _g.current_tier = tier;
   _g.scenario['tier'] = tier;
@@ -15,7 +33,7 @@ function change_tier(tier) {
 
   // Map
   //
-  update_map(_g.country);
+  worldmap_update(_g.country);
 }
 
 function load_everything(err, all_countries, world_topo, transmission_lines, planned_transmission_lines) {
@@ -29,8 +47,7 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
   var planned_transmission_lines_features = topojson.feature(planned_transmission_lines, planned_transmission_lines.objects["planned-transmission-lines"]).features;
 
   setup_project_countries(all_countries, function() {
-
-    load_world(world_topo, all_countries);
+    worldmap_load(world_topo, all_countries);
 
     // Make sure everything is OK
     //
@@ -66,25 +83,13 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
         height: 200
       });
 
-    draw_population_graphs({
-      size: _g.population_graph['size'],
-      position: _g.population_graph['position'],
-      svg: population_svg
-
-    }, _g.country, _g.current_diesel);
-
     var costs_svg = d3.select('svg#costs')
       .attr({
         width: $('svg#costs').parent().width(),
         height: 300
       });
 
-    draw_costs_graphs({
-      size: _g.costs_graph['size'],
-      position: _g.costs_graph['position'],
-      svg: costs_svg
-
-    }, _g.country, _g.current_diesel);
+    graphs_population_and_costs(population_svg, costs_svg);
 
     $('#loading-screen').fadeOut(600, function() { change_tier(_g.current_tier); });
 
@@ -96,22 +101,16 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
       // TODO: animations instead of this redraw
       // TODO: this is causing unnecessary requests (svg icons)
       //
-      $('#population').empty();
-      $('#costs').empty();
+      $('svg#population').empty();
+      $('svg#costs').empty();
 
-      draw_population_graphs({
-        size: _g.population_graph['size'],
-        position: _g.population_graph['position'],
-        svg: population_svg
+      graphs_population_and_costs(population_svg, costs_svg);
 
-      }, _g.country, _g.current_diesel);
+      setTimeout(function() {
+        costs_graph_rearrange(_g.current_tier, 1);
+      }, 100);
 
-      draw_costs_graphs({
-        size: _g.costs_graph['size'],
-        position: _g.costs_graph['position'],
-        svg: costs_svg
-
-      }, _g.country, _g.current_diesel);
+      change_tier(_g.current_tier);
     });
 
     $('.tier-changer').click(function(e) {
@@ -120,8 +119,8 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
       change_tier(tier);
     });
 
-    draw_transmission_lines(existing_transmission_lines_features, "existing");
-    draw_transmission_lines(planned_transmission_lines_features, "planned");
+    worldmap_transmission_lines(existing_transmission_lines_features, "existing");
+    worldmap_transmission_lines(planned_transmission_lines_features, "planned");
 
     rivets.bind($('header'), {
       country: _g.country

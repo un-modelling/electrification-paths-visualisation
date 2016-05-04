@@ -1,5 +1,3 @@
-//// D3 VERSION
-
 var worldmap = {
   width:      d3.select('#map-area').node().clientWidth,
   height:     window.screen.availHeight * 0.5,
@@ -12,7 +10,7 @@ var worldmap = {
   min_opacities: [],
 };
 
-var map_svg = d3.select('#map-area').append('svg')
+var worldmap_svg = d3.select('#map-area').append('svg')
     .attr({
       id: 'map',
       width: worldmap.width,
@@ -28,7 +26,7 @@ function worldmap_init() {
     worldmap.min_opacities.push(e['min_opacity']);
   });
 
-  map_svg.append('rect')
+  worldmap_svg.append('rect')
     .attr({
       id: 'sea',
       width: worldmap.width,
@@ -38,7 +36,7 @@ function worldmap_init() {
       fill: '#E2ECFF'
     });
 
-  worldmap.countries = map_svg.append("g").attr("class", "countries");
+  worldmap.countries = worldmap_svg.append("g").attr("class", "countries");
 
   worldmap.path = d3.geo.path().projection(
     worldmap.projection
@@ -49,15 +47,15 @@ function worldmap_init() {
 
   worldmap.zoom = d3.behavior.zoom()
     .scaleExtent([0.5, 200])
-    .on("zoom", zoomed);
+    .on("zoom", worldmap_zoomed_countries);
 
-  map_svg.call(worldmap.zoom);
+  worldmap_svg.call(worldmap.zoom);
 
   $('#map-area-curtain').width(worldmap.width);
   $('#map-area-curtain').height(worldmap.height);
 }
 
-function map_curtain(callback) {
+function worldmap_curtain(callback) {
   var it = document.getElementById('map-area-curtain');
   it.style.display = "block";
 
@@ -69,29 +67,7 @@ function map_curtain(callback) {
   }, 10);
 }
 
-function zoomed() {
-  worldmap.countries.attr({
-    transform: "translate(" + worldmap.zoom.translate() + ")" + "scale(" + worldmap.zoom.scale() + ")"
-  });
-
-  d3.selectAll('.country-label').style('font-size', 0.8 / worldmap.zoom.scale() + 'em');
-}
-
-function interpolate_zoom(translate, scale) {
-  return d3.transition().duration(750).tween("zoom", function() {
-    var t = d3.interpolate(worldmap.zoom.translate(), translate),
-      s = d3.interpolate(worldmap.zoom.scale(), scale);
-
-    return function(d) {
-      worldmap.zoom.translate(t(d));
-      worldmap.zoom.scale(s(d));
-
-      zoomed();
-    };
-  });
-}
-
-function update_map(country) {
+function worldmap_update(country) {
   var split = _g.current_diesel + _g.current_tier.toString();
 
   var diesel = _g.current_diesel === "nps" ? "n" : "o";
@@ -103,20 +79,20 @@ function update_map(country) {
       .defer(d3.json, './data/grids/' + country['iso3'] + '_grids.json')
     // .defer(d3.json, 'http://localhost:3000/countries/' + country['iso3'] + '/full')
       .await(function(err, grids_json) {
-        load_country_grids(err, grids_json, split, compressed_split);
+        worldmap_grids(err, grids_json, split, compressed_split);
         _g.grids = grids_json;
         _g.first_load = false;
       });
 
   } else {
     if (_g.grids.length > 10000)
-      map_curtain(function() { load_country_grids(null, _g.grids, split, compressed_split); });
+      worldmap_curtain(function() { worldmap_grids(null, _g.grids, split, compressed_split); });
     else
-      load_country_grids(null, _g.grids, split, compressed_split);
+      worldmap_grids(null, _g.grids, split, compressed_split);
   }
 }
 
-function load_world(world_topo, countries_list) {
+function worldmap_load(world_topo, countries_list) {
   var country_boundaries = topojson.feature(world_topo, world_topo.objects.countries).features;
 
   worldmap.countries.selectAll(".country")
@@ -335,7 +311,7 @@ function load_world(world_topo, countries_list) {
     .style('fill', _g.font_color);
 }
 
-function grid_opacity(grid, i) {
+function worldmap_grid_opacity(grid, i) {
   var p = grid['p2'];
   if (!p) return 0;
 
@@ -348,7 +324,7 @@ function grid_opacity(grid, i) {
   return (p < _g.hd) ? (((p / _g.hd) * (1 - min)) + min) : 1;
 }
 
-function load_country_grids(err, country_grids, split, comp_split) {
+function worldmap_grids(err, country_grids, split, comp_split) {
   if (err) console.warn('error', err);
 
   // Doing this is suicide: d3.selectAll('rect.point-group').remove();
@@ -379,7 +355,7 @@ function load_country_grids(err, country_grids, split, comp_split) {
       },
 
       opacity: function(d,i) {
-        return grid_opacity(d,d[comp_split[0]][comp_split[1] - 1]);
+        return worldmap_grid_opacity(d,d[comp_split[0]][comp_split[1] - 1]);
       }
     })
     .on({
@@ -423,7 +399,7 @@ function load_country_grids(err, country_grids, split, comp_split) {
     });
 
   var center = [worldmap.width / 2, worldmap.height / 2];
-  var k = country_bounds(country_path.datum())['scale'];
+  var k = worldmap_country_bounds(country_path.datum())['scale'];
 
   worldmap.countries.append("rect")
     .attr({
@@ -439,10 +415,19 @@ function load_country_grids(err, country_grids, split, comp_split) {
       'z-index': 999999
     });
 
-  interpolate_zoom([center[0] - (centroid[0] * k), center[1] - (centroid[1] * k)], k);
+  interpolate_zoom(worldmap.zoom,
+                   [center[0] - (centroid[0] * k), center[1] - (centroid[1] * k)],
+                   k,
+                   worldmap_zoomed_countries);
 }
 
-function country_bounds(d) {
+function worldmap_zoomed_countries() {
+  zoomed(worldmap.countries, worldmap.zoom, function() {
+    d3.selectAll('.country-label').style('font-size', 0.8 / worldmap.zoom.scale() + 'em');
+  });
+}
+
+function worldmap_country_bounds(d) {
   var bounds = worldmap.path.bounds(d),
     dx = bounds[1][0] - bounds[0][0],
     dy = bounds[1][1] - bounds[0][1],
@@ -458,7 +443,7 @@ function country_bounds(d) {
   };
 }
 
-function draw_transmission_lines(features, cls) {
+function worldmap_transmission_lines(features, cls) {
   var transmission_lines_color = _g.technologies.filter(function(e) { return e['name'] === "National Grid" })[0]['color'];
 
   worldmap.countries.selectAll(".transmission-line-" + cls)
