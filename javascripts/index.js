@@ -16,8 +16,8 @@ var rv = {
     index_country_context(v.c['iso3']);
   },
 
-  show_all_africa_context: function(e, v) {
-    show_all_africa_context();
+  general_context_show: function(e,v) {
+    general_context_show();
   },
 
   country_href: function(e,v) {
@@ -25,8 +25,8 @@ var rv = {
   }
 }
 
-function load_all_africa_context() {
-  var africa = {
+function general_context_load() {
+  var general = {
     population_start: _g.target_countries.map(function(c) {
       return c['context']['population_start']
     }).reduce(function(a, b) {
@@ -44,16 +44,16 @@ function load_all_africa_context() {
     year_end: _g.year_end
   };
 
-  rivets.bind($('#all-africa-context'), {
-    africa: africa
+  rivets.bind($('#general-context'), {
+    general: general
   });
 
-  show_all_africa_context();
+  general_context_show();
 }
 
-function show_all_africa_context() {
+function general_context_show() {
   d3.select("#country-context").style("visibility", "hidden");
-  d3.select("#all-africa-context").style("visibility", "visible");
+  d3.select("#general-context").style("visibility", "visible");
 }
 
 function index_country_context(iso3) {
@@ -70,7 +70,7 @@ function index_country_context(iso3) {
   country.context['electrified_start'] = country.context['electrified_' + _g.year_start];
 
   if (country) {
-    d3.select("#all-africa-context").style("visibility", "hidden");
+    d3.select("#general-context").style("visibility", "hidden");
     d3.select("#country-context").style("visibility", "visible");
   } else {
     d3.select("#country-context").style("visibility", "hidden");
@@ -284,7 +284,7 @@ function index_load_everything(err, arrangement, all_countries) {
       size: '10px'
     });
 
-    load_all_africa_context();
+    general_context_load();
 
     rivets.bind($('#country-selector'), {
       countries: _g.target_countries,

@@ -141,7 +141,7 @@
           <div id="country-selector">
             <ul id="country-selector-list" class="list-group">
               <li><a class="list-group-item" id="all-africa"
-                     rv-on-click="rv.show_all_africa_context">All Africa</a>
+                     rv-on-click="rv.general_context_show">All Africa</a>
               <li>
               <li>
                 <a class="list-group-item"
@@ -215,7 +215,7 @@
             </table>
           </div>
 
-          <div id="all-africa-context" style="position: absolute; top: 0">
+          <div id="general-context" style="position: absolute; top: 0">
             <h1 style="text-align: center;">
               AFRICA
             </h1>
@@ -226,7 +226,7 @@
                 </td>
                 <td>
                   <h3>
-                    <div id="er-placeholder" rv-text="africa.electrified_percentage | percentage"></div>
+                    <div id="er-placeholder" rv-text="general.electrified_percentage | percentage"></div>
                     <span class="units">%</span>
                   </h3>
                 </td>
