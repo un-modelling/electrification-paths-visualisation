@@ -147,8 +147,8 @@
                 <a class="list-group-item"
                    rv-each-c="countries"
                    rv-show="c.matches"
-                   rv-on-click="rv.load_country_context"
-                   rv-on-dblclick="rv.go_to_country">{{ c.name }}</a>
+                   rv-on-click="rv.country_context_load"
+                   rv-on-dblclick="rv.country_href">{{ c.name }}</a>
               </li>
             </ul>
           </div>

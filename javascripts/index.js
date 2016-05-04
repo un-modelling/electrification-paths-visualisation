@@ -1,34 +1,29 @@
-var pixelMapWidth = d3.select("#pixel-map").style("width")
+var squaremap = {
+  height: 0,
+  width:  0
+}
 
-var pixelWidth = pixelMapWidth.replace("px", "") / 8.5;
-var pixelHeight = window.screen.availHeight * 0.055;
-var pixelMapHeight = (pixelHeight * 14);
-var pixelMapPadding = 5;
+var square = {
+  width: 0,
+  height: 0,
+  padding: 1
+}
 
-var country_bind;
-
-var pixelMapContainer = d3.select("#pixel-map").append("svg")
-  .attr("width", pixelMapWidth)
-  .attr("height", pixelMapHeight);
-
-var o = d3.scale.linear()
-  .range([1, 0]);
+var index_country_bind;
 
 var rv = {
-  load_country_context: function(e, v) {
-    load_country_context(v.c['iso3']);
+  country_context_load: function(e,v) {
+    index_country_context(v.c['iso3']);
   },
 
   show_all_africa_context: function(e, v) {
     show_all_africa_context();
   },
 
-  go_to_country: function(e, v) {
-    go_to_country(v.c['iso3']);
+  country_href: function(e,v) {
+    index_country_href(v.c['iso3']);
   }
 }
-
-//set country list height according to the mapd3.select("#search")
 
 function load_all_africa_context() {
   var africa = {
@@ -64,8 +59,8 @@ function load_country_context(ccode) {
   var country_arr = _g.country_arrangement.filter_firstp('countryCode', ccode);
 
   d3.select('#flag-marker').attr({
-    x: country_arr.x * pixelWidth + pixelMapPadding,
-    y: (country_arr.y - 1) * pixelHeight + pixelMapPadding
+    x: (country_square.x - 1) * square.width,
+    y: (country_square.y - 1) * square.height
   });
 
   var country = _g.target_countries.filter_firstp('iso3', ccode);
@@ -78,30 +73,28 @@ function load_country_context(ccode) {
     return;
   }
 
-  if (country_bind)
-    country_bind.unbind()
+  if (index_country_bind)
+    index_country_bind.unbind()
 
-  country_bind = rivets.bind($('#country-context'), {
+  index_country_bind = rivets.bind($('#country-context'), {
     country: country
   });
 }
 
-function go_to_country(iso3) {
-  window.location.href = "./country.html?iso3=" + iso3 + "&tier=3&diesel_price=nps";
+
+  squaremap.height = $(window).height() - 160;
+  square.height    = (squaremap.height - (rows + 1)) / rows;
 }
 
-function initializePrettification() {
-  //Slimscroll
-  $('#country-selector').slimScroll({
-    height: pixelMapHeight - 100,
-    color: '#4d4d4d',
-    size: '10px'
-  });
-}
+function squaremap_draw() {
+  var pixelMapContainer = d3.select("#pixel-map").append("svg")
+      .attr({
+        width:  squaremap.width,
+        height: squaremap.height
+      });
 
-function drawMap(country_arrangement) {
   var pixelMap = pixelMapContainer.selectAll("g")
-    .data(country_arrangement)
+    .data(_g.country_arrangement)
     .enter().append("g");
 
   pixelMap.append("rect")
@@ -129,11 +122,11 @@ function drawMap(country_arrangement) {
       },
 
       x: function(d) {
-        return d.x * pixelWidth + pixelMapPadding;
+        return (d.x - 1) * square.width;
       },
 
       y: function(d) {
-        return (d.y - 1) * pixelHeight + pixelMapPadding;
+        return (d.y - 1) * square.height;
       }
     })
 
@@ -174,20 +167,18 @@ function drawMap(country_arrangement) {
       id: 'flag-marker',
       x: -200,
       y: -200,
-      width: pixelWidth,
-      height: pixelHeight
+      width:  square.width,
+      height: square.height
     })
 
-  .style({
-    'fill': 'none',
-    'stroke': '#EC8080',
-    'stroke-width': 3,
-    'border-radius': 2
-  });
+    .style({
+      'fill': 'none',
+      'stroke': '#EC8080',
+      'stroke-width': 3,
+      'border-radius': 2
+    });
 
-
-  //draw legend
-  var w = pixelMapWidth.replace("px", "") * 4 / 9;
+  var w = squaremap.width / 4;
   var h = 60;
   var er = _g.target_countries.map(function(d) {
     return d.context["electrification_rate"]
@@ -195,9 +186,9 @@ function drawMap(country_arrangement) {
 
   var legendContainer = pixelMapContainer.append("svg")
     .attr({
-      "y": pixelMapHeight - (2 * h)
       width:  w,
       height: h,
+      y: squaremap.height - (2 * h)
     });
 
   var legend = legendContainer.append("defs")
@@ -261,7 +252,11 @@ function drawMap(country_arrangement) {
     .text(d3.format("%")(d3.max(er)));
 }
 
-function loadEverything(err, country_arrangement, all_countries) {
+function index_country_href(iso3) {
+  window.location.href = "./country.html?iso3=" + iso3 + "&tier=3&diesel_price=nps";
+}
+
+function index_load_everything(err, arrangement, all_countries) {
   if (err) console.warn('error', err);
 
   d3.select("#country-context").style("visibility", "hidden");
@@ -269,8 +264,15 @@ function loadEverything(err, country_arrangement, all_countries) {
   _g.country_arrangement = country_arrangement;
 
   setup_project_countries(all_countries, function() {
-    drawMap(country_arrangement);
-    initializePrettification();
+    squaremap_init(rows,cols);
+
+    squaremap_draw();
+
+    $('#country-selector').slimScroll({
+      height: squaremap.height - 100,
+      color: '#4d4d4d',
+      size: '10px'
+    });
 
     load_all_africa_context();
 
@@ -291,4 +293,4 @@ function loadEverything(err, country_arrangement, all_countries) {
 queue()
   .defer(d3.csv,  './data/country/arrangement.csv')
   .defer(d3.json, './data/country/summaries.json')
-  .await(loadEverything);
+  .await(index_load_everything);

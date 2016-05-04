@@ -74,7 +74,7 @@ window._g = {
 
   transmission_lines: ['Existing Line', 'Planned Line'],
 
-  // the value at which we consider an area as "very dense"  and set the opacity to 1.
+  // the value at which we consider an area as "very dense" and set the opacity to 1.
   //
   current_tier: 3,
   current_diesel: 'nps',
