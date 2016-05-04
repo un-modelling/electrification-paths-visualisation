@@ -190,9 +190,10 @@
 
               <tr>
                 <td>
-                  Total Population 2012
+                  Total Population <span rv-text="year_start"></span>
+
                 </td>
-                <td><span class="value" rv-text="country.context.population_2012 | in_millions"></span></td>
+                <td><span class="value" rv-text="country.context.population_start | in_millions"></span></td>
               </tr>
               <tr>
                 <td colspan=2>
@@ -232,15 +233,15 @@
               </tr>
               <tr>
                 <td>
-                  Total Population 2012
+                  Total Population <span rv-text="general.year_start"></span>
                 </td>
-                <td><span class="value" rv-text="africa.population_2012 | in_millions"></span></td>
+                <td><span class="value" rv-text="general.population_start | in_millions"></span></td>
               </tr>
               <tr>
                 <td>
-                  Total Population 2030
+                  Total Population <span rv-text="general.year_end"></span>
                 </td>
-                <td><span class="value" rv-text="africa.population_2030 | in_millions"></span></td>
+                <td><span class="value" rv-text="general.population_end | in_millions"></span></td>
               </tr>
             </table>
           </div>

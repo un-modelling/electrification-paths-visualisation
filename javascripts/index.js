@@ -27,19 +27,21 @@ var rv = {
 
 function load_all_africa_context() {
   var africa = {
-    population_2012: _g.target_countries.map(function(c) {
-      return c['context']['population_2012']
+    population_start: _g.target_countries.map(function(c) {
+      return c['context']['population_start']
     }).reduce(function(a, b) {
       return a + b
     }),
-    population_2030: _g.target_countries.map(function(c) {
-      return c['context']['population_2030']
+    population_end:   _g.target_countries.map(function(c) {
+      return c['context']['population_end']
     }).reduce(function(a, b) {
       return a + b
     }),
     electrified_percentage: average(_g.target_countries, function(e) {
       return e['context']['electrification_rate']
-    })
+    }),
+    year_start: _g.year_start,
+    year_end: _g.year_end
   };
 
   rivets.bind($('#all-africa-context'), {
@@ -64,6 +66,8 @@ function index_country_context(iso3) {
 
   var country = _g.target_countries.filter_firstp('iso3', iso3);
 
+  country.context['population_start'] = country.context['population_' + _g.year_start];
+  country.context['electrified_start'] = country.context['electrified_' + _g.year_start];
 
   if (country) {
     d3.select("#all-africa-context").style("visibility", "hidden");
@@ -77,7 +81,9 @@ function index_country_context(iso3) {
     index_country_bind.unbind()
 
   index_country_bind = rivets.bind($('#country-context'), {
-    country: country
+    country: country,
+    year_start: _g.year_start,
+    year_end: _g.year_end
   });
 }
 
@@ -267,6 +273,8 @@ function index_load_everything(err, arrangement, all_countries) {
 
     rivets.bind($('#country-selector'), {
       countries: _g.target_countries,
+      year_start: _g.year_start,
+      year_end: _g.year_end,
       rv: rv
     });
 

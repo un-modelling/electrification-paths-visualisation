@@ -95,7 +95,7 @@ function find_country_iso(c) {
 }
 
 function parse_country_data(d) {
-  d['context']['electrified_2012_ratio'] = d['context']['electrified_2012'] / d['context']['population_2012'];
+  d['context']['electrified_start_ratio'] = d['context']['electrified_start'] / d['context']['population_start'];
 
   var flag = _g.flagnames.filter_firstp('iso3', d['iso3']);
 
@@ -116,7 +116,7 @@ function cost_electrification(d) {
 }
 
 function population_electrified_by(d) {
-  var x = d['value'] * _g.country['context']['population_2030'];
+  var x = d['value'] * _g.country['context']['population_' + _g.year_end];
 
   var fx = (x / 1000000).toFixed(2);
 

@@ -79,6 +79,9 @@ window._g = {
   current_tier: 3,
   current_diesel: 'nps',
 
+  year_start: 2012,
+  year_end: 2030,
+
   hd: 100000,
 
   font_color: "#4d4d4d",
