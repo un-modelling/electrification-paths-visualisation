@@ -17,7 +17,7 @@ function average(list, property_function) {
 function setup_project_countries(data, callback) {
   _g.all_countries = data;
 
-  var filtered_countries = data.filter(function(d) {
+  var tmp_countries = data.filter(function(d) {
     if (_g.exception_countries.indexOf(d['iso3']) > -1) {
       parse_country_data(d);
 
@@ -36,7 +36,7 @@ function setup_project_countries(data, callback) {
       return false;
   });
 
-  _g.target_countries = filtered_countries.sort(function(a, b) {
+  _g.target_countries = tmp_countries.sort(function(a, b) {
     return a['name'].localeCompare(b['name']);
   });
 
@@ -60,9 +60,7 @@ function pentagon_position(direction, container_size) {
 // Country utils
 
 function country_by_iso3(iso3) {
-  var c = _g.all_countries.filter(function(d) {
-    return d['iso3'] === iso3;
-  })[0];
+  var c = _g.all_countries.filter_firstp('iso3', iso3);
 
   if (typeof c === 'undefined')
     throw ("iso3: " + iso3);
@@ -71,9 +69,7 @@ function country_by_iso3(iso3) {
 }
 
 function find_country_name(c) {
-  var r = _g.all_countries.filter(function(e) {
-    return e['code'] === c['id'];
-  })[0];
+  var r = _g.all_countries.filter_firstp('code', c['id']);
 
   // For debugging purposes:
   //
@@ -83,9 +79,7 @@ function find_country_name(c) {
 }
 
 function find_country_iso(c) {
-  var r = _g.all_countries.filter(function(e) {
-    return e['code'] === c['id'];
-  })[0];
+  var r = _g.all_countries.filter_firstp('code', c['id']);
 
   // For debugging purposes:
   //

@@ -97,7 +97,7 @@ function bar_graph_draw(opts, sources, tier) {
       },
 
       fill: function(d) {
-        return _g.technologies.filter(function(e) { return e['name'] === d['param'] })[0]['color'];
+        return _g.technologies.filter_firstp('name', d['param'])['color'];
       },
 
       'fill-opacity': function(d) {

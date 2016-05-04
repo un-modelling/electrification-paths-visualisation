@@ -296,7 +296,7 @@ function worldmap_load(world_topo, countries_list) {
     .attr("d", line_function(line_data))
     .attr("stroke-width", 3)
     .style({
-      'stroke': _g.technologies.filter(function(e) { return (e['name'] === 'National Grid') })[0]['color'],
+      'stroke': _g.technologies.filter_firstp('name', 'National Grid')['color'],
       'stroke-dasharray': function(d) { if (d === 'Planned Line') { return 0.4; } }
     });
 
@@ -444,7 +444,7 @@ function worldmap_country_bounds(d) {
 }
 
 function worldmap_transmission_lines(features, cls) {
-  var transmission_lines_color = _g.technologies.filter(function(e) { return e['name'] === "National Grid" })[0]['color'];
+  var transmission_lines_color = _g.technologies.filter_firstp('name', "National Grid" )['color'];
 
   worldmap.countries.selectAll(".transmission-line-" + cls)
     .data(features)
