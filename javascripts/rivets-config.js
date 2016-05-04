@@ -12,7 +12,7 @@ rivets.formatters.mailto = function(value) {
 };
 
 rivets.formatters.capitalise = function(value) {
-  return value.capitalise();
+  return value.toLowerCase().capitalise();
 };
 
 rivets.formatters.format = function() {

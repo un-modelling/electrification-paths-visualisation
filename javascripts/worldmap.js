@@ -372,7 +372,7 @@ function worldmap_grids(err, country_grids, split, comp_split) {
 
         _g.current_grid['technology'] = worldmap.technologies[t];
         _g.current_grid['lcoe'] = l;
-        _g.current_grid['population_2030'] = d['p2'];
+        _g.current_grid['population_' + _g.year_end] = d['p2'];
       }
     });
 

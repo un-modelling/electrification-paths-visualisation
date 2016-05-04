@@ -95,8 +95,10 @@
           </div>
           <div id="country-selector">
             <ul id="country-selector-list" class="list-group">
-              <li><a class="list-group-item" id="all-africa"
-                     rv-on-click="rv.general_context_show">All Africa</a>
+              <li><a class="list-group-item" id="all-list"
+                     rv-on-click="rv.general_context_show">
+                  All <span rv-text="rv.region | capitalise"></span>
+                </a>
               <li>
               <li>
                 <a class="list-group-item"
@@ -172,9 +174,10 @@
 
           <div id="general-context" style="position: absolute; top: 0">
             <h1 style="text-align: center;">
-              AFRICA
+              <span rv-text="general.region | upcase"></span>
             </h1>
-            <table id="all-africa-table" class="table table-hover">
+
+            <table id="all-table" class="table table-hover">
               <tr>
                 <td class="col-md-6">
                   Electrified Population

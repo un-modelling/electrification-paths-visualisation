@@ -47,7 +47,7 @@ function bar_graph_draw(opts, sources, tier) {
     .range([height, 10]);
 
   var real_y = d3.scale.linear()
-    .domain([0, _g.country['context']['population_2030']])
+    .domain([0, _g.country['context']['population_' + _g.year_end]])
     .range([height, 10]);
 
   var yAxis = d3.svg.axis()

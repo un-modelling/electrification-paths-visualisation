@@ -22,7 +22,9 @@ var rv = {
 
   country_href: function(e,v) {
     index_country_href(v.c['iso3']);
-  }
+  },
+
+  region: _g.region
 }
 
 function general_context_load() {
@@ -41,7 +43,8 @@ function general_context_load() {
       return e['context']['electrification_rate']
     }),
     year_start: _g.year_start,
-    year_end: _g.year_end
+    year_end: _g.year_end,
+    region: _g.region
   };
 
   rivets.bind($('#general-context'), {
