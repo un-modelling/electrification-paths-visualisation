@@ -1,6 +1,7 @@
 var squaremap = {
   height: 0,
-  width:  0
+  width:  0,
+  shift:  5
 }
 
 var square = {
@@ -63,8 +64,8 @@ function index_country_context(iso3) {
   var country_square = _g.country_arrangement.filter_firstp('iso3', iso3);
 
   d3.select('#flag-marker').attr({
-    x: (country_square.x - 1) * square.width,
-    y: (country_square.y - 1) * square.height
+    x: (country_square.x - 1) * square.width  + squaremap.shift,
+    y: (country_square.y - 1) * square.height + squaremap.shift
   });
 
   var country = _g.all_countries.filter_firstp('iso3', iso3);
@@ -130,7 +131,11 @@ function squaremap_draw() {
       height: squaremap.height
     });
 
-  squaremap.container.selectAll("g")
+  squaremap.container.append('g')
+    .attr({
+      transform: "translate(" + squaremap.shift + "," + squaremap.shift + ")"
+    })
+    .selectAll("g")
     .data(_g.country_arrangement)
     .enter().append("g")
 
