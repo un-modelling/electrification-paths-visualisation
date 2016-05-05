@@ -28,6 +28,14 @@ _g.flagnames = [
     iso3: "CAF"
   },
   {
+    flag_tag: "cs",
+    iso3: "COM"
+  },
+  {
+    flag_tag: "cv",
+    iso3: "CPV"
+  },
+  {
     flag_tag: "td",
     iso3: "TCD"
   },
@@ -132,6 +140,10 @@ _g.flagnames = [
     iso3: "MOZ"
   },
   {
+    flag_tag: "mu",
+    iso3: "MUS"
+  },
+  {
     flag_tag: "na",
     iso3: "NAM"
   },
@@ -178,6 +190,10 @@ _g.flagnames = [
   {
     flag_tag: "tg",
     iso3: "TGO"
+  },
+  {
+    flag_tag: "tn",
+    iso3: "TUN"
   },
   {
     flag_tag: "ug",
