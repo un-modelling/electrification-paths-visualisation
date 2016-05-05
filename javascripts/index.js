@@ -148,11 +148,11 @@ function squaremap_draw() {
       class: "country-flag",
 
       width: function(d) {
-        return (d.iso3 == "0" ? 0 : square.width);
+        return (!d['iso3'] ? 0 : square.width);
       },
 
       height: function(d) {
-        return (d.iso3 == "0" ? 0 : square.height);
+        return (!d['iso3'] ? 0 : square.height);
       },
 
       x: function(d) {
@@ -165,16 +165,16 @@ function squaremap_draw() {
     })
     .on({
       click: function(d) {
-        return ((d.iso3 !== '0') ? index_country_context(d['iso3']) : false);
+        return (d['iso3'] ? index_country_context(d['iso3']) : false);
       },
       dblclick: function(d) {
-        return ((d.iso3 !== '0') ? country_href(d['iso3']) : false);
+        return (d['iso3'] ? index_country_href(d['iso3']) : false);
       }
     })
     .style({
       fill: function(d) {
-        if (d.iso3 === '0') return 'none';
-        else if (country_is_ignored(d.iso3)) return '#f2f2f2';
+        if (!d['iso3']) return 'none';
+        else if (country_is_ignored(d['iso3'])) return '#f2f2f2';
         else return '#00ADEC';
       },
       stroke: '#FFFFFF',
@@ -182,10 +182,10 @@ function squaremap_draw() {
         // TODO: this should be merged into _g.target_countries BEFORE
         //       and iso3 dropped
 
-        if (d.iso3 === '0') return;
+        if (!d['iso3']) return;
 
-        if (!country_is_ignored(d.iso3))
-          return _g.all_countries.filter_firstp('iso3', d.iso3)['context']['electrification_rate'];
+        if (!country_is_ignored(d['iso3']))
+          return _g.all_countries.filter_firstp('iso3', d['iso3'])['context']['electrification_rate'];
         else
           return 1;
       }
@@ -222,12 +222,12 @@ function squaremap_draw() {
   var legend = legend_container.append("defs")
     .append("svg:linearGradient")
     .attr({
-      "id": "gradient",
-      "x1": "100%",
-      "y1": "100%",
-      "x2": "0%",
-      "y2": "100%",
-      "spreadMethod": "pad"
+      id: "gradient",
+      x1: "100%",
+      y1: "100%",
+      x2: "0%",
+      y2: "100%",
+      spreadMethod: "pad"
     });
 
   legend.append("stop")
@@ -246,9 +246,9 @@ function squaremap_draw() {
 
   legend_container.append("rect")
     .attr({
-      "width": w,
-      "height": (h * 0.3),
-      "y": 13
+      y: 13,
+      width: w,
+      height: (h * 0.3),
     })
     .style("fill", "url(#gradient)");
 
@@ -271,8 +271,10 @@ function squaremap_draw() {
     .text(d3.format("%")(d3.min(er)));
 
   legend_container.append("text")
-    .attr("x", w)
-    .attr("y", h - 13)
+    .attr({
+      x: w,
+      y: h - 13
+    })
     .style({
       "text-anchor": "end",
       "fill": "#4d4d4d"
