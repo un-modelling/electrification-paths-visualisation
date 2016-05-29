@@ -90,6 +90,8 @@ function costs_graph_draw() {
   }
 
   var position = costs_graph.position;
+  var colors = ['blue', 'green', 'red'];
+
   var graph = d3.select('svg#costs').append('g')
       .attr({
         id: 'costs-graph',
@@ -98,25 +100,18 @@ function costs_graph_draw() {
 
   var i = 1;
 
+  var diesel = _g.current_diesel === "nps" ? "n" : "l";
+  var grouped_technologies = _g.technologies.group_p('group');
+  var technology_groups    = Object.keys(grouped_technologies);
+
   while (i <= 5) {
-    var summary = _g.country["summary_" + _g.current_diesel + i];
+    var summary = _g.country["summary"];
+    var label = _g.current_cost + diesel + i;
 
-    // TODO: data will be reformatted and then we can clean this
-    // up. It's mostly ready.
-    //
-    var total_cost = summary['cost_grid'] + summary['cost_mg'] + summary['cost_sa'];
-    var technologies_groups = ['grid', 'mg', 'sa'];
-
-    var sources = technologies_groups.map(function(e) {
-      var tech = _g.technologies.filter(function(t) {
-        return ((t['short_name'] === 'grid'        && e === 'grid') ||
-                (t['short_name'] === 'micro_grid'  && e === 'mg')   ||
-                (t['short_name'] === 'stand_alone' && e === 'sa'))
-      })[0];
-
+    var sources = technology_groups.map(function(e,i) {
       return {
-        color: tech['color'],
-        value: summary['cost_' + e]
+        color: colors[i],
+        value: _g.country.summary[e + label]
       };
     });
 

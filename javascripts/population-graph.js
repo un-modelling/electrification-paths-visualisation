@@ -115,6 +115,123 @@ function bar_graph_draw(opts, sources, tier) {
 }
 
 function population_graph_draw(opts) {
+  var selected_grids = worldmap.technology_populations.filter(function(e) { return e['population'] !== 0; }).sort_p('population');
+
+  var width_legend = d3.select('#map-legend').node().clientWidth;
+  var height_legend = (selected_grids.length * 20) + 20;
+
+  $("#map-legend, #map-legend-lines").empty();
+
+  var total_population = worldmap.technology_populations.reduce(function(a,b) { return a + b['population']; }, 0);
+
+  var legend_svg = d3.select("#map-legend")
+    .append("svg")
+    .attr({
+      "width": width_legend,
+      "height": height_legend
+    });
+
+  var legend_grad = legend_svg.selectAll('.legend-group')
+    .data(selected_grids)
+    .enter().append('defs')
+    .append("svg:linearGradient")
+    .attr({
+      id: function(d,i) {
+        return 'gradient' + i;
+      },
+      x1: function(d,i) {
+        return (_g.technologies.filter_firstp('name', d['name'])['min_opacity'] * 100) + "%";
+      },
+      x2: "100%",
+      y1: "0%",
+      y2: "0%",
+
+      y: function(d,i) {
+        return i * 15;
+      }
+    });
+
+  legend_grad.append("stop")
+    .attr({
+      offset: "0%"
+    })
+    .style({
+      "stop-color": function(d,i) {
+        return _g.technologies.filter_firstp('name', d['name'])['color'];
+      },
+
+      "stop-opacity": function(d,i) {
+        return _g.technologies.filter_firstp('name', d['name'])['min_opacity'];
+      },
+    });
+
+  legend_grad.append("stop")
+    .attr({
+      "offset": "100%",
+    })
+    .style({
+      "stop-color": function(d, i) {
+        return _g.technologies.filter_firstp('name', d['name'])['color'];
+      },
+
+      "stop-opacity": 1
+    });
+
+  var legend = legend_svg.selectAll('.legend-group')
+    .data(selected_grids)
+    .enter().append('g')
+    .attr({
+      class: 'legend-group',
+      transform: function(d, i) {
+        return 'translate(0,' + ((20 * i) + 10) + ')'
+      }
+    });
+
+  legend.append("rect")
+    .attr({
+      "width": 250,
+      "height": 20,
+      "x": 25,
+      "y": 2
+    })
+    .style("fill", function(d, i) {
+      return "url(#gradient" + i + ")";
+    });
+
+  legend.append('text')
+    .attr({
+      y: 17,
+      x: 50
+    })
+    .text(function(d) {
+      var p = ((d['population'] / total_population) * 100).toFixed(2);
+
+      return p + "%" + " " + d['population'] + " " + d['name'];
+    })
+    .style('fill', _g.font_color);
+
+  legend_svg.append("text")
+    .attr("x", 15)
+    .attr("y", 48)
+    .style({
+      "font-size": 18,
+      "text-anchor": "end",
+      "fill": _g.font_color
+    })
+    .text("0");
+
+  legend_svg.append("text")
+    .attr("x", 250 + 30)
+    .attr("y", 48)
+    .style({
+      "font-size": 18,
+      "text-anchor": "start",
+      "fill": _g.font_color
+    })
+    .text(_g.hd.toLocaleString() + "+");
+
+  return;
+
   var t_width  = opts.size[0] - 45 - (bar_graph_padding * 5);
   var t_height = opts.size[1] - 40;
 

@@ -104,6 +104,26 @@
       <div class="row">
         <div class="col-lg-2 col-md-2">
           <div class="col-md-12 sec-center" id="scenario-selector">
+            <h5>Generation Cost</h5>
+            US$/kWh
+
+            <div id="cost-selector" class="btn-group btn-group-sm" data-toggle="buttons">
+              <label class="btn btn-primary btn-md cost-changer">
+                <input type="radio" value="1" name="options" autocomplete="off"> <strong>0.06</strong>
+              </label>
+
+              <label class="btn cost-changer btn-primary">
+                <input type="radio" value="2" name="options" autocomplete="off"> <strong>0.08</strong>
+              </label>
+
+              <label class="btn btn-primary cost-changer active">
+                <input type="radio" value="3" name="options" autocomplete="off" checked> <strong>0.10</strong>
+              </label>
+            </div>
+
+            <br />
+            <br />
+
             <h5>Diesel Price</h5>
             US$/liter
 
@@ -148,18 +168,6 @@
         </div>
 
         <div class="col-lg-6 col-md-6">
-          <div class="row">
-            <div class="col-md-8">
-              <h5>Population / 100 km<sup>2</sup></h5>
-              <div id="map-legend"></div>
-            </div>
-
-            <div class="col-md-4">
-              <h5>Transmission Lines</h5>
-              <div id="map-legend-lines"></div>
-            </div>
-          </div>
-
           <div id="map-container" style="position: relative;">
             <h3 id="map-area-curtain">Loading...</h3>
             <div id="map-area"></div>
@@ -181,6 +189,14 @@
           </div>
 
           <a data-toggle="modal" data-target="#disclaimerModal" class="disclaimer-link"><i class="fa fa-info"></i>&nbsp;&nbsp;About this Map</a>
+
+
+          <div class="row">
+            <div class="col-md-4">
+              <h5>Transmission Lines</h5>
+              <div id="map-legend-lines"></div>
+            </div>
+          </div>
         </div>
 
         <div class="col-lg-4 col-md-4" id="country-stats" rv-show="country">
@@ -189,11 +205,14 @@
               <h5>Population Distribution by Scenario </h5> People to receive electricity (2012-2030) :
               <span rv-text="country.context.population_2030 | in_millions_people"></span>
             </p>
+
+            <div id="population">
+              <!-- <h5>Population / 100 km<sup>2</sup></h5> -->
+              <div id="map-legend"></div>
+            </div>
           </div>
 
           <div class="row">
-            <svg id="population"></svg>
-            <br />
             <h5>Total Cost of Electrification by Scenario (2012-2030)</h5>
 
             <svg id="costs"></svg>

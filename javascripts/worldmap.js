@@ -8,6 +8,8 @@ var worldmap = {
   technologies:  [],
   grid_colors:   [],
   min_opacities: [],
+  grid_counts:   null,
+  technology_populations: null
 };
 
 var worldmap_svg = d3.select('#map-area').append('svg')
@@ -70,25 +72,29 @@ function worldmap_curtain(callback) {
 function worldmap_update(country) {
   var split = _g.current_diesel + _g.current_tier.toString();
 
-  var diesel = _g.current_diesel === "nps" ? "n" : "o";
+  var diesel = _g.current_diesel === "nps" ? "n" : "l";
 
-  var compressed_split = [diesel, _g.current_tier];
+  var compressed_split = [_g.current_cost, diesel, _g.current_tier];
+
+  var c_row  = "c"  + _g.current_cost + diesel;
+  var lc_row = "lc" + _g.current_cost + diesel;
+  var col    = _g.current_tier - 1;
 
   if (_g.first_load) {
     queue()
       .defer(d3.json, './data/grids/' + country['iso3'] + '_grids.json')
     // .defer(d3.json, 'http://localhost:3000/countries/' + country['iso3'] + '/full')
       .await(function(err, grids_json) {
-        worldmap_grids(err, grids_json, split, compressed_split);
+        worldmap_grids(err, grids_json, split, c_row, lc_row, col);
         _g.grids = grids_json;
         _g.first_load = false;
       });
 
   } else {
     if (_g.grids.length > 10000)
-      worldmap_curtain(function() { worldmap_grids(null, _g.grids, split, compressed_split); });
+      worldmap_curtain(function() { worldmap_grids(null, _g.grids, split, c_row, lc_row, col); });
     else
-      worldmap_grids(null, _g.grids, split, compressed_split);
+      worldmap_grids(null, _g.grids, split, c_row, lc_row, col);
   }
 }
 
@@ -151,114 +157,9 @@ function worldmap_load(world_topo, countries_list) {
         }
       }
     });
+}
 
-  var width_legend = d3.select('#map-legend').node().clientWidth;
-  var height_legend = (_g.technologies.length * 20) + 20;
-
-  var legend_svg = d3.select("#map-legend")
-    .append("svg")
-    .attr({
-      "width": width_legend,
-      "height": height_legend
-    });
-
-  var legend_grad = legend_svg.selectAll('.legend-group')
-    .data(worldmap.technologies)
-    .enter().append('defs')
-    .append("svg:linearGradient")
-    .attr({
-      id: function(d,i) {
-        return 'gradient' + i;
-      },
-      x1: function(d,i) {
-        return (worldmap.min_opacities[i] * 100) + "%";
-      },
-      x2: "100%",
-      y1: "0%",
-      y2: "0%",
-
-      y: function(d,i) {
-        return i * 15;
-      }
-    });
-
-  legend_grad.append("stop")
-    .attr({
-      offset: "0%"
-    })
-    .style({
-      "stop-color": function(d,i) {
-        return worldmap.grid_colors[i];
-      },
-
-      "stop-opacity": function(d,i) {
-        return worldmap.min_opacities[i];
-      },
-    });
-
-  legend_grad.append("stop")
-    .attr({
-      "offset": "100%",
-    })
-    .style({
-      "stop-color": function(d, i) {
-        return worldmap.grid_colors[i];
-      },
-
-      "stop-opacity": 1
-    });
-
-  var legend = legend_svg.selectAll('.legend-group')
-    .data(worldmap.technologies)
-    .enter().append('g')
-    .attr({
-      class: 'legend-group',
-      transform: function(d, i) {
-        return 'translate(0,' + ((20 * i) + 10) + ')'
-      }
-    });
-
-  legend.append("rect")
-    .attr({
-      "width": 150,
-      "height": 20,
-      "x": 25,
-      "y": 2
-    })
-    .style("fill", function(d, i) {
-      return "url(#gradient" + i + ")";
-    });
-
-  legend.append('text')
-    .attr({
-      y: 17,
-      x: 50
-    })
-    .text(function(d) {
-      return d;
-    })
-    .style('fill', _g.font_color);
-
-  legend_svg.append("text")
-    .attr("x", 15)
-    .attr("y", 48)
-    .style({
-      "font-size": 18,
-      "text-anchor": "end",
-      "fill": _g.font_color
-    })
-    .text("0");
-
-  legend_svg.append("text")
-    .attr("x", 150 + 40)
-    .attr("y", 48)
-    .style({
-      "font-size": 18,
-      "text-anchor": "start",
-      "fill": _g.font_color
-    })
-    .text(_g.hd.toLocaleString() + "+");
-
+function worldmap_load_legends() {
   var line_data = [{
     "x": 15,
     "y": 7
@@ -324,7 +225,7 @@ function worldmap_grid_opacity(grid, i) {
   return (p < _g.hd) ? (((p / _g.hd) * (1 - min)) + min) : 1;
 }
 
-function worldmap_grids(err, country_grids, split, comp_split) {
+function worldmap_grids(err, country_grids, split, c, lc, col) {
   if (err) console.warn('error', err);
 
   // Doing this is suicide: d3.selectAll('rect.point-group').remove();
@@ -336,6 +237,23 @@ function worldmap_grids(err, country_grids, split, comp_split) {
   var points_container = worldmap.countries.append('g')
       .attr({ id: 'points-container' });
 
+  var diesel = _g.current_diesel === "nps" ? "n" : "l";
+  var label  = _g.current_cost + diesel + _g.current_tier;
+
+  worldmap.technology_populations = _g.technologies.map(function(e) {
+    return {
+      name: e['name'],
+      population: 0
+    }
+  });
+
+  worldmap.grid_counts = _g.technologies.map(function(e) {
+    return {
+      name: e['name'],
+      count: 0
+    }
+  });
+
   var points = points_container.selectAll('.point-group')
     .data(country_grids)
     .enter().append('rect')
@@ -345,17 +263,23 @@ function worldmap_grids(err, country_grids, split, comp_split) {
       width: 0.4,
       height: 0.4,
 
+      count: function(d) {
+        worldmap.technology_populations[d[c][col]]['population'] += d['p' + _g.year_end];
+        worldmap.grid_counts[d[c][col]]['count'] += 1;
+        return null;
+      },
+
       transform: function(d) {
         var p = worldmap.projection([d.x, d.y]);
         return "translate(" + (p[0] - 0.2) + "," + (p[1] - 0.2) + ")";
       },
 
       fill: function(d) {
-        return worldmap.grid_colors[d[comp_split[0]][comp_split[1] - 1]];
+        return worldmap.grid_colors[d[c][col]];
       },
 
       opacity: function(d,i) {
-        return worldmap_grid_opacity(d,d[comp_split[0]][comp_split[1] - 1]);
+        return worldmap_grid_opacity(d, d[c][col]);
       }
     })
     .on({
@@ -367,14 +291,18 @@ function worldmap_grids(err, country_grids, split, comp_split) {
           }
         });
 
-        var t = d[comp_split[0]][comp_split[1] - 1];
-        var l = d['l' + comp_split[0]][comp_split[1] - 1];
+        var t = d[c][col];
+        var l = d[lc][col];
 
         _g.current_grid['technology'] = worldmap.technologies[t];
         _g.current_grid['lcoe'] = l;
         _g.current_grid['population_' + _g.year_end] = d['p' + _g.year_end];
       }
     });
+
+  population_graph_draw();
+
+  worldmap_load_legends();
 
   document.getElementById('map-area-curtain').style.display = "none";
 

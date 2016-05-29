@@ -61,6 +61,8 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
       tier = parseInt(get_query_param('tier'));
       diesel_price = get_query_param('diesel_price');
 
+      _g.country['summary'] = JSON.parse(_g.country['split_summary']);
+
     } catch (e) {
       alert("Wrong ISO3 code! Bailing out... :(");
       return false;
