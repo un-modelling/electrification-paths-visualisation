@@ -26,7 +26,7 @@ function bar_graph_draw(opts, sources, tier) {
 
     .on({
       click: function(d) {
-        return change_tier(tier);
+        return change_tier();
       }
   });
 
@@ -131,8 +131,6 @@ function population_graph_draw(opts) {
   var i = 1;
   while (i <= 5) {
     var summary = _g.country["summary_" + _g.current_diesel + i];
-
-    var total_population = summary['grid'] + summary['micro_grid'] + summary['stand_alone'];
 
     var sources = _g.technologies.map(function(e) {
       return {

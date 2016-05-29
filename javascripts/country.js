@@ -1,22 +1,6 @@
-function graphs_population_and_costs() {
-  var svg_popl  = d3.select('svg#population');
-  var svg_costs = d3.select('svg#costs');
-
-  costs_graph_center = { x: 150, y: 150 }; // This is defined in costs-graph.js
-
-  population_graph_draw({
-    size: function() { var s = $('svg#population'); return [s.width(), s.height()]; }(),
-    svg: svg_popl
-  });
-
-  costs_graph_draw({
-    size:     { width: 350, height: 300 },
-    position: costs_graph_center,
-    svg: svg_costs
-  });
-}
-
 function change_tier(tier) {
+  if (!tier) tier = _g.current_tier;
+
   _g.current_tier = tier;
   _g.scenario['tier'] = tier;
 
@@ -28,12 +12,27 @@ function change_tier(tier) {
   // Graphs
   //
   costs_graph_rearrange(tier);
-
   population_graph_rearrange(tier);
 
   // Map
   //
   worldmap_update(_g.country);
+}
+
+function reload_everything() {
+  // TODO: animations instead of this redraw
+  // TODO: this is causing unnecessary requests (svg icons)
+  //
+  $('svg#population').empty();
+  $('svg#costs').empty();
+
+  costs_graph_draw();
+
+  setTimeout(function() {
+    costs_graph_rearrange(_g.current_tier, 1);
+  }, 100);
+
+  change_tier();
 }
 
 function load_everything(err, all_countries, world_topo, transmission_lines, planned_transmission_lines) {
@@ -83,40 +82,23 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
     _g.current_diesel = diesel_price;
     _g.scenario['diesel_price'] = _g.diesel_price[_g.current_diesel];
 
-    var population_svg = d3.select('svg#population')
-      .attr({
-        width: $('svg#population').parent().width(),
-        height: 200
-      });
+    costs_graph_draw();
 
-    var costs_svg = d3.select('svg#costs')
-      .attr({
-        width: $('svg#costs').parent().width(),
-        height: 300
-      });
+    $('#loading-screen').fadeOut(600, change_tier);
 
-    graphs_population_and_costs(population_svg, costs_svg);
+    $("#cost-selector").change(function() {
+      var cost = $('#cost-selector').find("input[type='radio']:checked").val();
+      _g.current_cost = cost;
 
-    $('#loading-screen').fadeOut(600, function() { change_tier(_g.current_tier); });
+      reload_everything();
+    });
 
     $("#diesel-price-selector").change(function() {
       _g.current_diesel = (_g.current_diesel === "nps" ? "low" : "nps");
 
       _g.scenario['diesel_price'] = _g.diesel_price[_g.current_diesel]
 
-      // TODO: animations instead of this redraw
-      // TODO: this is causing unnecessary requests (svg icons)
-      //
-      $('svg#population').empty();
-      $('svg#costs').empty();
-
-      graphs_population_and_costs(population_svg, costs_svg);
-
-      setTimeout(function() {
-        costs_graph_rearrange(_g.current_tier, 1);
-      }, 100);
-
-      change_tier(_g.current_tier);
+      reload_everything();
     });
 
     $('.tier-changer').click(function(e) {

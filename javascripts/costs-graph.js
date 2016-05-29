@@ -1,4 +1,8 @@
-var costs_graph_center;
+var costs_graph = {
+  position: { x: 0, y: 0 },
+  width:  0,
+  height: 300
+}
 
 function doughnut_graph_draw(opts, data, tier) {
   var radius = opts.radius;
@@ -74,15 +78,19 @@ function doughnut_graph_draw(opts, data, tier) {
     height: 25
   });
 
-  costs_graph_rearrange(tier);
+  costs_graph_rearrange(tier, null);
 }
 
-function costs_graph_draw(opts) {
-  var position = opts.position;
-  var width = opts.size.width;
-  var height = opts.size.height;
+function costs_graph_draw() {
+  costs_graph.width = $('svg#costs').parent().width();
 
-  var graph = opts.svg.append('g')
+  costs_graph.position = {
+    x: $('svg#costs').parent().width() / 2,
+    y: 150
+  }
+
+  var position = costs_graph.position;
+  var graph = d3.select('svg#costs').append('g')
       .attr({
         id: 'costs-graph',
         transform: "translate(" + position.x + "," + position.y + ")"
@@ -112,7 +120,7 @@ function costs_graph_draw(opts) {
       };
     });
 
-    var pp = pentagon_position(i, width / 4);
+    var pp = pentagon_position(i, costs_graph.width / 4);
 
     doughnut_graph_draw({
       id: "costs-graph" + i,
@@ -122,7 +130,7 @@ function costs_graph_draw(opts) {
         y: pp['y'],
       },
 
-      radius: Math.min(width, height) / 6
+      radius: Math.min(costs_graph.width, costs_graph.height) / 6
 
     }, sources, i)
 
@@ -131,6 +139,8 @@ function costs_graph_draw(opts) {
 }
 
 function costs_graph_rearrange(tier, animation_time) {
+  var position = costs_graph.position;
+
   if (!animation_time) animation_time = 1000;
 
   d3.selectAll(".doughnut-text")
@@ -159,7 +169,7 @@ function costs_graph_rearrange(tier, animation_time) {
     .attrTween("transform", function() {
       return d3.interpolateString(
         d3.select(this).attr('transform'),
-        "translate(" + costs_graph_center.x + "," + costs_graph_center.y + ")" + "rotate(" + 72 * tier + ")"
+        "translate(" + position.x + "," + position.y + ")" + "rotate(" + 72 * tier + ")"
       );
     });
 

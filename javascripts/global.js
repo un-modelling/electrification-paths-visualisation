@@ -74,14 +74,14 @@ window._g = {
 
   transmission_lines: ['Existing Line', 'Planned Line'],
 
-  // the value at which we consider an area as "very dense" and set the opacity to 1.
-  //
   current_tier: 3,
   current_diesel: 'nps',
 
   year_start: 2012,
   year_end: 2030,
 
+  // the value at which we consider an area as "very dense" and set the opacity to 1.
+  //
   hd: 100000,
 
   font_color: "#4d4d4d",
@@ -99,7 +99,7 @@ window._g = {
     5: 'ac'
   },
 
-  // The following ae NOT configurable
+  // The following are NOT configurable.
   //
   all_countries: [],
 

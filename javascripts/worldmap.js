@@ -20,7 +20,7 @@ var worldmap_svg = d3.select('#map-area').append('svg')
 function worldmap_init() {
   // Helpers
   //
-  _g.technologies.map(function(e) {
+  _g.technologies.forEach(function(e) {
     worldmap.technologies.push(e['name']);
     worldmap.grid_colors.push(e['color']);
     worldmap.min_opacities.push(e['min_opacity']);
@@ -312,7 +312,7 @@ function worldmap_load(world_topo, countries_list) {
 }
 
 function worldmap_grid_opacity(grid, i) {
-  var p = grid['p2'];
+  var p = grid['p' + _g.year_end];
   if (!p) return 0;
 
   // select the minimum opacity based on population and the setting in _g.technologies:
@@ -372,7 +372,7 @@ function worldmap_grids(err, country_grids, split, comp_split) {
 
         _g.current_grid['technology'] = worldmap.technologies[t];
         _g.current_grid['lcoe'] = l;
-        _g.current_grid['population_' + _g.year_end] = d['p2'];
+        _g.current_grid['population_' + _g.year_end] = d['p' + _g.year_end];
       }
     });
 
