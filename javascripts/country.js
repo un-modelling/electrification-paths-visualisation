@@ -159,8 +159,10 @@ d3.selection.prototype.move_to_front = function() {
   });
 }
 
+_g.data_address = _g.data_sources[_g.data_source];
+
 queue(4)
-  .defer(d3.json, './data/country/summaries.json')
+  .defer(d3.json, _g.data_address['root'] + _g.data_address['countries'])
   .defer(d3.json, './data/topojson/world-topography.json')
   .defer(d3.json, './data/topojson/existing-transmission-lines.json')
   .defer(d3.json, './data/topojson/planned-transmission-lines.json')

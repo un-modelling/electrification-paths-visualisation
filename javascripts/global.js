@@ -1,4 +1,21 @@
 window._g = {
+  data_source: "static",
+
+  data_sources: {
+    'static': {
+      'root': "./data/",
+      'grids_prefix': "grids/",
+      'grids_suffix': "_grids.json",
+      'countries': 'country/countries_summaries.json'
+    },
+    'api': {
+      'root': "http://localhost:3000/",
+      'grids_prefix': "countries/",
+      'grids_suffix': "/full",
+      'countries': 'countries'
+    }
+  },
+
   // Region to be displayed
   //
   region: "AFRICA",
@@ -95,6 +112,8 @@ window._g = {
 
   // The following are NOT configurable.
   //
+  data_address: null,
+
   all_countries: [],
 
   target_countries: [],

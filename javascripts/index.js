@@ -332,7 +332,9 @@ function index_load_everything(err, arrangement, all_countries) {
   });
 }
 
+_g.data_address = _g.data_sources[_g.data_source];
+
 queue()
   .defer(d3.csv,  './data/country/arrangement.csv')
-  .defer(d3.json, './data/country/summaries.json')
+  .defer(d3.json, _g.data_address['root'] + _g.data_address['countries'])
   .await(index_load_everything);

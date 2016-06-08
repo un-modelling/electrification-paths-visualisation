@@ -82,8 +82,7 @@ function worldmap_update(country) {
 
   if (_g.first_load) {
     queue()
-      .defer(d3.json, './data/grids/' + country['iso3'] + '_grids.json')
-    // .defer(d3.json, 'http://localhost:3000/countries/' + country['iso3'] + '/full')
+      .defer(d3.json, _g.data_address['root'] + _g.data_address['grids_prefix'] + country['iso3'] + _g.data_address['grids_suffix'])
       .await(function(err, grids_json) {
         worldmap_grids(err, grids_json, split, c_row, lc_row, col);
         _g.grids = grids_json;
