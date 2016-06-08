@@ -153,6 +153,12 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
   });
 }
 
+d3.selection.prototype.move_to_front = function() {
+  this.each(function() {
+    this.parentNode.appendChild(this);
+  });
+}
+
 queue(4)
   .defer(d3.json, './data/country/summaries.json')
   .defer(d3.json, './data/topojson/world-topography.json')

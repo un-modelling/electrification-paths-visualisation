@@ -96,6 +96,8 @@ function worldmap_update(country) {
     else
       worldmap_grids(null, _g.grids, split, c_row, lc_row, col);
   }
+
+  d3.selectAll('.country-label').move_to_front();
 }
 
 function worldmap_load(world_topo, countries_list) {
