@@ -78,7 +78,7 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
       return false;
     }
 
-    // TODO: clean this globals up...
+    // TODO: clean these globals up...
     //
     _g.current_tier = tier;
     _g.current_diesel = diesel_price;

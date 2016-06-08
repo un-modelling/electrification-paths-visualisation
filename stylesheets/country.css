@@ -197,19 +197,23 @@ svg.tier-icon path {
 /* GRID DESCRIPTION */
 
 #grid-description {
-  height: 40px;
   z-index: 999;
   vertical-align: middle;
-  color: white;
+  color: white !important;
+  background-color: rgba(0,0,0,0.9);
+  margin: 0;
 }
+
 .grid-col {
   padding-top: 7px;
   padding-bottom: 7px;
-  color: #4d4d4d;
+  text-align: center;
 }
+
 .grid-col > i {
   color: #00adef;
 }
+
 .grid-val {
   font-size: 1em;
   margin-left: 5px;

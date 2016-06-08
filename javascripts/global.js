@@ -1,6 +1,10 @@
 window._g = {
+  // Region to be displayed
+  //
   region: "AFRICA",
 
+  // Subregions not contemplated in the model
+  //
   ignored_subregions: [
     "Northern Africa"
   ],
@@ -11,9 +15,9 @@ window._g = {
     "SDN" // Sudan
   ],
 
+  // Countries with too many hipotetical assumptions
+  //
   ignored_countries: [
-    // Countries with too many hipotetical assumptions
-    //
     "COM", // Comoros
     "CPV", // Cabo Verde
     "MUS", // Mauritus
