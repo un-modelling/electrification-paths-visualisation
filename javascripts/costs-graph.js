@@ -105,13 +105,13 @@ function costs_graph_draw() {
   var technology_groups    = Object.keys(grouped_technologies);
 
   while (i <= 5) {
-    var summary = _g.country["summary"];
+    var summary = _g.country["split_summary"];
     var label = _g.current_cost + diesel + i;
 
     var sources = technology_groups.map(function(e,i) {
       return {
         color: colors[i],
-        value: _g.country.summary[e + label]
+        value: summary[e + label]
       };
     });
 
