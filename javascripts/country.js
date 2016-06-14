@@ -53,7 +53,7 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
     try {
       _g.country = country_by_iso3(get_query_param('iso3'));
 
-      if (_g.ignored_countries.indexOf(_g.country['iso3']) > -1) {
+      if (_config.ignored_countries.indexOf(_g.country['iso3']) > -1) {
         alert("Country not considered in the model...");
         return false;
       }
@@ -80,7 +80,7 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
     //
     _g.current_tier = tier;
     _g.current_diesel = diesel_price;
-    _g.scenario['diesel_price'] = _g.diesel_price[_g.current_diesel];
+    _g.scenario['diesel_price'] = _config.diesel_price[_g.current_diesel];
 
     costs_graph_draw();
 
@@ -96,7 +96,7 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
     $("#diesel-price-selector").change(function() {
       _g.current_diesel = (_g.current_diesel === "nps" ? "low" : "nps");
 
-      _g.scenario['diesel_price'] = _g.diesel_price[_g.current_diesel]
+      _g.scenario['diesel_price'] = _config.diesel_price[_g.current_diesel]
 
       reload_everything();
     });
@@ -157,7 +157,7 @@ d3.selection.prototype.move_to_front = function() {
   });
 }
 
-_g.data_address = _g.data_sources[_g.data_source];
+_g.data_address = _config.data_sources[_config.data_source];
 
 queue(4)
   .defer(d3.json, _g.data_address['root'] + _g.data_address['countries'])

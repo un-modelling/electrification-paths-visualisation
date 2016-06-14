@@ -25,27 +25,27 @@ var rv = {
     index_country_href(v.c['iso3']);
   },
 
-  region: _g.region
+  region: _config.region
 }
 
 function general_context_load() {
   var general = {
     population_start: _g.target_countries.map(function(c) {
-      return c['context']['population_' + _g.year_start]
+      return c['context']['population_' + _config.year_start]
     }).reduce(function(a, b) {
       return a + b
     }),
     population_end:   _g.target_countries.map(function(c) {
-      return c['context']['population_' + _g.year_end]
+      return c['context']['population_' + _config.year_end]
     }).reduce(function(a, b) {
       return a + b
     }),
     electrified_percentage: average(_g.target_countries, function(e) {
       return e['context']['electrification_rate']
     }),
-    year_start: _g.year_start,
-    year_end: _g.year_end,
-    region: _g.region
+    year_start: _config.year_start,
+    year_end: _config.year_end,
+    region: _config.region
   };
 
   rivets.bind($('#general-context'), {
@@ -84,13 +84,13 @@ function index_country_context(iso3) {
     return;
   }
 
-  country.context['population_start'] = country.context['population_' + _g.year_start];
-  country.context['electrified_start'] = country.context['electrified_' + _g.year_start];
+  country.context['population_start'] = country.context['population_' + _config.year_start];
+  country.context['electrified_start'] = country.context['electrified_' + _config.year_start];
 
   index_country_bind = rivets.bind($('#country-context'), {
     country: country,
-    year_start: _g.year_start,
-    year_end: _g.year_end
+    year_start: _config.year_start,
+    year_end: _config.year_end
   });
 
   d3.select("#country-context").style("visibility", "visible");
@@ -318,8 +318,8 @@ function index_load_everything(err, arrangement, all_countries) {
 
     rivets.bind($('#country-selector'), {
       countries: _g.target_countries,
-      year_start: _g.year_start,
-      year_end: _g.year_end,
+      year_start: _config.year_start,
+      year_end: _config.year_end,
       rv: rv
     });
 
@@ -332,7 +332,7 @@ function index_load_everything(err, arrangement, all_countries) {
   });
 }
 
-_g.data_address = _g.data_sources[_g.data_source];
+_g.data_address = _config.data_sources[_config.data_source];
 
 queue()
   .defer(d3.csv,  './data/country/arrangement.csv')

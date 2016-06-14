@@ -23,7 +23,7 @@ function setup_project_countries(data, callback) {
     if (country_is_ignored(d.iso3))
       return false;
 
-    if (d.region === _g.region) {
+    if (d.region === _config.region) {
       return true;
     } else
       return false;
@@ -53,11 +53,11 @@ function pentagon_position(direction, container_size) {
 // Country utils
 
 function country_is_ignored(iso3) {
-  if (_g.exception_countries.indexOf(iso3) > -1)
+  if (_config.exception_countries.indexOf(iso3) > -1)
     return false
 
-  return (_g.ignored_countries.indexOf(iso3) > -1 ||
-          _g.ignored_subregions.indexOf(country_by_iso3(iso3)['subregion']) > -1);
+  return (_config.ignored_countries.indexOf(iso3) > -1 ||
+          _config.ignored_subregions.indexOf(country_by_iso3(iso3)['subregion']) > -1);
 }
 
 function country_by_iso3(iso3) {
@@ -109,7 +109,7 @@ function cost_electrification(d) {
 }
 
 function population_electrified_by(d) {
-  var x = d['value'] * _g.country['context']['population_' + _g.year_end];
+  var x = d['value'] * _g.country['context']['population_' + _config.year_end];
 
   var fx = (x / 1000000).toFixed(2);
 
@@ -117,7 +117,7 @@ function population_electrified_by(d) {
 }
 
 function tier_icon(container, tier, cls, attrs) {
-  var icon_file = "images/icons/" + _g.tier_icons[tier] + "-icon.svg";
+  var icon_file = "images/icons/" + _config.tier_icons[tier] + "-icon.svg";
 
   d3.xml(icon_file, function(error, documentFragment) {
     if (error) {
@@ -135,7 +135,7 @@ function tier_icon(container, tier, cls, attrs) {
     icon_container.select("svg")
       .attr(attrs)
       .selectAll('path')
-      .style({ stroke: _g.font_color });
+      .style({ stroke: _config.font_color });
   });
 }
 

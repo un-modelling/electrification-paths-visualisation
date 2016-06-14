@@ -22,7 +22,7 @@ var worldmap_svg = d3.select('#map-area').append('svg')
 function worldmap_init() {
   // Helpers
   //
-  _g.technologies.forEach(function(e) {
+  _config.technologies.forEach(function(e) {
     worldmap.technologies.push(e['name']);
     worldmap.grid_colors.push(e['color']);
     worldmap.min_opacities.push(e['min_opacity']);
@@ -112,7 +112,7 @@ function worldmap_load(world_topo, countries_list) {
       d: worldmap.path
     })
     .style({
-      stroke: _g.font_color,
+      stroke: _config.font_color,
       fill: "#CDE6CD"
     });
 
@@ -146,12 +146,12 @@ function worldmap_load(world_topo, countries_list) {
         })
       },
       mouseout: function(d) {
-        d3.select(this).style("fill", _g.font_color)
+        d3.select(this).style("fill", _config.font_color)
       },
       dblclick: function(d) {
         var ccode = find_country_iso(d);
         var country = country_by_iso3(ccode)
-        if ((country.region == _g.region) && ($.inArray(country.subregion, _g.ignored_subregions))) {
+        if ((country.region == _config.region) && ($.inArray(country.subregion, _config.ignored_subregions))) {
           window.location = "./country.html?iso3=" + find_country_iso(d) + "&tier=3&diesel_price=nps";
         } else {
           alert("Electrification model not available. Choose another country.")
@@ -185,7 +185,7 @@ function worldmap_load_legends() {
     });
 
   var legend_lines = legend_lines_svg.selectAll('.legend-group')
-    .data(_g.transmission_lines)
+    .data(_config.transmission_lines)
     .enter().append('g')
     .attr({
       class: 'legend-group',
@@ -198,7 +198,7 @@ function worldmap_load_legends() {
     .attr("d", line_function(line_data))
     .attr("stroke-width", 3)
     .style({
-      'stroke': _g.technologies.filter_firstp('name', 'National Grid')['color'],
+      'stroke': _config.technologies.filter_firstp('name', 'National Grid')['color'],
       'stroke-dasharray': function(d) { if (d === 'Planned Line') { return 0.4; } }
     });
 
@@ -210,20 +210,20 @@ function worldmap_load_legends() {
     .text(function(d) {
       return d;
     })
-    .style('fill', _g.font_color);
+    .style('fill', _config.font_color);
 }
 
 function worldmap_grid_opacity(grid, i) {
-  var p = grid['p' + _g.year_end];
+  var p = grid['p' + _config.year_end];
   if (!p) return 0;
 
-  // select the minimum opacity based on population and the setting in _g.technologies:
+  // select the minimum opacity based on population and the setting in _config.technologies:
   //
   var min = worldmap.min_opacities[i];
 
   // scale linearly between (min..1)
   //
-  return (p < _g.hd) ? (((p / _g.hd) * (1 - min)) + min) : 1;
+  return (p < _config.hd) ? (((p / _config.hd) * (1 - min)) + min) : 1;
 }
 
 function worldmap_grids(err, country_grids, split, c, lc, col) {
@@ -241,14 +241,14 @@ function worldmap_grids(err, country_grids, split, c, lc, col) {
   var diesel = _g.current_diesel === "nps" ? "n" : "l";
   var label  = _g.current_cost + diesel + _g.current_tier;
 
-  worldmap.technology_populations = _g.technologies.map(function(e) {
+  worldmap.technology_populations = _config.technologies.map(function(e) {
     return {
       name: e['name'],
       population: 0
     }
   });
 
-  worldmap.grid_counts = _g.technologies.map(function(e) {
+  worldmap.grid_counts = _config.technologies.map(function(e) {
     return {
       name: e['name'],
       count: 0
@@ -265,7 +265,7 @@ function worldmap_grids(err, country_grids, split, c, lc, col) {
       height: 0.4,
 
       count: function(d) {
-        worldmap.technology_populations[d[c][col]]['population'] += d['p' + _g.year_end];
+        worldmap.technology_populations[d[c][col]]['population'] += d['p' + _config.year_end];
         worldmap.grid_counts[d[c][col]]['count'] += 1;
         return null;
       },
@@ -297,7 +297,7 @@ function worldmap_grids(err, country_grids, split, c, lc, col) {
 
         _g.current_grid['technology'] = worldmap.technologies[t];
         _g.current_grid['lcoe'] = l;
-        _g.current_grid['population_' + _g.year_end] = d['p' + _g.year_end];
+        _g.current_grid['population_' + _config.year_end] = d['p' + _config.year_end];
       }
     });
 
@@ -373,7 +373,7 @@ function worldmap_country_bounds(d) {
 }
 
 function worldmap_transmission_lines(features, cls) {
-  var transmission_lines_color = _g.technologies.filter_firstp('name', "National Grid" )['color'];
+  var transmission_lines_color = _config.technologies.filter_firstp('name', "National Grid" )['color'];
 
   worldmap.countries.selectAll(".transmission-line-" + cls)
     .data(features)

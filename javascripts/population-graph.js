@@ -140,7 +140,7 @@ function population_graph_draw(opts) {
         return 'gradient' + i;
       },
       x1: function(d,i) {
-        return (_g.technologies.filter_firstp('name', d['name'])['min_opacity'] * 100) + "%";
+        return (_config.technologies.filter_firstp('name', d['name'])['min_opacity'] * 100) + "%";
       },
       x2: "100%",
       y1: "0%",
@@ -157,11 +157,11 @@ function population_graph_draw(opts) {
     })
     .style({
       "stop-color": function(d,i) {
-        return _g.technologies.filter_firstp('name', d['name'])['color'];
+        return _config.technologies.filter_firstp('name', d['name'])['color'];
       },
 
       "stop-opacity": function(d,i) {
-        return _g.technologies.filter_firstp('name', d['name'])['min_opacity'];
+        return _config.technologies.filter_firstp('name', d['name'])['min_opacity'];
       },
     });
 
@@ -171,7 +171,7 @@ function population_graph_draw(opts) {
     })
     .style({
       "stop-color": function(d, i) {
-        return _g.technologies.filter_firstp('name', d['name'])['color'];
+        return _config.technologies.filter_firstp('name', d['name'])['color'];
       },
 
       "stop-opacity": 1
@@ -208,7 +208,7 @@ function population_graph_draw(opts) {
 
       return p + "%" + " " + d['population'] + " " + d['name'];
     })
-    .style('fill', _g.font_color);
+    .style('fill', _config.font_color);
 
   legend_svg.append("text")
     .attr("x", 15)
@@ -216,7 +216,7 @@ function population_graph_draw(opts) {
     .style({
       "font-size": 18,
       "text-anchor": "end",
-      "fill": _g.font_color
+      "fill": _config.font_color
     })
     .text("0");
 
@@ -226,9 +226,9 @@ function population_graph_draw(opts) {
     .style({
       "font-size": 18,
       "text-anchor": "start",
-      "fill": _g.font_color
+      "fill": _config.font_color
     })
-    .text(_g.hd.toLocaleString() + "+");
+    .text(_config.hd.toLocaleString() + "+");
 
   return;
 
@@ -249,7 +249,7 @@ function population_graph_draw(opts) {
   while (i <= 5) {
     var summary = _g.country["summary_" + _g.current_diesel + i];
 
-    var sources = _g.technologies.map(function(e) {
+    var sources = _config.technologies.map(function(e) {
       return {
         param: e['name'],
         value: summary[e['short_name']] / total_population
@@ -266,7 +266,7 @@ function population_graph_draw(opts) {
         x: x_shift,
         y: 0
       },
-      x_vars: _g.technologies.map(function(e) { return e['name']; }),
+      x_vars: _config.technologies.map(function(e) { return e['name']; }),
       param: "param",
     }, sources, i );
 

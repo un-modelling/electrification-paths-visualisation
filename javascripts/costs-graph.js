@@ -66,7 +66,7 @@ function doughnut_graph_draw(opts, data, tier) {
       dx: "-2.5em",
       dy: "1.5em"
     })
-    .style({ fill: _g.font_color })
+    .style({ fill: _config.font_color })
     .text(function(d) {
       return rivets.formatters.in_b(cost) + " US$";
     });
@@ -101,7 +101,7 @@ function costs_graph_draw() {
   var i = 1;
 
   var diesel = _g.current_diesel === "nps" ? "n" : "l";
-  var grouped_technologies = _g.technologies.group_p('group');
+  var grouped_technologies = _config.technologies.group_p('group');
   var technology_groups    = Object.keys(grouped_technologies);
 
   while (i <= 5) {
