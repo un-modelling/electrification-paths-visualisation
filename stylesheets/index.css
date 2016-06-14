@@ -65,12 +65,13 @@
 }
 #country-selector-button {
   margin-top: 0px;
-  padding-top: 0px;
+  padding: 0px;
   border-radius: 0;
   background-color: #00adef;
   font-size: 18px;
   width: 100%;
   margin-bottom: 20px;
+  text-decoration: none;
 }
 #explore-link {
   color: #ffffff;

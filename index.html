@@ -136,11 +136,10 @@
               <h1 id="country-title">
                 <span rv-text="country.name"></span>
               </h1>
-              <div class="button" id="country-selector-button">
-                <a id="explore-link" rv-href="country.iso3 | format './country.html?iso3={0}&tier=3&diesel_price=nps'">
-                  <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;EXPLORE COUNTRY
-                </a>
-              </div>
+
+              <a class="button" id="country-selector-button" rv-href="country.iso3 | format './country.html?iso3={0}&tier=3&diesel_price=nps'">
+                <i class="fa fa-bar-chart"></i>&nbsp;&nbsp;EXPLORE COUNTRY
+              </a>
             </div>
 
             <table id="context-table" class="table table-hover">
