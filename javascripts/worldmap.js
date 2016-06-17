@@ -267,6 +267,8 @@ function worldmap_grids(err, country_grids, split, c, lc, col) {
       count: function(d) {
         worldmap.technology_populations[d[c][col]]['population'] += d['p' + _config.year_end];
         worldmap.grid_counts[d[c][col]]['count'] += 1;
+        _g.country['context']['population_electrified_2030'] += d['e' + _config.year_end];
+
         return null;
       },
 

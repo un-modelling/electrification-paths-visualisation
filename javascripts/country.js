@@ -52,6 +52,7 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
     //
     try {
       _g.country = country_by_iso3(get_query_param('iso3'));
+      _g.country['context']['population_electrified_2030'] = 0;
 
       if (_config.ignored_countries.indexOf(_g.country['iso3']) > -1) {
         alert("Country not considered in the model...");
