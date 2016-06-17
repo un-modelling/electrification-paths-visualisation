@@ -156,11 +156,29 @@
               </tr>
 
               <tr>
+                <td class="col-md-6">
+                  Target electrification rate
+                </td>
+                <td>
+                  <h3>
+                    <div id="er-placeholder">100</div>
+                    <span class="units">%</span>
+                  </h3>
+                </td>
+              </tr>
+
+              <tr>
                 <td>
                   Total Population <span rv-text="year_start"></span>
-
                 </td>
                 <td><span class="value" rv-text="country.context.population_start | in_millions"></span></td>
+              </tr>
+
+              <tr>
+                <td>
+                  Total Population <span rv-text="year_end"></span>
+                </td>
+                <td><span class="value" rv-text="country.context.population_end | in_millions"></span></td>
               </tr>
             </table>
           </div>

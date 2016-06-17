@@ -84,7 +84,8 @@ function index_country_context(iso3) {
     return;
   }
 
-  country.context['population_start'] = country.context['population_' + _config.year_start];
+  country.context['population_start']  = country.context['population_'  + _config.year_start];
+  country.context['population_end']    = country.context['population_'  + _config.year_end];
   country.context['electrified_start'] = country.context['electrified_' + _config.year_start];
 
   index_country_bind = rivets.bind($('#country-context'), {

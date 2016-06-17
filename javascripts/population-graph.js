@@ -206,7 +206,7 @@ function population_graph_draw(opts) {
     .text(function(d) {
       var p = ((d['population'] / total_population) * 100).toFixed(2);
 
-      return p + "%" + " " + d['population'] + " " + d['name'];
+      return p + "%" + " " + d['name'];
     })
     .style('fill', _config.font_color);
 
