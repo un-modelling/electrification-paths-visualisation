@@ -1,5 +1,5 @@
 window._config = {
-  data_source: "api",
+  data_source: "static",
 
   data_sources: {
     'static': {
