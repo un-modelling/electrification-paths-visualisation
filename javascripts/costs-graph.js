@@ -87,10 +87,9 @@ function costs_graph_draw() {
   costs_graph.position = {
     x: $('svg#costs').parent().width() / 2,
     y: 150
-  }
+  };
 
   var position = costs_graph.position;
-  var colors = ['blue', 'green', 'red'];
 
   var graph = d3.select('svg#costs').append('g')
       .attr({
@@ -101,17 +100,15 @@ function costs_graph_draw() {
   var i = 1;
 
   var diesel = _g.current_diesel === "nps" ? "n" : "l";
-  var grouped_technologies = _config.technologies.group_p('group');
-  var technology_groups    = Object.keys(grouped_technologies);
 
   while (i <= 5) {
     var summary = _g.country["split_summary"];
     var label = _g.current_cost + diesel + i;
 
-    var sources = technology_groups.map(function(e,i) {
+    var sources = _config.technologies.map(function(e,i) {
       return {
-        color: colors[i],
-        value: summary[e + label]
+        color: e['color'],
+        value: summary[e['group'] + label]
       };
     });
 

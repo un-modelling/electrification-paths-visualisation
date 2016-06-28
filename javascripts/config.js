@@ -1,5 +1,5 @@
 window._config = {
-  data_source: "static",
+  data_source: "api",
 
   data_sources: {
     'static': {
@@ -52,32 +52,32 @@ window._config = {
     min_opacity: 0.2
   }, {
     name: "MG Diesel",
-    group: 'mg',
+    group: 'mgdiesel',
     color: '#CCDF54',
     min_opacity: 1
   }, {
     name: "MG Hydro",
-    group: 'mg',
+    group: 'mghydro',
     color: '#1BA330',
     min_opacity: 1
   }, {
     name: "MG Wind",
-    group: 'mg',
+    group: 'mgwind',
     color: '#8FDF54',
     min_opacity: 1
   }, {
     name: "MG Photo Voltaic",
-    group: 'mg',
+    group: 'mgpv',
     color: '#00ff00',
     min_opacity: 1
   }, {
     name: 'SA Diesel',
-    group: "sa",
+    group: "sadiesel",
     color: 'red',
     min_opacity: 0.2
   }, {
     name: 'SA Photo Voltaic',
-    group: "sa",
+    group: "sapv",
     color: 'orange',
     min_opacity: 0.2
   }],
