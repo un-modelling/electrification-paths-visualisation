@@ -255,6 +255,8 @@ function worldmap_grids(err, country_grids, split, c, lc, col) {
     }
   });
 
+  _g.country['context']['population_electrified_2030'] = 0;
+
   var points = points_container.selectAll('.point-group')
     .data(country_grids)
     .enter().append('rect')
