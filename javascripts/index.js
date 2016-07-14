@@ -31,17 +31,17 @@ var rv = {
 function general_context_load() {
   var general = {
     population_start: _g.target_countries.map(function(c) {
-      return c['context']['population_' + _config.year_start]
+      return c['context'] ? c['context']['population_' + _config.year_start] : 0;
     }).reduce(function(a, b) {
       return a + b
     }),
     population_end:   _g.target_countries.map(function(c) {
-      return c['context']['population_' + _config.year_end]
+      return c['context'] ? c['context']['population_' + _config.year_end] : 0;
     }).reduce(function(a, b) {
       return a + b
     }),
     electrified_percentage: average(_g.target_countries, function(e) {
-      return e['context']['electrification_rate']
+      return e['context'] ? e['context']['electrification_rate'] : 0;
     }),
     year_start: _config.year_start,
     year_end: _config.year_end,
@@ -210,7 +210,7 @@ function squaremap_draw() {
   var w = squaremap.width / 4;
   var h = 60;
   var er = _g.target_countries.map(function(d) {
-    return d.context["electrification_rate"]
+    return d['context'] ? d.context["electrification_rate"] : 0;
   });
 
   var legend_container = squaremap.container.append("svg")
