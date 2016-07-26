@@ -115,7 +115,7 @@ function bar_graph_draw(opts, sources, tier) {
 }
 
 function population_graph_draw(opts) {
-  var selected_grids = worldmap.technology_populations.filter(function(e) { return e['population'] !== 0; }).sort_p('population');
+  var selected_grids = worldmap.technology_populations.sort_p('population');
 
   var width_legend = d3.select('#map-legend').node().clientWidth;
   var height_legend = (selected_grids.length * 20) + 20;
