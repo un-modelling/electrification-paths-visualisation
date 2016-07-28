@@ -160,3 +160,60 @@ function zoomed(collection, zoom, callback) {
 
   if (typeof callback === 'function'); callback();
 }
+
+// Grid/CSV utils
+
+function json_collection_to_csv(collection) {
+  var partial_csv_headers = [];
+
+  for (var k in collection[0]) {
+    partial_csv_headers.push(k);
+  }
+
+  var content = collection.map(function(obj) {
+    return grid_to_csv_row(obj, partial_csv_headers);
+  }).join("\n");
+
+  // get the fullset of headers...
+
+  var csv_headers = [];
+
+  for (var k in collection[0]) {
+    if (k.match(/^l?c\d[nl]/))
+      for (var i = 1; i <= 5; i++) csv_headers.push(k + i);
+    else
+      csv_headers.push(k);
+  }
+
+  return csv_headers + "\n" + content;
+}
+
+function grid_to_csv_row(grid, keys) {
+  return keys.map(function(k) {
+    if (typeof grid[k] === 'number')
+      return grid[k].toString();
+
+    var c = k.match(/^c\d[nl]/);
+    var l = k.match(/^lc\d[nl]/);
+
+    if (c && typeof grid[c[0]] === 'object')
+      return grid[c[0]].map(function(tier_i) { return _config.technologies[tier_i]['name'] });
+    else if (l && typeof grid[l] === 'object')
+      return grid[l].toString();
+    else
+      return null;
+
+  }).toString();
+}
+
+// File utils
+
+function blob_url(string) {
+  var blob = new Blob([string], {type: 'application/octet-binary'});
+
+  return URL.createObjectURL(blob);
+}
+
+function fake_download(blob_url) {
+  window.location.href = blob_url;
+}
