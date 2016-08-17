@@ -336,6 +336,6 @@ function index_load_everything(err, arrangement, all_countries) {
 _g.data_address = _config.data_sources[_config.data_source];
 
 queue()
-  .defer(d3.csv,  './data/country/arrangement.csv')
+  .defer(d3.csv,  './data/country/' + _config.region + '-arrangement.csv')
   .defer(d3.json, _g.data_address['root'] + _g.data_address['countries'])
   .await(index_load_everything);

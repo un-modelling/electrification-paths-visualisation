@@ -1,5 +1,45 @@
 _g.flagnames = [
   {
+    flag_tag: "gt",
+    iso3: "GTM"
+  },
+  {
+    flag_tag: "hn",
+    iso3: "HND"
+  },
+  {
+    flag_tag: "ht",
+    iso3: "HTI"
+  },
+  {
+    flag_tag: "pr",
+    iso3: "PRI"
+  },
+  {
+    flag_tag: "sv",
+    iso3: "SLV"
+  },
+  {
+    flag_tag: "ni",
+    iso3: "NIC"
+  },
+  {
+    flag_tag: "ec",
+    iso3: "ECU"
+  },
+  {
+    flag_tag: "co",
+    iso3: "COL"
+  },
+  {
+    flag_tag: "pe",
+    iso3: "PER"
+  },
+  {
+    flag_tag: "bo",
+    iso3: "BOL"
+  },
+  {
     flag_tag: "ao",
     iso3: "AGO"
   },
