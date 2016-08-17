@@ -18,32 +18,19 @@ window._config = {
 
   // Region to be displayed
   //
-  region: "AFRICA",
+  region: "AMERICA",
 
   // Subregions not contemplated in the model
   //
-  ignored_subregions: [
-    "Northern Africa"
-  ],
+  ignored_subregions: [],
 
   // Added countries (ignoring region and ignored_subregions)
   //
-  exception_countries: [
-    "SDN" // Sudan
-  ],
+  exception_countries: [],
 
   // Countries with too many hipotetical assumptions
   //
-  ignored_countries: [
-    "COM", // Comoros
-    "CPV", // Cabo Verde
-    "MUS", // Mauritus
-    "MYT", // Mayotte
-    "REU", // Réunion
-    "SHN", // Saint Helena
-    "STP", // São Tomé and Príncipe
-    "SYC"  // Seychelles
-  ],
+  ignored_countries: [],
 
   technologies: [{
     name: "National Grid",
