@@ -163,14 +163,14 @@ function zoomed(collection, zoom, callback) {
 
 // Grid/CSV utils
 
-function json_collection_to_csv(collection) {
+function json_grid_collection_to_csv(grid_collection) {
   var partial_csv_headers = [];
 
-  for (var k in collection[0]) {
+  for (var k in grid_collection[0]) {
     partial_csv_headers.push(k);
   }
 
-  var content = collection.map(function(obj) {
+  var content = grid_collection.map(function(obj) {
     return grid_to_csv_row(obj, partial_csv_headers);
   }).join("\n");
 
@@ -178,7 +178,7 @@ function json_collection_to_csv(collection) {
 
   var csv_headers = [];
 
-  for (var k in collection[0]) {
+  for (var k in grid_collection[0]) {
     if (k.match(/^l?c\d[nl]/))
       for (var i = 1; i <= 5; i++) csv_headers.push(k + i);
     else
@@ -205,6 +205,12 @@ function grid_to_csv_row(grid, keys) {
   }).toString();
 }
 
+function json_to_csv_row(obj) {
+  return Object.keys(obj).map(function(k) {
+    return k + "," + obj[k];
+  }).join("\n");
+}
+
 // File utils
 
 function fake_download(string, filename, datatype) {
@@ -222,10 +228,21 @@ function fake_download(string, filename, datatype) {
   window.URL.revokeObjectURL(url);
 }
 
-function download_current_scenario() {
-  fake_download(scenario_data(_g.grids), _g.country['iso3'] + '_scenario_data.csv', 'text/csv');
+function download_grid_data() {
+  fake_download(json_grid_collection_to_csv(_g.grids), _g.country['iso3'] + '_grid_data.csv', 'text/csv');
 }
 
-function download_current_map() {
+function download_context_summary_data() {
+  fake_download(
+    [
+      json_to_csv_row(_g.country['context']),
+      json_to_csv_row(_g.country['split_summary'])
+    ].join("\n"),
+    _g.country['iso3'] + '_context_summary_data.csv',
+    'text/csv'
+  );
+}
+
+function download_map() {
   saveSvgAsPng(document.getElementById('map'), _g.country['iso3'] + '-' + 'tier' + _g.current_tier + '-' + 'cost' + _g.current_cost + '-' + _g.current_diesel + '.png')
 }
