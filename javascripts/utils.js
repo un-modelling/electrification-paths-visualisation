@@ -202,18 +202,30 @@ function grid_to_csv_row(grid, keys) {
       return grid[l].toString();
     else
       return null;
-
   }).toString();
 }
 
 // File utils
 
-function blob_url(string) {
-  var blob = new Blob([string], {type: 'application/octet-binary'});
+function fake_download(string, filename, datatype) {
+  var a = document.createElement('a');
+  document.body.appendChild(a);
+  a.style = "display:none;";
 
-  return URL.createObjectURL(blob);
+  var blob = new Blob([string], {type: datatype});
+  var url  = URL.createObjectURL(blob);
+
+  a.href     = url;
+  a.download = filename;
+  a.click();
+
+  window.URL.revokeObjectURL(url);
 }
 
-function fake_download(blob_url) {
-  window.location.href = blob_url;
+function download_current_scenario() {
+  fake_download(scenario_data(_g.grids), _g.country['iso3'] + '_scenario_data.csv', 'text/csv');
+}
+
+function download_current_map() {
+  saveSvgAsPng(document.getElementById('map'), _g.country['iso3'] + '-' + 'tier' + _g.current_tier + '-' + 'cost' + _g.current_cost + '-' + _g.current_diesel + '.png')
 }

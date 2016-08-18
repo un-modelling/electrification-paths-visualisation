@@ -44,6 +44,9 @@
     <!-- Vendor : jQuery -->
     <script src="./lib/jquery-2.1.4.min.js"></script>
 
+    <!-- Vendor : saveSvgAsPng -->
+    <script src="./lib/saveSvgAsPng.js"></script>
+
     <!-- Vendor : rivets -->
     <script src="./lib/rivets.bundled.min.js"></script>
 
@@ -189,16 +192,25 @@
             </div>
           </div>
 
-          <br />
-          <a data-toggle="modal" data-target="#disclaimerModal" class="disclaimer-link"><i class="fa fa-info"></i>&nbsp;&nbsp;About this Map</a>
-
-          <br />
-          <a onclick="fake_download(blob_url(json_collection_to_csv(_g.grids)));" class="disclaimer-link"><i class="fa fa-download"></i>&nbsp;&nbsp;Download Grid Data</a>
-
           <div class="row">
             <div class="col-md-4">
               <h5>Transmission Lines</h5>
               <div id="map-legend-lines"></div>
+            </div>
+
+            <div class="col-md-8">
+              <br />
+              <a onclick="fake_download(json_collection_to_csv(_g.grids), _g.country['iso3'] + '_grid_data.csv', 'text/csv');" class="disclaimer-link"><i class="fa fa-download"></i>&nbsp;&nbsp;Grid Data</a>
+
+              <br />
+              <a onclick="download_current_scenario();" class="disclaimer-link"><i class="fa fa-download"></i>&nbsp;&nbsp;Scenario Data</a>
+
+              <br />
+              <a onclick="download_current_map();" class="disclaimer-link"><i class="fa fa-download"></i>&nbsp;&nbsp;Map Image</a>
+
+              <br />
+              <br />
+              <a data-toggle="modal" data-target="#disclaimerModal" class="disclaimer-link"><i class="fa fa-info"></i>&nbsp;&nbsp;About this Map</a>
             </div>
           </div>
         </div>
@@ -219,7 +231,10 @@
           <div class="row">
             <h5>Total Cost of Electrification by Scenario (2012-2030)</h5>
 
-            <svg id="costs"></svg>
+            <svg id="costs"
+                 version="1.1"
+                 baseProfile="full"
+                 xmlns="http://www.w3.org/2000/svg"></svg>
           </div>
         </div>
       </div>
