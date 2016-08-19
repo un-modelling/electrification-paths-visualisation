@@ -206,7 +206,7 @@
               <a onclick="download_map();" class="disclaimer-link"><i class="fa fa-download"></i>&nbsp;&nbsp;Map Image</a>
 
               <br />
-              <a onclick="download_context_summary_data();" class="disclaimer-link"><i class="fa fa-download"></i>&nbsp;&nbsp;Context and Summary Data</a>
+              <a onclick="download_context_data();" class="disclaimer-link"><i class="fa fa-download"></i>&nbsp;&nbsp;Context Data</a>
 
               <br />
               <br />
@@ -226,15 +226,25 @@
               <!-- <h5>Population / 100 km<sup>2</sup></h5> -->
               <div id="map-legend"></div>
             </div>
+
+            <br />
+            <a onclick="download_population_graph();" class="disclaimer-link"><i class="fa fa-download"></i>&nbsp;&nbsp;Population Graph</a>
+
+            <br />
+            <a onclick="download_population_summary_data();" class="disclaimer-link"><i class="fa fa-download"></i>&nbsp;&nbsp;Population Summary Data</a>
           </div>
 
           <div class="row">
             <h5>Total Cost of Electrification by Scenario (2012-2030)</h5>
 
-            <svg id="costs"
-                 version="1.1"
-                 baseProfile="full"
-                 xmlns="http://www.w3.org/2000/svg"></svg>
+            <svg id="costs"></svg>
+
+
+            <br />
+            <a onclick="download_costs_graph();" class="disclaimer-link"><i class="fa fa-download"></i>&nbsp;&nbsp;Costs Graph</a>
+
+            <br />
+            <a onclick="download_costs_summary_data();" class="disclaimer-link"><i class="fa fa-download"></i>&nbsp;&nbsp;Costs Summary Data</a>
           </div>
         </div>
       </div>

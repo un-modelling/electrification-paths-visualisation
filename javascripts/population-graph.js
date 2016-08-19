@@ -127,6 +127,7 @@ function population_graph_draw(opts) {
   var legend_svg = d3.select("#map-legend")
     .append("svg")
     .attr({
+      "id": "population-graph",
       "width": width_legend,
       "height": height_legend
     });

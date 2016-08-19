@@ -119,18 +119,20 @@ function population_electrified_by(d) {
 function tier_icon(container, tier, cls, attrs) {
   var icon_file = "images/icons/" + _config.tier_icons[tier] + "-icon.svg";
 
-  d3.xml(icon_file, function(error, documentFragment) {
+  d3.xml(icon_file, function(error, xml) {
     if (error) {
       console.log(error);
       return;
     }
+
+    xml.getElementsByTagName("svg")[0].removeAttribute("version");
 
     var icon_container = container.append('g')
         .attr({
           class: cls
         });
 
-    icon_container.node().appendChild(documentFragment.getElementsByTagName("svg")[0]);
+    icon_container.node().appendChild(xml.getElementsByTagName("svg")[0]);
 
     icon_container.select("svg")
       .attr(attrs)
@@ -229,20 +231,72 @@ function fake_download(string, filename, datatype) {
 }
 
 function download_grid_data() {
-  fake_download(json_grid_collection_to_csv(_g.grids), _g.country['iso3'] + '_grid_data.csv', 'text/csv');
+  fake_download(
+    json_grid_collection_to_csv(_g.grids),
+    _g.country['iso3'] + '-grid-data.csv',
+    'text/csv');
 }
 
-function download_context_summary_data() {
+function download_context_data() {
   fake_download(
-    [
-      json_to_csv_row(_g.country['context']),
-      json_to_csv_row(_g.country['split_summary'])
-    ].join("\n"),
-    _g.country['iso3'] + '_context_summary_data.csv',
+    json_to_csv_row(_g.country['context']),
+    _g.country['iso3'] + '-context-data.csv',
     'text/csv'
   );
 }
 
 function download_map() {
-  saveSvgAsPng(document.getElementById('map'), _g.country['iso3'] + '-' + 'tier' + _g.current_tier + '-' + 'cost' + _g.current_cost + '-' + _g.current_diesel + '.png')
+  saveSvgAsPng(document.getElementById('map'),
+               _g.country['iso3'] + '-' +
+               'grids-map' + '-' +
+               'tier' + _g.current_tier    + '-' +
+               'cost' + _g.current_cost    + '-' +
+                        _g.current_diesel + '.png');
+}
+
+function download_population_graph() {
+  saveSvgAsPng(document.getElementById('population-graph'),
+               _g.country['iso3'] + '-' +
+               'population-graph' + '-' +
+               'tier' + _g.current_tier    + '-' +
+               'cost' + _g.current_cost    + '-' +
+                        _g.current_diesel  + '.png');
+}
+
+function download_population_summary_data() {
+  fake_download(
+    worldmap.technology_populations.map(function(e) {
+      var o = {};
+      o[e['name']] = e['population'];
+
+      return json_to_csv_row(o);
+    }).join("\n"),
+    _g.country['iso3'] + '-' +
+      'population-summary-data' + '-' +
+      'tier' + _g.current_tier  + '-' +
+      'cost' + _g.current_cost  + '-' +
+      _g.current_diesel  + '.csv',
+    'text/csv'
+  );
+}
+
+function download_costs_graph() {
+  saveSvgAsPng(document.getElementById('costs'),
+               _g.country['iso3'] + '-' +
+               'costs-graph' + '-' +
+               'tier' + _g.current_tier    + '-' +
+               'cost' + _g.current_cost    + '-' +
+                        _g.current_diesel  + '.png');
+}
+
+function download_costs_summary_data() {
+  fake_download(
+    json_to_csv_row(_g.country['split_summary']),
+    _g.country['iso3'] + '-' +
+      'costs-summary-data' + '-' +
+      'tier' + _g.current_tier  + '-' +
+      'cost' + _g.current_cost  + '-' +
+      _g.current_diesel  + '.csv',
+    'text/csv'
+  );
 }
