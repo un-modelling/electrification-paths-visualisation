@@ -42,8 +42,8 @@ function worldmap_init() {
 
   worldmap.path = d3.geo.path().projection(
     worldmap.projection
-      .scale(350)
-      .center([18, 0])
+      .scale(250)
+      .center([-20, 0])
       .translate([worldmap.width / 2, worldmap.height / 2])
   );
 

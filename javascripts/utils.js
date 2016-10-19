@@ -54,7 +54,7 @@ function pentagon_position(direction, container_size) {
 
 function country_is_ignored(iso3) {
   if (_config.exception_countries.indexOf(iso3) > -1)
-    return false
+    return false;
 
   return (_config.ignored_countries.indexOf(iso3) > -1 ||
           _config.ignored_subregions.indexOf(country_by_iso3(iso3)['subregion']) > -1);
