@@ -151,7 +151,7 @@ function worldmap_load(world_topo, countries_list) {
       dblclick: function(d) {
         var ccode = find_country_iso(d);
         var country = country_by_iso3(ccode)
-        if ((country.region == _g.region) && ($.inArray(country.subregion, _config.ignored_subregions))) {
+        if (!country_is_ignored(country.iso3)) {
           window.location = "./country.html?iso3=" + find_country_iso(d) + "&tier=3&diesel_price=nps";
         } else {
           alert("Electrification model not available. Choose another country.")
