@@ -35,15 +35,34 @@ function reload_everything() {
   change_tier();
 }
 
-function load_everything(err, all_countries, world_topo, transmission_lines, planned_transmission_lines) {
+function load_transmission_lines() {
+  queue(2)
+    .defer(d3.json, './data/topojson/' + _g.country.region + '-existing-transmission-lines.json')
+    .defer(d3.json, './data/topojson/' + _g.country.region + '-planned-transmission-lines.json')
+    .await(function(error, existing, planned) {
+      if (error) {
+        console.warn("Error loading transmission lines. The show must go on...")
+        return;
+      }
+
+      worldmap_transmission_lines(
+        topojson.feature(existing, existing.objects["existing-transmission-lines"]).features,
+        "existing"
+      );
+
+      worldmap_transmission_lines(
+        topojson.feature(planned, planned.objects["planned-transmission-lines"]).features,
+        "planned"
+      );
+    });
+}
+
+function load_everything(err, all_countries, world_topo) {
   if (err) console.warn('error', err);
 
   worldmap_init();
 
   var tier, diesel_price;
-
-  var existing_transmission_lines_features = topojson.feature(transmission_lines, transmission_lines.objects["existing-transmission-lines"]).features;
-  var planned_transmission_lines_features = topojson.feature(planned_transmission_lines, planned_transmission_lines.objects["planned-transmission-lines"]).features;
 
   setup_project_countries(all_countries, function() {
     worldmap_load(world_topo, all_countries);
@@ -61,6 +80,8 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
 
       tier = parseInt(get_query_param('tier'));
       diesel_price = get_query_param('diesel_price');
+
+      load_transmission_lines();
 
     } catch (e) {
       alert("Wrong ISO3 code! Bailing out... :(");
@@ -107,9 +128,6 @@ function load_everything(err, all_countries, world_topo, transmission_lines, pla
 
       change_tier(tier);
     });
-
-    worldmap_transmission_lines(existing_transmission_lines_features, "existing");
-    worldmap_transmission_lines(planned_transmission_lines_features, "planned");
 
     rivets.bind($('header'), {
       country: _g.country
@@ -163,6 +181,4 @@ _g.data_address = _config.data_sources[_config.data_source];
 queue(4)
   .defer(d3.json, _g.data_address['root'] + _g.data_address['countries'])
   .defer(d3.json, './data/topojson/world-topography.json')
-  .defer(d3.json, './data/topojson/existing-transmission-lines.json')
-  .defer(d3.json, './data/topojson/planned-transmission-lines.json')
   .await(load_everything);
