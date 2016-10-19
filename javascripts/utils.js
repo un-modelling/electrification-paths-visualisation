@@ -23,7 +23,7 @@ function setup_project_countries(data, callback) {
     if (country_is_ignored(d.iso3))
       return false;
 
-    if (d.region === _config.region) {
+    if (d.region === _g.region) {
       return true;
     } else
       return false;

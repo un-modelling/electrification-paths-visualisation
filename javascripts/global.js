@@ -9,6 +9,14 @@ window._g = {
 
   first_load: true,
 
+  // Region to be displayed this will be populated from the
+  // url /?region=SOMEWHERE parameter
+  //
+  region: null,
+
+  // Country to be displayed this will be populated from the
+  // url /?iso3=SOMEWHERE parameter
+  //
   country: null,
 
   current_grid: {

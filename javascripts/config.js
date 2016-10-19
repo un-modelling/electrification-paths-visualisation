@@ -16,20 +16,30 @@ window._config = {
     }
   },
 
-  // Region to be displayed
-  //
-  region: "AFRICA",
-
   // Subregions not contemplated in the model
   //
   ignored_subregions: [
-    "Northern Africa"
+    "Northern Africa",
+    "Northern America",
+    "South America",
+    "Caribbean"
   ],
 
   // Added countries (ignoring region and ignored_subregions)
   //
   exception_countries: [
-    "SDN" // Sudan
+    "SDN", // Sudan
+
+    "GTM", // Guatemala
+    "HND", // Honduras
+    "PRI", // Puerto Rico
+    "SLV", // El Salvador
+    "NIC", // Nicaragua
+    "ECU", // Ecuador
+    "COL", // Colombia
+    "PER", // Peru
+    "BOL", // Bolivia
+    "HTI"  // Haiti
   ],
 
   // Countries with too many hipotetical assumptions
@@ -42,7 +52,12 @@ window._config = {
     "REU", // Réunion
     "SHN", // Saint Helena
     "STP", // São Tomé and Príncipe
-    "SYC"  // Seychelles
+    "SYC", // Seychelles
+
+    "BLZ", // Belize
+    "CRI", // Costa Rica
+    "MEX", // Mexico
+    "PAN"  // Panama
   ],
 
   technologies: [{

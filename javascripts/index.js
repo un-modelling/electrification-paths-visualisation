@@ -1,3 +1,5 @@
+_g.region = location.getQueryParam('region').toUpperCase();
+
 var squaremap = {
   height: 0,
   width:  0,
@@ -25,7 +27,7 @@ var rv = {
     index_country_href(v.c['iso3']);
   },
 
-  region: _config.region
+  region: _g.region
 }
 
 function general_context_load() {
@@ -45,7 +47,7 @@ function general_context_load() {
     }),
     year_start: _config.year_start,
     year_end: _config.year_end,
-    region: _config.region
+    region: _g.region
   };
 
   rivets.bind($('#general-context'), {
@@ -336,6 +338,6 @@ function index_load_everything(err, arrangement, all_countries) {
 _g.data_address = _config.data_sources[_config.data_source];
 
 queue()
-  .defer(d3.csv,  './data/country/' + _config.region + '-arrangement.csv')
+  .defer(d3.csv,  './data/country/' + _g.region + '-arrangement.csv')
   .defer(d3.json, _g.data_address['root'] + _g.data_address['countries'])
   .await(index_load_everything);
