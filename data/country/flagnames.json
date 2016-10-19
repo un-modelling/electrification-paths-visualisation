@@ -12,6 +12,26 @@ _g.flagnames = [
     iso3: "HTI"
   },
   {
+    flag_tag: "br",
+    iso3: "BRA"
+  },
+  {
+    flag_tag: "ve",
+    iso3: "VEN"
+  },
+  {
+    flag_tag: "pa",
+    iso3: "PAN"
+  },
+  {
+    flag_tag: "bz",
+    iso3: "BLZ"
+  },
+  {
+    flag_tag: "cr",
+    iso3: "CRI"
+  },
+  {
     flag_tag: "pr",
     iso3: "PRI"
   },
