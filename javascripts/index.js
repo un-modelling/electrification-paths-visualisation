@@ -1,5 +1,3 @@
-_g.region = location.getQueryParam('region').toUpperCase();
-
 var squaremap = {
   height: 0,
   width:  0,
@@ -27,7 +25,7 @@ var rv = {
     index_country_href(v.c['iso3']);
   },
 
-  region: _g.region
+  region: null
 }
 
 function general_context_load() {
@@ -285,6 +283,29 @@ function squaremap_draw() {
     .text(d3.format("%")(d3.max(er)));
 }
 
+function index_init(region) {
+  if (! region) {
+    index_region_selection();
+    return;
+  }
+
+  else {
+    _g.region = rv.region = region;
+
+    _g.data_address = _config.data_sources[_config.data_source];
+
+    queue()
+      .defer(d3.csv,  './data/country/' + _g.region + '-arrangement.csv')
+      .defer(d3.json, _g.data_address['root'] + _g.data_address['countries'])
+      .await(index_load_everything);
+  }
+}
+
+function index_region_selection() {
+  $('#loading-screen').hide();
+  $('#region-selection').css('visibility', 'visible');
+}
+
 function index_country_href(iso3) {
   window.location.href = "./country.html?iso3=" + iso3 + "&tier=3&diesel_price=nps";
 }
@@ -335,9 +356,4 @@ function index_load_everything(err, arrangement, all_countries) {
   });
 }
 
-_g.data_address = _config.data_sources[_config.data_source];
-
-queue()
-  .defer(d3.csv,  './data/country/' + _g.region + '-arrangement.csv')
-  .defer(d3.json, _g.data_address['root'] + _g.data_address['countries'])
-  .await(index_load_everything);
+index_init(location.getQueryParam('region').toUpperCase());

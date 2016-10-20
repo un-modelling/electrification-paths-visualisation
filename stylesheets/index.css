@@ -79,3 +79,33 @@
 #explore-link:hover {
   text-decoration: none;
 }
+#loading-screen, #region-selection {
+  position: absolute;
+
+  top: 0;
+  left:0;
+
+  height: 100%;
+  width: 100%;
+
+  background-color: white;
+  z-index: 1000;
+}
+#region-selection {
+  visibility: hidden;
+  text-align: center;
+}
+#region-selection-menu {
+  margin: auto;
+  margin-top: 5em;
+  min-width: 500px;
+}
+.selection-country {
+  display: inline-block;
+  width: 40%;
+  padding: 5%;
+}
+.selection-country a {
+  display: block;
+  text-decoration: none;
+}

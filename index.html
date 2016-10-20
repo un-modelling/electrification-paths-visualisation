@@ -60,7 +60,33 @@
   </head>
 
   <body class="html">
-    <div id="loading-screen" style="height: 100%; width: 100%; position: absolute; top: 0; left:0; background-color: white; z-index: 9999;"></div>
+    <div id="loading-screen" style=""></div>
+
+    <div id="region-selection">
+      <div id="region-selection-menu">
+        <h3>Please select a region to explore a dataset:</h3>
+
+        <ul>
+          <li class="selection-country">
+            <a href="/?region=AFRICA">
+              <h2>Africa</h2>
+              <br>
+              <br>
+              <img src="/images/africa.png" />
+            </a>
+          </li>
+
+          <li class="selection-country">
+            <a href="/?region=AMERICA">
+              <h2>America</h2>
+              <br>
+              <br>
+              <img src="/images/america.png" />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
 
     <div id="brand-bar" class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container brandbar-header">
