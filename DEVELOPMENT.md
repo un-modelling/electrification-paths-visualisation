@@ -6,7 +6,7 @@ your choice).
 
 Clone this repository and install the requirements:
 
-    git clone https://github.com/UN-DESA-Modelling/electrification-paths-visualisation.git
+    git clone https://github.com/un-modelling/electrification-paths-visualisation.git
     cd electrification-paths-visualisation
 
 Run a web server within the project's directory. eg, With python3:
